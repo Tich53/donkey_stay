@@ -24,9 +24,7 @@ CREATE TABLE cottage (
 CREATE TABLE optional (
     idoptional INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
     optional_name VARCHAR(45) NOT NULL,
-    optional_number_adult INTEGER NOT NULL,
     optional_price_per_adult FLOAT NOT NULL,
-    optional_number_child INTEGER NOT NULL,
     optional_price_per_child FLOAT NOT NULL
 );
 
@@ -55,3 +53,21 @@ CREATE TABLE cottage_has_booked_date (
     booked_date_idbooked_date INTEGER NOT NULL,
     CONSTRAINT fk_cottage_has_booked_date_booked_date FOREIGN KEY (booked_date_idbooked_date) REFERENCES booked_date(idbooked_date)
 );
+
+/* Insertion données table user */
+INSERT INTO user (username, user_password, user_firstname, user_lastname, user_phone, user_email)
+VALUES ('Tich53', 'richard123', 'Richard', 'Douetté', '0695936812', 'rdouette@yahoo.fr');
+
+INSERT INTO user (username, user_password, user_firstname, user_lastname, user_phone, user_email)
+VALUES ('PatrickT', 'patrick123', 'Patrick', 'Tanguy', '06', 'patrick@gmail.com');
+
+INSERT INTO user (username, user_password, user_firstname, user_lastname, user_phone, user_email)
+VALUES ('Khouloud', 'khouloud123', 'Khouloud', 'Hadhek', '06', 'khouloud@gmail.com');
+
+INSERT INTO user (username, user_password, user_firstname, user_lastname, user_phone, user_email)
+VALUES ('Daniel', 'daniel123', 'Daniel', 'DESCLOUX', '06', 'daniel@gmail.com');
+
+
+/* Insertion données table optional */
+INSERT INTO optional (optional_name, optional_price_per_adult, optional_price_per_child)
+VALUES ('Donkey ride', 12, 7);
