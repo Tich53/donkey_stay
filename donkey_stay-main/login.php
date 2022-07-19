@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('../../identifiants/connec.php');
+require_once('../../identifiants/connect.php');
 $pdo = new \PDO(DSN, USER, PASS);
 
 // REQUETE D'AUTHENTIFICATION
