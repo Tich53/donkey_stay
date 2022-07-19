@@ -3,7 +3,7 @@ session_start();
 require_once('../../identifiants/connect.php');
 $pdo = new \PDO(DSN, USER, PASS);
 
-// REQUETE D'AUTHENTIFICATION
+// Requête d'authentification
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username = trim($_POST['username']);
     $user_password = trim($_POST['user_password']);
