@@ -1,3 +1,7 @@
+<?php
+session_start();
+?>
+
 <!DOCTYPE html>
 <html lang="fr">
 <head>
@@ -39,6 +43,21 @@
 					<li class="nav-item"><a href="hotel.html" class="nav-link">Gîtes</a></li>
 					<!-- <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li> -->
 					<li class="nav-item"><a href="contact.html" class="nav-link">Contactez-nous</a></li>
+					
+					<!-- AJOUT DE LA LIGNE CONNECTE(E) EN TANT QUE SI $_SESSION ACTIF -->
+					<?php
+					if (!empty($_SESSION['login'])){
+					?>
+						<li class="nav-item nav-link"><a href="profile.php" class="nav-link">
+							<?= "Bonjour " . $_SESSION['login'];?>
+						</a></li>
+					<?php
+					} else {
+					?>
+						<li class="nav-item nav-link"><a href="login.php" class="nav-link">login</a></li>
+					<?php
+					}
+					?>
 				</ul>
 			</div>
 		</div>

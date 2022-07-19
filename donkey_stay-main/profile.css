@@ -1,0 +1,41 @@
+h1{
+    margin-top: 50px;
+}
+
+form{
+    margin: auto;
+    max-width: 90%;
+}
+.edit_form{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    flex-direction: column;
+    margin: auto;
+}
+
+.label_input{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 30px;
+}
+
+.label{
+    color: #f15d30;
+    font-weight: bold;
+}
+
+button{
+    border-radius: 5px;
+    max-width: 120px;
+    justify-content: end;
+}
+
+.maj{
+    color: green;
+    font-weight: bolder;
+    background-color: lightgrey;
+    opacity: 80%;
+    text-align: center;
+}
+
