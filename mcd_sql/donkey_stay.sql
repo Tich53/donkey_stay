@@ -17,8 +17,16 @@ CREATE TABLE cottage (
     cottage_region VARCHAR(255) NOT NULL,
     cottage_city VARCHAR(45) NOT NULL,
     cottage_country VARCHAR(45) NOT NULL,
+    cottage_nb_bed INTEGER NOT NULL,
+    cottage_nb_bathroom INTEGER NOT NULL,
     cottage_price_per_night FLOAT NOT NULL,
-    cottage_photo VARCHAR(255) NOT NULL
+    cottage_description VARCHAR(255),
+    cottage_photo1 VARCHAR(255) NOT NULL,
+    cottage_photo2 VARCHAR(255),
+    cottage_photo3 VARCHAR(255),
+    cottage_photo4 VARCHAR(255),
+    cottage_photo5 VARCHAR(255),
+    cottage_photo6 VARCHAR(255)
 );
 
 CREATE TABLE optional (
@@ -32,6 +40,9 @@ CREATE TABLE booking (
     idbooking INTEGER PRIMARY KEY NOT NULL AUTO_INCREMENT,
     start_date DATE NOT NULL,
     end_date DATE NOT NULL,
+    nb_adult INTEGER NOT NULL,
+    nb_child INTEGER NOT NULL,
+    total_price FLOAT NOT NULL,
     user_iduser INTEGER NOT NULL,
     CONSTRAINT fk_booking_user FOREIGN KEY (user_iduser) REFERENCES user(iduser),
     cottage_idcottage INTEGER NOT NULL,
@@ -72,13 +83,13 @@ VALUES ('Daniel', 'daniel123', 'Daniel', 'DESCLOUX', '06', 'daniel.descloux-std@
 INSERT INTO optional (optional_name, optional_price_per_adult, optional_price_per_child)
 VALUES ('Donkey ride', 12, 7);
 
-
-INSERT INTO cottage (cottage_name, cottage_region, cottage_city, cottage_country, cottage_price_per_night, cottage_photo)
-VALUES ('MAISON MÉDIÉVALE', 'Catalogne', 'El Canós', 'Espagne', 120, 'images/gite1_1.webp'),
-('MAS DU XVÈME SIÈCLE', 'Occitanie', 'Arles-sur-Tech', 'France', 80, 'images/gite2_1.webp'),
-('BELLE GRANGE RENOVEE', 'Occitanie', 'Loudervielle', 'France', 140, 'images/gite3_1.webp'),
-('CHÂTEAU D`ESCLAVELLES', 'Normandie', 'Esclavelles', 'France', 120, 'images/gite4_1.webp'),
-('DOMAINE DE NOINTEL', 'Île-de-France', 'Nointel', 'France', 120, 'images/gite5_1.webp'),
-('GRANGE RÉHABILITÉE', 'Hauts-de-France', 'Montépilloy', 'France', 120, 'images/gite6_1.webp'),
-('DOMAINE LE GROS CHÊNE', 'Normandie', 'Le Landin', 'France', 220, 'images/gite7_1.webp');
+/* Insertion données table cottage */
+INSERT INTO cottage (cottage_name, cottage_region, cottage_city, cottage_country, cottage_nb_bed, cottage_nb_bathroom, cottage_price_per_night, cottage_photo)
+VALUES ('MAISON MÉDIÉVALE', 'Catalogne', 'El Canós', 'Espagne', 3, 2, 120, 'images/gite1_1.webp'),
+('MAS DU XVÈME SIÈCLE', 'Occitanie', 'Arles-sur-Tech', 'France', 80, 2, 1, 'images/gite2_1.webp'),
+('BELLE GRANGE RENOVEE', 'Occitanie', 'Loudervielle', 'France', 140, 4, 3, 'images/gite3_1.webp'),
+('CHÂTEAU D`ESCLAVELLES', 'Normandie', 'Esclavelles', 'France', 120, 3, 2, 'images/gite4_1.webp'),
+('DOMAINE DE NOINTEL', 'Île-de-France', 'Nointel', 'France', 120, 3, 1, 'images/gite5_1.webp'),
+('GRANGE RÉHABILITÉE', 'Hauts-de-France', 'Montépilloy', 'France', 120, 4, 2, 'images/gite6_1.webp'),
+('DOMAINE LE GROS CHÊNE', 'Normandie', 'Le Landin', 'France', 220, 5, 3, 'images/gite7_1.webp');
 
