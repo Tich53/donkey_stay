@@ -1,8 +1,43 @@
 <?php
 session_start();
-require_once '_connec.php';
+require_once '../../identifiants/connect.php';
 
 $pdo = new \PDO(DSN, USER, PASS);
+
+//getting id from url
+$cottage_idcottage = 1;
+$userid = 3;
+/******************** ADD NEW RESERVATION ******************/
+if (isset ($_POST['add_reservation'])){
+	// get the data from a form
+
+	$start_date = trim($_POST['start_date']);
+	$end_date = trim($_POST['end_date']);
+	$optional = trim($_POST['optional']);
+
+	$newBooking = "INSERT INTO booking (start_date, end_date, user_iduser, cottage_idcottage, optional_idoptional) 
+	VALUES (:start_date, :end_date, :userid,:cottage_idcottage,:optional);"; 
+	$statement = $pdo->prepare($newBooking);
+	$statement->bindValue(':start_date', $start_date, \PDO::PARAM_STR);
+	$statement->bindValue(':end_date', $end_date, \PDO::PARAM_STR);
+	$statement->bindValue(':userid', $userid, \PDO::PARAM_STR);
+	$statement->bindValue(':cottage_idcottage', $cottage_idcottage, \PDO::PARAM_STR);
+	$statement->bindValue(':optional', $optional, \PDO::PARAM_STR);
+	$statement->execute(); 
+
+	$newBookedDate = "INSERT INTO booked_date (start_booked_date, end_booked_date) 
+	VALUES (:start_date, :end_date);"; 
+	$statement = $pdo->prepare($newBookedDate);
+	$statement->bindValue(':start_date', $start_date, \PDO::PARAM_STR);
+	$statement->bindValue(':end_date', $end_date, \PDO::PARAM_STR);
+	$statement->execute(); 
+}
+echo '<script type="text/javascript">
+       window.onload = function () { alert("Votre réservation du gîte Loudervielle est confirmée."); } 
+</script>';
+echo "reservation done !"
+
+// date actuelle echo date("Y-m-d"); 
 ?>
 
 <!DOCTYPE html>
@@ -30,6 +65,8 @@ $pdo = new \PDO(DSN, USER, PASS);
 
     <link rel="stylesheet" href="css/flaticon.css">
     <link rel="stylesheet" href="css/style.css">
+
+	<link rel="stylesheet" href="reservation.css">
 </head>
 
 <body>
@@ -362,6 +399,7 @@ $pdo = new \PDO(DSN, USER, PASS);
                             </ul>
                         </div>
                     </div>
+					<!--
                     <div class="ftco-grid">
                         <?php
                         $sql = 'SELECT cottage.* FROM cottage WHERE idcottage = 1';
@@ -375,11 +413,52 @@ $pdo = new \PDO(DSN, USER, PASS);
                             <div class="six">6</div>
                         </div>
                     </div>
+					-->
                 </div>
             </div>
         </div>
     </section>
-
+	<section class="formulaire">
+		<h2>Réservation :</h2>
+		<form action="/gite_1.php" method="post" value="new_reservation" name="action" class="form">
+		<div>
+			<label for="start_date" class="label">date de début :</label>
+			<input type="date" id="start_date" name="start_date" class="label_input"/>
+		</div>
+		<div>
+			<label for="end_date" class="label">date de fin :</label>
+			<input type="date" id="end_date" name="end_date" class="label_input"/>
+		</div>
+		<div>
+			<label for="optional" class="label">option :</label>
+			<SELECT size="1" name="optional" class="label_input">
+			<OPTION  value="choisissez une option">choisissez une option</OPTION>
+			<?php
+			$statement = $pdo->query('SELECT * FROM optional');
+			$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+			foreach($result as $row){ ?>
+			<OPTION value="<?php echo $row['idoptional'];?>">
+			<?php  
+				echo $row['optional_name'] ; 
+			?>
+			</OPTION>
+			
+			</SELECT>
+		</div>
+		<div>
+			<label for="nbr_adults" class="label">nombre d'adultes (<?php echo $row['optional_price_per_adult']."€ /pers"?>) :</label>
+			<input type="int" id="nbr_adults" name="nbr_adults" value=0 class="label_input" />
+		</div>
+		<div>
+			<label for="nbr_children" class="label">nombre d'enfants (<?php echo $row['optional_price_per_child']."€ /pers"?>) :</label>
+			<input type="int" id="nbr_children" name="nbr_children" value=0 class="label_input"/>
+		</div>
+		<?php  } ?>
+		<div>
+			<input type="submit" name="add_reservation" value="Réserver" class="button"/>
+		</div>
+		</form>
+	</section>
     <!-- 		<section class="ftco-section ftco-about img"style="background-image: url(images/parcours2.jpg);">
 			<div class="overlay"></div>
 			<div class="container py-md-5">
