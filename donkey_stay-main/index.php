@@ -11,7 +11,7 @@ $statement = $pdo -> query($nbCottageQuery);
 $nbCottageArray = $statement -> fetchAll();
 $nbCottage = $nbCottageArray[0]['nbCottage'];
 
-$size = 10;
+$size = 3;
 $nbPage = ceil($nbCottage / $size);
 
 if (isset($_GET['page']) && $_GET['page']>0 && $_GET['page']<=$nbPage){
@@ -24,7 +24,6 @@ $offset =($page-1) *$size;
 
 if (isset($_POST['search'])){
 	$keyword = trim($_POST['keyword']);
-
 	//Requête de sélection des gîtes via keyword
 	$cottageQuery = "SELECT * FROM cottage WHERE cottage_city LIKE '%$keyword%'";
 	$statement = $pdo -> query($cottageQuery);
@@ -35,7 +34,6 @@ if (isset($_POST['search'])){
     $statement = $pdo -> query($cottageQuery);
     $cottages = $statement -> fetchAll();
 }
-
 
 ?>
 
@@ -408,7 +406,7 @@ if (isset($_POST['search'])){
 			?>
 				<div class="col-md-4 ftco-animate">
 					<div class="project-wrap">
-						<a href="#" class="img" style="background-image: url(<?= $cottage['cottage_photo']?>);">
+						<a href="#" class="img" style="background-image: url(<?= $cottage['cottage_photo1']?>);">
 							<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit"?></span>
 						</a>
 						<div class="text p-4">
@@ -416,8 +414,8 @@ if (isset($_POST['search'])){
 							<h3><a href="#"><?= $cottage['cottage_city']?></a></h3>
 							<p class="location"><span class="fa fa-map-marker"></span> <?= $cottage['cottage_region']. " " . $cottage['cottage_country']?></p>
 							<ul>
-								<li><span class="flaticon-shower"></span>2</li>
-								<li><span class="flaticon-king-size"></span>3</li>
+								<li><span class="flaticon-shower"></span><?=$cottage['cottage_nb_bathroom']?></li>
+								<li><span class="flaticon-king-size"></span><?=$cottage['cottage_nb_bed']?></li>
 								<!-- <li><span class="flaticon-route"></span>Near Mountain</li> -->
 							</ul>
 						</div>
@@ -425,23 +423,28 @@ if (isset($_POST['search'])){
 				</div>
 			<?php
 			}
-			?>
+			if (!isset($_POST['search'])) {
+				?><div class = "pagination">
 				<?php
-				for ($i=1; $i<=$nbPage; $i++){
-					if($i == $page){
-				?>
-					<div class = "pagination">
-						<?= "$i/";?>
-					</div>
-				<?php
+				for ($i=1; $i<=$nbPage; $i++) {
+					if ($i == $page) {
+						?>
+
+								<?= "$i/"; ?>
+
+						<?php
 					} else {
-				?>
-					<div class = "pagination">
-						<?= "<a href = \"index.php?page=$i\">$i</a> /"; ?>
-					</div>
-				<?php
+						?>
+
+								<?= "<a href = \"index.php?page=$i\">$i</a> /"; ?>
+
+						<?php
 					}
 				}
+				?>
+				</div>
+				<?php
+			}
 				?>
 		</section>
 		<section class="ftco-section ftco-about img"style="background-image: url(images/parcours2.jpg);">

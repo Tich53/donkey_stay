@@ -84,12 +84,12 @@ INSERT INTO optional (optional_name, optional_price_per_adult, optional_price_pe
 VALUES ('Donkey ride', 12, 7);
 
 /* Insertion données table cottage */
-INSERT INTO cottage (cottage_name, cottage_region, cottage_city, cottage_country, cottage_nb_bed, cottage_nb_bathroom, cottage_price_per_night, cottage_photo)
+INSERT INTO cottage (cottage_name, cottage_region, cottage_city, cottage_country, cottage_nb_bed, cottage_nb_bathroom, cottage_price_per_night, cottage_photo1)
 VALUES ('MAISON MÉDIÉVALE', 'Catalogne', 'El Canós', 'Espagne', 3, 2, 120, 'images/gite1_1.webp'),
-('MAS DU XVÈME SIÈCLE', 'Occitanie', 'Arles-sur-Tech', 'France', 80, 2, 1, 'images/gite2_1.webp'),
-('BELLE GRANGE RENOVEE', 'Occitanie', 'Loudervielle', 'France', 140, 4, 3, 'images/gite3_1.webp'),
-('CHÂTEAU D`ESCLAVELLES', 'Normandie', 'Esclavelles', 'France', 120, 3, 2, 'images/gite4_1.webp'),
-('DOMAINE DE NOINTEL', 'Île-de-France', 'Nointel', 'France', 120, 3, 1, 'images/gite5_1.webp'),
-('GRANGE RÉHABILITÉE', 'Hauts-de-France', 'Montépilloy', 'France', 120, 4, 2, 'images/gite6_1.webp'),
-('DOMAINE LE GROS CHÊNE', 'Normandie', 'Le Landin', 'France', 220, 5, 3, 'images/gite7_1.webp');
+('MAS DU XVÈME SIÈCLE', 'Occitanie', 'Arles-sur-Tech', 'France', 2, 1, 80, 'images/gite2_1.webp'),
+('BELLE GRANGE RENOVEE', 'Occitanie', 'Loudervielle', 'France', 4, 3, 140, 'images/gite3_1.webp'),
+('CHÂTEAU D`ESCLAVELLES', 'Normandie', 'Esclavelles', 'France', 3, 2, 120,'images/gite4_1.webp'),
+('DOMAINE DE NOINTEL', 'Île-de-France', 'Nointel', 'France', 3, 1, 120, 'images/gite5_1.webp'),
+('GRANGE RÉHABILITÉE', 'Hauts-de-France', 'Montépilloy', 'France', 4, 2, 120, 'images/gite6_1.webp'),
+('DOMAINE LE GROS CHÊNE', 'Normandie', 'Le Landin', 'France', 5, 3, 220, 'images/gite7_1.webp');
 
