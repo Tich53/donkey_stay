@@ -1,5 +1,32 @@
 <?php
 session_start();
+require_once('../../identifiants/connect.php');
+$pdo = new \PDO(DSN, USER, PASS);
+
+//PAGINATION
+$nbCottageQuery = "SELECT COUNT(idcottage) as nbCottage  FROM cottage";
+$statement = $pdo -> query($nbCottageQuery);
+$nbCottageArray = $statement -> fetchAll();
+$nbCottage = $nbCottageArray[0]['nbCottage'];
+
+$size = 4;
+$nbPage = ceil($nbCottage / $size);
+
+if (isset($_GET['page']) && $_GET['page']>0 && $_GET['page']<=$nbPage){
+	$page = $_GET['page'];
+} else {
+	$page = 1;
+}
+
+$offset =($page-1) *$size;
+
+
+//Requête de sélection des gîtes
+$cottageQuery = "SELECT * FROM cottage LIMIT $size OFFSET $offset";
+$statement = $pdo -> query($cottageQuery);
+$cottages = $statement -> fetchAll();
+
+
 ?>
 
 <!DOCTYPE html>
@@ -26,6 +53,8 @@ session_start();
 	
 	<link rel="stylesheet" href="css/flaticon.css">
 	<link rel="stylesheet" href="css/style.css">
+
+	<link rel="stylesheet" href="index.css">
 </head>
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
@@ -44,7 +73,7 @@ session_start();
 					<!-- <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li> -->
 					<li class="nav-item"><a href="contact.html" class="nav-link">Contactez-nous</a></li>
 					
-					<!-- AJOUT DE LA LIGNE CONNECTE(E) EN TANT QUE SI $_SESSION ACTIF -->
+					<!-- Ajout de la ligne "Bonjour" si $_SESSION non vide sinon "login" -->
 					<?php
 					if (!empty($_SESSION['login'])){
 					?>
@@ -231,7 +260,7 @@ session_start();
 		<section class="ftco-section services-section">
 			<div class="container">
 				<div class="row d-flex">
-					<div class="col-md-6 order-md-last heading-section pl-md-5 ftco-animate d-flex align-items-center">
+					<di$pagev class="col-md-6 order-md-last heading-section pl-md-5 ftco-animate d-flex align-items-center">
 						<div class="w-100">
 							<span class="subheading">Welcome to Pacific</span>
 							<h2 class="mb-4">It's time to start your adventure</h2>
@@ -354,6 +383,7 @@ session_start();
 			</div>
 		</section> -->
 
+
 		<section class="ftco-section">
 			<div class="container">
 				<div class="row justify-content-center pb-4">
@@ -362,130 +392,50 @@ session_start();
 						<h2 class="mb-4">Nos Gîtes</h2>
 					</div>
 				</div>
-				<div class="row">
-					<div class="col-md-4 ftco-animate">
-						<div class="project-wrap">
-							<a href="#" class="img" style="background-image: url(images/gite1_1.webp);">
-								<span class="price">140€ / nuit</span>
-							</a>
-							<div class="text p-4">
-								<span class="days">Belle grange rénovée</span>
-								<h3><a href="#">Loudervielle</a></h3>
-								<p class="location"><span class="fa fa-map-marker"></span> Occitanie, France</p>
-								<ul>
-									<li><span class="flaticon-shower"></span>2</li>
-									<li><span class="flaticon-king-size"></span>3</li>
-									<!-- <li><span class="flaticon-route"></span>Near Mountain</li> -->
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 ftco-animate">
-						<div class="project-wrap">
-							<a href="#" class="img" style="background-image: url(images/gite2_1.webp);">
-								<span class="price">80€ / nuit</span>
-							</a>
-							<div class="text p-4">
-								<span class="days">Mas du XVème siècle</span>
-								<h3><a href="#">Arles-sur-Tech</a></h3>
-								<p class="location"><span class="fa fa-map-marker"></span> Occitanie, France</p>
-								<ul>
-									<li><span class="flaticon-shower"></span>2</li>
-									<li><span class="flaticon-king-size"></span>3</li>
-									<!-- <li><span class="flaticon-sun-umbrella"></span>Near Beach</li> -->
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 ftco-animate">
-						<div class="project-wrap">
-							<a href="#" class="img" style="background-image: url(images/gite3_1.webp);">
-								<span class="price">120€ / nuit</span>
-							</a>
-							<div class="text p-4">
-								<span class="days">Maison médiévale</span>
-								<h3><a href="#">El Canós</a></h3>
-								<p class="location"><span class="fa fa-map-marker"></span> Catalogne, Espagne</p>
-								<ul>
-									<li><span class="flaticon-shower"></span>2</li>
-									<li><span class="flaticon-king-size"></span>3</li>
-									<!-- <li><span class="flaticon-sun-umbrella"></span>Near Beach</li> -->
-								</ul>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-md-4 ftco-animate">
-						<div class="project-wrap">
-							<a href="#" class="img" style="background-image: url(images/gite4_1.webp);">
-								<span class="price">120€ / nuit</span>
-							</a>
-							<div class="text p-4">
-								<span class="days">Château d'Esclavelles</span>
-								<h3><a href="#">Esclavelles</a></h3>
-								<p class="location"><span class="fa fa-map-marker"></span> Normandie, France</p>
-								<ul>
-									<li><span class="flaticon-shower"></span>2</li>
-									<li><span class="flaticon-king-size"></span>3</li>
-									<!-- <li><span class="flaticon-sun-umbrella"></span>Near Beach</li> -->
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 ftco-animate">
-						<div class="project-wrap">
-							<a href="#" class="img" style="background-image: url(images/gite5_1.webp);">
-								<span class="price">120€ / nuit</span>
-							</a>
-							<div class="text p-4">
-								<span class="days">Domaine de Nointel</span>
-								<h3><a href="#">Nointel</a></h3>
-								<p class="location"><span class="fa fa-map-marker"></span> Île-de-France, France</p>
-								<ul>
-									<li><span class="flaticon-shower"></span>2</li>
-									<li><span class="flaticon-king-size"></span>3</li>
-									<!-- <li><span class="flaticon-sun-umbrella"></span>Near Beach</li> -->
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 ftco-animate">
-						<div class="project-wrap">
-							<a href="#" class="img" style="background-image: url(images/gite6_1.webp);">
-								<span class="price">120€ / nuit</span>
-							</a>
-							<div class="text p-4">
-								<span class="days">Grange réhabilitée</span>
-								<h3><a href="#">Montépilloy</a></h3>
-								<p class="location"><span class="fa fa-map-marker"></span> Hauts-de-France, France</p>
-								<ul>
-									<li><span class="flaticon-shower"></span>2</li>
-									<li><span class="flaticon-king-size"></span>3</li>
-									<!-- <li><span class="flaticon-sun-umbrella"></span>Near Beach</li> -->
-								</ul>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-4 ftco-animate">
-						<div class="project-wrap">
-							<a href="#" class="img" style="background-image: url(images/gite7_1.webp);">
-								<span class="price">220€ / nuit</span>
-							</a>
-							<div class="text p-4">
-								<span class="days">Domaine le Gros Chêne</span>
-								<h3><a href="#">Le Landin</a></h3>
-								<p class="location"><span class="fa fa-map-marker"></span> Normandie, France</p>
-								<ul>
-									<li><span class="flaticon-shower"></span>2</li>
-									<li><span class="flaticon-king-size"></span>3</li>
-									<!-- <li><span class="flaticon-sun-umbrella"></span>Near Beach</li> -->
-								</ul>
-							</div>
-						</div>
-				</div>
 			</div>
+
+			<div class="row">
+			<?php
+			foreach($cottages as $cottage){
+			?>
+				<div class="col-md-4 ftco-animate">
+					<div class="project-wrap">
+						<a href="#" class="img" style="background-image: url(<?= $cottage['cottage_photo']?>);">
+							<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit"?></span>
+						</a>
+						<div class="text p-4">
+							<span class="days"><?= $cottage['cottage_name']?></span>
+							<h3><a href="#"><?= $cottage['cottage_city']?></a></h3>
+							<p class="location"><span class="fa fa-map-marker"></span> <?= $cottage['cottage_region']. " " . $cottage['cottage_country']?></p>
+							<ul>
+								<li><span class="flaticon-shower"></span>2</li>
+								<li><span class="flaticon-king-size"></span>3</li>
+								<!-- <li><span class="flaticon-route"></span>Near Mountain</li> -->
+							</ul>
+						</div>
+					</div>
+				</div>
+			<?php
+			}
+			?>
+				<?php
+				for ($i=1; $i<=$nbPage; $i++){
+					if($i == $_GET['page']){
+				?>
+					<div class = "pagination">
+						<?= "$i/";?>
+					</div>
+				<?php
+					} else {
+				?>
+					<div class = "pagination">
+						<?= "<a href = \"index.php?page=$i\">$i</a> /"; ?>
+					</div>
+				<?php
+					}
+				}
+				?>
 		</section>
-		
 		<section class="ftco-section ftco-about img"style="background-image: url(images/parcours2.jpg);">
 			<div class="overlay"></div>
 			<div class="container py-md-5">
@@ -607,7 +557,7 @@ session_start();
 											<span class="fa fa-star"></span>
 											<span class="fa fa-star"></span>
 											<span class="fa fa-star"></span>
-											<span class="fa fa-star"></span>
+											var_dump($cottages);						<span class="fa fa-star"></span>
 										</p>
 										<p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
 										<div class="d-flex align-items-center">
@@ -691,8 +641,7 @@ session_start();
 										<span class="mos">September</span>
 									</div>
 								</div>
-								<h3 class="heading"><a href="#">Most Popular Place In This World</a></h3> -->
-								<!-- <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p> -->
+					var_dump($cottages);			<!-- <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p> -->
 <!-- 								<p><a href="#" class="btn btn-primary">Read more</a></p>
 							</div>
 						</div>
