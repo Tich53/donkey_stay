@@ -1,13 +1,16 @@
 <?php
 session_start();
-require_once('../../identifiants/connect.php');
+require_once '../../identifiants/connect.php';
+
 $pdo = new \PDO(DSN, USER, PASS);
 
 //getting id from url
 $cottage_idcottage = 8;
 $userid = 3;
 /******************** ADD NEW RESERVATION ******************/
+
 if (isset($_POST['add_reservation'])) {
+
 	// get the data from a form
 
 	$start_date = trim($_POST['start_date']);
@@ -87,6 +90,7 @@ if (isset($_POST['add_reservation'])) {
         </div>
     </nav>
     <!-- END nav -->
+
     <?php
     $cottage_info = 'SELECT * FROM cottage WHERE idcottage = 1';
     foreach ($pdo->query($cottage_info) as $cottage) {
@@ -110,6 +114,7 @@ if (isset($_POST['add_reservation'])) {
 	<?php
 	}
 	?>
+
 
 	<!-- 	<section class="ftco-section ftco-no-pb ftco-no-pt">
 		<div class="container">
@@ -419,6 +424,7 @@ if (isset($_POST['add_reservation'])) {
 			</div>
 		</div>
 	</section>
+
 	<section class="formulaire">
 		<h2>Réservation :</h2>
 		<form action="/gite_1.php" method="post" value="new_reservation" name="action" class="form">
@@ -776,6 +782,7 @@ if (isset($_POST['add_reservation'])) {
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
 	<script src="js/google-map.js"></script>
 	<script src="js/main.js"></script>
+
 
 </body>
 
