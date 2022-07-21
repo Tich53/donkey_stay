@@ -5,7 +5,7 @@ require_once '../../identifiants/connect.php';
 $pdo = new \PDO(DSN, USER, PASS);
 
 //getting id from url
-$cottage_idcottage = 8;
+$cottage_idcottage = 1;
 $userid = 3;
 /******************** ADD NEW RESERVATION ******************/
 
@@ -427,6 +427,11 @@ if (isset($_POST['add_reservation'])) {
 
 	<section class="formulaire">
 		<h2>Réservation :</h2>
+		<?php if (isset ($_POST['add_reservation'])):?>
+		<div class="alert alert-success">
+			Votre réservation est confirmé
+		</div>
+		<?php endif ?>
 		<form action="/gite_1.php" method="post" value="new_reservation" name="action" class="form">
 			<div>
 				<label for="start_date" class="label">date de début :</label>
@@ -444,7 +449,7 @@ if (isset($_POST['add_reservation'])) {
 					$statement = $pdo->query('SELECT * FROM optional');
 					$result = $statement->fetchAll(PDO::FETCH_ASSOC);
 					foreach ($result as $row) { ?>
-						<OPTION value="<?php echo $row['idoptional']; ?>">
+						<OPTION value="<?php echo $row['idoptional']; ?> " selected>
 							<?php
 							echo $row['optional_name'];
 							?>
