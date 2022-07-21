@@ -31,10 +31,10 @@ if (isset ($_POST['add_reservation'])){
 	$statement->bindValue(':end_date', $end_date, \PDO::PARAM_STR);
 	$statement->execute(); 
 }
-echo '<script type="text/javascript">
+/* echo '<script type="text/javascript">
        window.onload = function () { alert("Votre réservation du gîte Loudervielle est confirmée."); } 
 </script>';
-echo "reservation done !"
+echo "reservation done !" */
 
 // date actuelle echo date("Y-m-d"); 
 ?>
@@ -78,7 +78,7 @@ echo "reservation done !"
 
             <div class="collapse navbar-collapse" id="ftco-nav">
                 <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active"><a href="index.html" class="nav-link">Accueil</a></li>
+                    <li class="nav-item active"><a href="index.php" class="nav-link">Accueil</a></li>
                     <!-- <li class="nav-item"><a href="about.html" class="nav-link">About</a></li> -->
                     <!-- <li class="nav-item"><a href="destination.html" class="nav-link">Destination</a></li> -->
                     <li class="nav-item"><a href="hotel.html" class="nav-link">Gîtes</a></li>

@@ -11,7 +11,7 @@ $statement = $pdo -> query($nbCottageQuery);
 $nbCottageArray = $statement -> fetchAll();
 $nbCottage = $nbCottageArray[0]['nbCottage'];
 
-$size = 3;
+$size = 6;
 $nbPage = ceil($nbCottage / $size);
 
 if (isset($_GET['page']) && $_GET['page']>0 && $_GET['page']<=$nbPage){
@@ -25,7 +25,7 @@ $offset =($page-1) *$size;
 if (isset($_POST['search'])){
 	$keyword = trim($_POST['keyword']);
 	//Requête de sélection des gîtes via keyword
-	$cottageQuery = "SELECT * FROM cottage WHERE cottage_city LIKE '%$keyword%'";
+	$cottageQuery = "SELECT * FROM cottage WHERE cottage_city LIKE '%$keyword%' OR cottage_region LIKE '%$keyword%' OR cottage_country LIKE '%$keyword%'";
 	$statement = $pdo -> query($cottageQuery);
 	$cottages = $statement -> fetchAll();
 } else {
@@ -406,12 +406,12 @@ if (isset($_POST['search'])){
 			?>
 				<div class="col-md-4 ftco-animate">
 					<div class="project-wrap">
-						<a href="#" class="img" style="background-image: url(<?= $cottage['cottage_photo1']?>);">
+						<a href="gite_1.php?id=<?=$cottage['idcottage']?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1']?>);">
 							<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit"?></span>
 						</a>
 						<div class="text p-4">
 							<span class="days"><?= $cottage['cottage_name']?></span>
-							<h3><a href="#"><?= $cottage['cottage_city']?></a></h3>
+							<h3><a href="gite_1.php?id=<?=$cottage['idcottage']?>"><?= $cottage['cottage_city']?></a></h3>
 							<p class="location"><span class="fa fa-map-marker"></span> <?= $cottage['cottage_region']. " " . $cottage['cottage_country']?></p>
 							<ul>
 								<li><span class="flaticon-shower"></span><?=$cottage['cottage_nb_bathroom']?></li>
@@ -429,19 +429,15 @@ if (isset($_POST['search'])){
 				for ($i=1; $i<=$nbPage; $i++) {
 					if ($i == $page) {
 						?>
-
-								<?= "$i/"; ?>
-
+							<?= "$i/"; ?>
 						<?php
 					} else {
 						?>
-
-								<?= "<a href = \"index.php?page=$i\">$i</a> /"; ?>
-
+							<?= "<a href = \"index.php?page=$i\">$i/</a>"; ?>
 						<?php
 					}
 				}
-				?>
+						?>
 				</div>
 				<?php
 			}
