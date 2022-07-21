@@ -3,13 +3,15 @@ session_start();
 require_once('../../identifiants/connect.php');
 $pdo = new \PDO(DSN, USER, PASS);
 
-//PAGINATION
+//PAGINATION => 2 étapes
+// Etape 1: Faire la requête de sélection et définir le nombre de page
+// Etape 2: Faire une boucle "FOR" sous la boucle "FOREACH" afin d'afficher le nombre de page dans des liens
 $nbCottageQuery = "SELECT COUNT(idcottage) as nbCottage  FROM cottage";
 $statement = $pdo -> query($nbCottageQuery);
 $nbCottageArray = $statement -> fetchAll();
 $nbCottage = $nbCottageArray[0]['nbCottage'];
 
-$size = 4;
+$size = 6;
 $nbPage = ceil($nbCottage / $size);
 
 if (isset($_GET['page']) && $_GET['page']>0 && $_GET['page']<=$nbPage){
@@ -20,12 +22,18 @@ if (isset($_GET['page']) && $_GET['page']>0 && $_GET['page']<=$nbPage){
 
 $offset =($page-1) *$size;
 
-
-//Requête de sélection des gîtes
-$cottageQuery = "SELECT * FROM cottage LIMIT $size OFFSET $offset";
-$statement = $pdo -> query($cottageQuery);
-$cottages = $statement -> fetchAll();
-
+if (isset($_POST['search'])){
+	$keyword = trim($_POST['keyword']);
+	//Requête de sélection des gîtes via keyword
+	$cottageQuery = "SELECT * FROM cottage WHERE cottage_city LIKE '%$keyword%' OR cottage_region LIKE '%$keyword%' OR cottage_country LIKE '%$keyword%'";
+	$statement = $pdo -> query($cottageQuery);
+	$cottages = $statement -> fetchAll();
+} else {
+    //Requête de sélection des gîtes
+    $cottageQuery = "SELECT * FROM cottage LIMIT $size OFFSET $offset";
+    $statement = $pdo -> query($cottageQuery);
+    $cottages = $statement -> fetchAll();
+}
 
 ?>
 
@@ -66,7 +74,7 @@ $cottages = $statement -> fetchAll();
 
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ml-auto">
-					<li class="nav-item active"><a href="index.html" class="nav-link">Accueil</a></li>
+					<li class="nav-item active"><a href="index.php" class="nav-link">Accueil</a></li>
 					<!-- <li class="nav-item"><a href="about.html" class="nav-link">About</a></li> -->
 					<!-- <li class="nav-item"><a href="destination.html" class="nav-link">Destination</a></li> -->
 					<li class="nav-item"><a href="hotel.html" class="nav-link">Gîtes</a></li>
@@ -117,25 +125,23 @@ $cottages = $statement -> fetchAll();
 						<div class="row">
 							<div class="col-md-12 nav-link-wrap">
 								<div class="nav nav-pills text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-								00							<a class="nav-link active mr-md-1" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1" role="tab" aria-controls="v-pills-1" aria-selected="true">Gîtes</a>
+									<a class="nav-link active mr-md-1" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1" role="tab" aria-controls="v-pills-1" aria-selected="true">Gîtes</a>
 
 									<!--<a class="nav-link" id="v-pills-2-tab" data-toggle="pill" href="#v-pills-2" role="tab" aria-controls="v-pills-2" aria-selected="false">Hotel</a>-->
 
 								</div>
 							</div>
 							<div class="col-md-12 tab-wrap">
-								
 								<div class="tab-content" id="v-pills-tabContent">
-
 									<div class="tab-pane fade show active" id="v-pills-1" role="tabpanel" aria-labelledby="v-pills-nextgen-tab">
-										<form action="#" class="search-property-1">
+										<form action="#" method="POST" class="search-property-1">
 											<div class="row no-gutters">
 												<div class="col-md d-flex">
 													<div class="form-group p-4 border-0">
 														<label for="#">Destination</label>
 														<div class="form-field">
 															<div class="icon"><span class="fa fa-search"></span></div>
-															<input type="text" class="form-control" placeholder="Lieu">
+															<input type="text" class="form-control" placeholder="Lieu" name="keyword">
 														</div>
 													</div>
 												</div>
@@ -175,7 +181,7 @@ $cottages = $statement -> fetchAll();
 												<div class="col-md d-flex">
 													<div class="form-group d-flex w-100 border-0">
 														<div class="form-field w-100 align-items-center d-flex">
-															<input type="submit" value="Search" class="align-self-stretch form-control btn btn-primary">
+															<input type="submit" value="Search" name="search" class="align-self-stretch form-control btn btn-primary">
 														</div>
 													</div>
 												</div>
@@ -400,16 +406,16 @@ $cottages = $statement -> fetchAll();
 			?>
 				<div class="col-md-4 ftco-animate">
 					<div class="project-wrap">
-						<a href="#" class="img" style="background-image: url(<?= $cottage['cottage_photo']?>);">
+						<a href="gite_1.php?id=<?=$cottage['idcottage']?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1']?>);">
 							<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit"?></span>
 						</a>
 						<div class="text p-4">
 							<span class="days"><?= $cottage['cottage_name']?></span>
-							<h3><a href="#"><?= $cottage['cottage_city']?></a></h3>
+							<h3><a href="gite_1.php?id=<?=$cottage['idcottage']?>"><?= $cottage['cottage_city']?></a></h3>
 							<p class="location"><span class="fa fa-map-marker"></span> <?= $cottage['cottage_region']. " " . $cottage['cottage_country']?></p>
 							<ul>
-								<li><span class="flaticon-shower"></span>2</li>
-								<li><span class="flaticon-king-size"></span>3</li>
+								<li><span class="flaticon-shower"></span><?=$cottage['cottage_nb_bathroom']?></li>
+								<li><span class="flaticon-king-size"></span><?=$cottage['cottage_nb_bed']?></li>
 								<!-- <li><span class="flaticon-route"></span>Near Mountain</li> -->
 							</ul>
 						</div>
@@ -417,23 +423,24 @@ $cottages = $statement -> fetchAll();
 				</div>
 			<?php
 			}
-			?>
+			if (!isset($_POST['search'])) {
+				?><div class = "pagination">
 				<?php
-				for ($i=1; $i<=$nbPage; $i++){
-					if($i == $_GET['page']){
-				?>
-					<div class = "pagination">
-						<?= "$i/";?>
-					</div>
-				<?php
+				for ($i=1; $i<=$nbPage; $i++) {
+					if ($i == $page) {
+						?>
+							<?= "$i/"; ?>
+						<?php
 					} else {
-				?>
-					<div class = "pagination">
-						<?= "<a href = \"index.php?page=$i\">$i</a> /"; ?>
-					</div>
-				<?php
+						?>
+							<?= "<a href = \"index.php?page=$i\">$i/</a>"; ?>
+						<?php
 					}
 				}
+						?>
+				</div>
+				<?php
+			}
 				?>
 		</section>
 		<section class="ftco-section ftco-about img"style="background-image: url(images/parcours2.jpg);">
