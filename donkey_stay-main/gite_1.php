@@ -67,40 +67,40 @@ if (isset($_POST['add_reservation'])) {
 
 <body>
 
-    <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
-        <div class="container">
-            <a class="navbar-brand" href="index.html">Donkey Stay<span>Location de Gîtes d'exception</span></a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="oi oi-menu"></span> Menu
-            </button>
+	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+		<div class="container">
+			<a class="navbar-brand" href="index.html">Donkey Stay<span>Location de Gîtes d'exception</span></a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="oi oi-menu"></span> Menu
+			</button>
 
-            <div class="collapse navbar-collapse" id="ftco-nav">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active"><a href="index.php" class="nav-link">Accueil</a></li>
-                    <!-- <li class="nav-item"><a href="about.html" class="nav-link">About</a></li> -->
-                    <!-- <li class="nav-item"><a href="destination.html" class="nav-link">Destination</a></li> -->
-                    <li class="nav-item"><a href="hotel.html" class="nav-link">Gîtes</a></li>
-                    <!-- <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li> -->
-                    <li class="nav-item"><a href="contact.html" class="nav-link">Contactez-nous</a></li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-    <!-- END nav -->
-    <?php
-    $cottage_info = 'SELECT * FROM cottage WHERE idcottage = 1';
-    foreach ($pdo->query($cottage_info) as $cottage) {
-    ?>
-        <div class="hero-wrap js-fullheight" style="background-image: url('images/gite1_1.webp');">
-            <div class="overlay"></div>
-            <div class="container">
-                <div class="row no-gutters slider-text js-fullheight align-items-center" data-scrollax-parent="true">
-                    <div class="col-md-7 ftco-animate">
-                        <span class="subheading"></span>
-                        <h1 class="mb-4"><?= $cottage['cottage_name']; ?></h1>
-                        <p class="location"><span class="fa fa-map-marker"></span> <?= $cottage['cottage_city']; ?>, <?= $cottage['cottage_region']; ?>, <?= $cottage['cottage_country']; ?></p>
-                    </div>
-                    <!-- 				<a href="https://vimeo.com/273677495" class="icon-video popup-vimeo d-flex align-items-center justify-content-center mb-4">
+			<div class="collapse navbar-collapse" id="ftco-nav">
+				<ul class="navbar-nav ml-auto">
+					<li class="nav-item active"><a href="index.php" class="nav-link">Accueil</a></li>
+					<!-- <li class="nav-item"><a href="about.html" class="nav-link">About</a></li> -->
+					<!-- <li class="nav-item"><a href="destination.html" class="nav-link">Destination</a></li> -->
+					<li class="nav-item"><a href="hotel.html" class="nav-link">Gîtes</a></li>
+					<!-- <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li> -->
+					<li class="nav-item"><a href="contact.html" class="nav-link">Contactez-nous</a></li>
+				</ul>
+			</div>
+		</div>
+	</nav>
+	<!-- END nav -->
+	<?php
+	$cottage_info = 'SELECT * FROM cottage WHERE idcottage = 1';
+	foreach ($pdo->query($cottage_info) as $cottage) {
+	?>
+		<div class="hero-wrap js-fullheight" style="background-image: url('images/gite1_1.webp');">
+			<div class="overlay"></div>
+			<div class="container">
+				<div class="row no-gutters slider-text js-fullheight align-items-center" data-scrollax-parent="true">
+					<div class="col-md-7 ftco-animate">
+						<span class="subheading"></span>
+						<h1 class="mb-4"><?= $cottage['cottage_name']; ?></h1>
+						<p class="location"><span class="fa fa-map-marker"></span> <?= $cottage['cottage_city']; ?>, <?= $cottage['cottage_region']; ?>, <?= $cottage['cottage_country']; ?></p>
+					</div>
+					<!-- 				<a href="https://vimeo.com/273677495" class="icon-video popup-vimeo d-flex align-items-center justify-content-center mb-4">
 
 					<span class="fa fa-play"></span>
 				</a> -->
@@ -411,13 +411,13 @@ if (isset($_POST['add_reservation'])) {
 						<div class="three">
 							<p></p>Grange rénovée qui allie le charme de l'ancien et le confort d'un intérieur moderne et design au cœur des Hautes-Pyrénées. Le village de Loudervielle est perché à 1 100m d'altitude, à mi-chemin entre Loudenvielle et la station de ski de Peyragudes. C'est le lieu idéal pour les amoureux de la nature (rando, chiens de traineaux...), de sport (station de ski de Peyragudes à 4 km, spot de parapente) ou de détente (Balnéa).</p>
 						</div>
-						<div class="five"><img src=<?= $cottage['cottage_photo']; ?>></div>
-						<div class="six"><img src=<?= $cottage['cottage_photo']; ?>></div>
-						<div class="seven"><img src=<?= $cottage['cottage_photo']; ?>></div>
+						<div class="five" a href="#" class="img" style="background-image: url('<?= $cottage['cottage_photo']; ?>');">
+							<div class="six"><img src=<?= $cottage['cottage_photo']; ?>></div>
+							<div class="seven"><img src=<?= $cottage['cottage_photo']; ?>></div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 	</section>
 	<section class="formulaire">
 		<h2>Réservation :</h2>
