@@ -1,13 +1,14 @@
 <?php
 session_start();
-require_once('../../identifiants/connect.php');
+require_once '../../identifiants/connect.php';
+
 $pdo = new \PDO(DSN, USER, PASS);
 
 //getting id from url
 $cottage_idcottage = 1;
 $userid = 3;
 /******************** ADD NEW RESERVATION ******************/
-if (isset ($_POST['add_reservation'])){
+if (isset ($_POST['add_reservation'])){ //valider une fois il a confirmer dans le popup ???
 	// get the data from a form
 
 	$start_date = trim($_POST['start_date']);
@@ -89,28 +90,22 @@ echo "reservation done !"
         </div>
     </nav>
     <!-- END nav -->
-    <?php
-    $cottage_info = 'SELECT * FROM cottage WHERE idcottage = 1';
-    foreach ($pdo->query($cottage_info) as $cottage) {
-    ?>
-        <div class="hero-wrap js-fullheight" style="background-image: url('images/gite1_1.webp');">
-            <div class="overlay"></div>
-            <div class="container">
-                <div class="row no-gutters slider-text js-fullheight align-items-center" data-scrollax-parent="true">
-                    <div class="col-md-7 ftco-animate">
-                        <span class="subheading"></span>
-                        <h1 class="mb-4"><?= $cottage['cottage_name']; ?></h1>
-                        <p class="location"><span class="fa fa-map-marker"></span> <?= $cottage['cottage_city']; ?>, <?= $cottage['cottage_region']; ?>, <?= $cottage['cottage_country']; ?></p>
-                    </div>
-                    <!-- 				<a href="https://vimeo.com/273677495" class="icon-video popup-vimeo d-flex align-items-center justify-content-center mb-4">
+
+    <div class="hero-wrap js-fullheight" style="background-image: url('images/gite1_1.webp');">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row no-gutters slider-text js-fullheight align-items-center" data-scrollax-parent="true">
+                <div class="col-md-7 ftco-animate">
+                    <span class="subheading">...</span>
+                    <h1 class="mb-4">...</h1>
+                    <p class="caps">...</p>
+                </div>
+                <!-- 				<a href="https://vimeo.com/273677495" class="icon-video popup-vimeo d-flex align-items-center justify-content-center mb-4">
 					<span class="fa fa-play"></span>
 				</a> -->
-                </div>
             </div>
         </div>
-    <?php
-    }
-    ?>
+    </div>
 
     <!-- 	<section class="ftco-section ftco-no-pb ftco-no-pt">
 		<div class="container">
@@ -390,33 +385,33 @@ echo "reservation done !"
             <div class="row">
                 <div class="col-md-4 ftco-animate">
                     <div class="project-wrap">
-                        <a href="#" class="img" style="background-image: url('images/gite1_1.webp');">
-                            <span class="price"><?= $cottage['cottage_price_per_night']; ?>€ / nuit</span>
+                        <a href="#" class="img" style="background-image: url(images/gite1_1.webp);">
+                            <span class="price">140€ / nuit</span>
                         </a>
                         <div class="text p-4">
-                            <span class="days"><?= $cottage['cottage_name']; ?></span>
-                            <h3><a href="#"><?= $cottage['cottage_city']; ?></a></h3>
-                            <p class="location"><span class="fa fa-map-marker"></span> <?= $cottage['cottage_region']; ?>, <?= $cottage['cottage_country']; ?></p>
+                            <span class="days">Belle grange rénovée</span>
+                            <h3><a href="#">Loudervielle</a></h3>
+                            <p class="location"><span class="fa fa-map-marker"></span> Occitanie, France</p>
                             <ul>
                                 <li><span class="flaticon-shower"></span>2</li>
                                 <li><span class="flaticon-king-size"></span>3</li>
+                                <!-- <li><span class="flaticon-route"></span>Near Mountain</li> -->
                             </ul>
                         </div>
                     </div>
 					<!--
                     <div class="ftco-grid">
-                        <div class="three">Grange rénovée qui allie le charme de l'ancien et le confort d'un intérieur moderne et design au cœur des Hautes-Pyrénées. Le village de Loudervielle est perché à 1 100m d'altitude, à mi-chemin entre Loudenvielle et la station de ski de Peyragudes. C'est le lieu idéal pour les amoureux de la nature (rando, chiens de traineaux...), de sport (station de ski de Peyragudes à 4 km, spot de parapente) ou de détente (Balnéa).</div>
-                        <div class="four">
-                            <form action="gite_1.php">
-                                <input type="submit" value="Reserver" />
-                            </form>
+                        <?php
+                        $sql = 'SELECT cottage.* FROM cottage WHERE idcottage = 1';
+                        ?>
+                        <div>
+                            <div class="one"><?= $cottage['cottage_city']; ?></div>
+                            <div class="two"><?= $cottage['cottage_photo']; ?> alt="belle grange rénovée"></div>
+                            <div class="three">3</div>
+                            <div class="four">4</div>
+                            <div class="five">5</div>
+                            <div class="six">6</div>
                         </div>
-                        <p class="five"><img src=<?= $cottage['cottage_photo']; ?>></p>
-                        <div class="six"><img src=<?= $cottage['cottage_photo']; ?>></div>
-                        <div class="seven"><img src=<?= $cottage['cottage_photo']; ?>></div>
-                        <div class="eight"><img src=<?= $cottage['cottage_photo']; ?>></div>
-                        <div class="nine"><img src=<?= $cottage['cottage_photo']; ?>></div>
-                        <div class="ten"><img src=<?= $cottage['cottage_photo']; ?>></div>
                     </div>
 					-->
                 </div>
@@ -741,6 +736,19 @@ echo "reservation done !"
                         </ul>
                     </div>
                 </div>
+                <!-- 					<div class="col-md pt-5 border-left">
+						<div class="ftco-footer-widget pt-md-5 mb-4">
+							<h2 class="ftco-heading-2">Experience</h2>
+							<ul class="list-unstyled">
+								<li><a href="#" class="py-2 d-block">Adventure</a></li>
+								<li><a href="#" class="py-2 d-block">Hotel and Restaurant</a></li>
+								<li><a href="#" class="py-2 d-block">Beach</a></li>
+								<li><a href="#" class="py-2 d-block">Nature</a></li>
+								<li><a href="#" class="py-2 d-block">Camping</a></li>
+								<li><a href="#" class="py-2 d-block">Party</a></li>
+							</ul>
+						</div>
+					</div> -->
                 <div class="col-md pt-5 border-left">
                     <div class="ftco-footer-widget pt-md-5 mb-4">
                         <h2 class="ftco-heading-2">Have a Questions?</h2>
@@ -754,6 +762,15 @@ echo "reservation done !"
                     </div>
                 </div>
             </div>
+            <!-- 				<div class="row">
+					<div class="col-md-12 text-center">
+
+						<p> Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0.
+							Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+							Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0.</p>
+						</div>
+					</div>
+				</div> -->
     </footer>
 
 
