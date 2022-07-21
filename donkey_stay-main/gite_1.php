@@ -351,7 +351,7 @@ if (isset($_POST['add_reservation'])) {
 											<span>2 Tours</span>
 										</div>
 									</a>
-								</div>
+								</div>PARAM_STR
 							</div>
 							<div class="item">
 								<div class="project-destination">
@@ -377,7 +377,7 @@ if (isset($_POST['add_reservation'])) {
 								<div class="project-destination">
 									<a href="#" class="img" style="background-image: url(images/place-5.jpg);">
 										<div class="text">
-											<h3>Greece</h3>
+									PARAM_STR		<h3>Greece</h3>
 											<span>7 Tours</span>
 										</div>
 									</a>
@@ -394,7 +394,7 @@ if (isset($_POST['add_reservation'])) {
 			<div class="row">
 				<div class="col-md-4 ftco-animate">
 					<div class="project-wrap">
-						<a href="#" class="img" style="background-image: url('<?= $cottage['cottage_photo']; ?>');">
+						<a href="#" class="img" style="background-image: url('<?= $cottage['cottage_photo1']; ?>');">
 							<span class="price"><?= $cottage['cottage_price_per_night']; ?>€ / nuit</span>
 						</a>
 						<div class="text p-4">
@@ -416,9 +416,9 @@ if (isset($_POST['add_reservation'])) {
 						<div class="three">
 							<p></p>Grange rénovée qui allie le charme de l'ancien et le confort d'un intérieur moderne et design au cœur des Hautes-Pyrénées. Le village de Loudervielle est perché à 1 100m d'altitude, à mi-chemin entre Loudenvielle et la station de ski de Peyragudes. C'est le lieu idéal pour les amoureux de la nature (rando, chiens de traineaux...), de sport (station de ski de Peyragudes à 4 km, spot de parapente) ou de détente (Balnéa).</p>
 						</div>
-						<div class="five"><img src=<?= $cottage['cottage_photo']; ?>></div>
-						<div class="six"><img src=<?= $cottage['cottage_photo']; ?>></div>
-						<div class="seven"><img src=<?= $cottage['cottage_photo']; ?>></div>
+						<div class="five"><img src=<?= $cottage['cottage_photo2']; ?>></div>
+						<div class="six"><img src=<?= $cottage['cottage_photo3']; ?>></div>
+						<div class="seven"><img src=<?= $cottage['cottage_photo4']; ?>></div>
 					</div>
 				</div>
 			</div>
