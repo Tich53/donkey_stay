@@ -69,7 +69,6 @@ if (isset($_POST['add_reservation'])) {
 </head>
 
 <body>
-
     <nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
         <div class="container">
             <a class="navbar-brand" href="index.html">Donkey Stay<span>Location de Gîtes d'exception</span></a>
@@ -105,7 +104,6 @@ if (isset($_POST['add_reservation'])) {
                         <p class="location"><span class="fa fa-map-marker"></span> <?= $cottage['cottage_city']; ?>, <?= $cottage['cottage_region']; ?>, <?= $cottage['cottage_country']; ?></p>
                     </div>
                     <!-- 				<a href="https://vimeo.com/273677495" class="icon-video popup-vimeo d-flex align-items-center justify-content-center mb-4">
-
 					<span class="fa fa-play"></span>
 				</a> -->
 				</div>
@@ -388,7 +386,6 @@ if (isset($_POST['add_reservation'])) {
 				</div>
 			</div>
 		</section> -->
-
 	<section class="ftco-section">
 		<div class="container">
 			<div class="row">
@@ -416,13 +413,13 @@ if (isset($_POST['add_reservation'])) {
 						<div class="three">
 							<p></p>Grange rénovée qui allie le charme de l'ancien et le confort d'un intérieur moderne et design au cœur des Hautes-Pyrénées. Le village de Loudervielle est perché à 1 100m d'altitude, à mi-chemin entre Loudenvielle et la station de ski de Peyragudes. C'est le lieu idéal pour les amoureux de la nature (rando, chiens de traineaux...), de sport (station de ski de Peyragudes à 4 km, spot de parapente) ou de détente (Balnéa).</p>
 						</div>
-						<div class="five"><img src=<?= $cottage['cottage_photo2']; ?>></div>
-						<div class="six"><img src=<?= $cottage['cottage_photo3']; ?>></div>
-						<div class="seven"><img src=<?= $cottage['cottage_photo4']; ?>></div>
+						<div class="five" a href="#" class="img" style="background-image: url('<?= $cottage['cottage_photo1']; ?>');">
+							<div class="six"><img src=<?= $cottage['cottage_photo1']; ?>></div>
+							<div class="seven"><img src=<?= $cottage['cottage_photo1']; ?>></div>
+						</div>
 					</div>
 				</div>
 			</div>
-		</div>
 	</section>
 
 	<section class="formulaire">
