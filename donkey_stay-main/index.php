@@ -390,7 +390,7 @@ if (isset($_POST['search'])){
 		</section> -->
 
 
-		<section class="ftco-section">
+		<section class="ftco-section container">
 			<div class="container">
 				<div class="row justify-content-center pb-4">
 					<div class="col-md-12 heading-section text-center ftco-animate">
