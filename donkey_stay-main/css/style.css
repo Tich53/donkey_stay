@@ -12025,48 +12025,58 @@ textarea.form-control {
 
 .ftco-grid {
   display: grid;
-  grid-template-columns: repeat(3, 340px);
-  grid-template-rows: 120px repeat(3, 240px);
-  grid-column-gap: 25px;
-  grid-row-gap: 10px;
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
+  grid-template-areas: 
+  "four"
+  "three"
+  "five"
+  "six"
+  "seven";
 }
 
-.one {
-  grid-area: 1 / 1 / 2 / 3;
-}
-.two {
-  grid-area: 1 / 3 / 2 / 4;
-  
-}
-.two .text ul li span {
-  color: #f15d30;
-  margin-right: 10px;
-  font-size: 20px;
-}
 .three {
-  grid-area: 2 / 1 / 3 / 3;
+  grid-area: three;
 }
 .four {
-  grid-area: 2 / 3 / 3 / 4;
+  grid-area: four;
   text-align: center;
 }
 .five {
-  grid-area: 3 / 1 / 4 / 2;
+  grid-area: five;
+  text-align: center;
 }
 .six {
-  grid-area: 3 / 2 / 4 / 3;
+  grid-area: six;
+  text-align: center;
 }
 .seven {
-  grid-area: 3 / 3 / 4 / 4;
+  grid-area: seven;
+  text-align: center;
 }
-.eight {
-  grid-area: 4 / 1 / 5 / 2;
+
+@media (min-width: 767.98px) {
+  .ftco-grid {
+    grid-template-columns: 1fr 1fr;
+    grid-template-areas:
+    "four  four"
+    "three three"
+    "five  five"
+    "six   seven";
+  }
+  .five {
+/*     width: 200%; */
+  }
 }
-.nine {
-  grid-area: 4 / 2 / 5 / 3;
-}
-.ten {
-  grid-area: 4 / 3 / 5 / 4;
+
+@media (min-width: 1200px) {
+  .ftco-grid {
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-areas:
+    "four  four  four"
+    "three three three"
+    "five  six   seven";
+  }
 }
 
 .ftco-no-pt {
