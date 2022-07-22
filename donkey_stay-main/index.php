@@ -23,11 +23,57 @@ if (isset($_GET['page']) && $_GET['page']>0 && $_GET['page']<=$nbPage){
 $offset =($page-1) *$size;
 
 if (isset($_POST['search'])){
+	// récupération du mot clef pour trier la destination
 	$keyword = trim($_POST['keyword']);
+
+	// récupération des champs dates sélectionnées dans le formulaire et transformation de ces dates dans le bon format
+    $start_date = date_create(($_POST['start_date']));
+    $start_date = date_format($start_date,"Y/m/d");
+
+    $end_date = date_create(($_POST['end_date']));
+	$end_date = date_format($end_date,"Y/m/d");
+
 	//Requête de sélection des gîtes via keyword
-	$cottageQuery = "SELECT * FROM cottage WHERE cottage_city LIKE '%$keyword%' OR cottage_region LIKE '%$keyword%' OR cottage_country LIKE '%$keyword%'";
+	$cottageQuery = "SELECT * FROM cottage
+	WHERE (cottage_city LIKE '%$keyword%' OR cottage_region LIKE '%$keyword%' OR cottage_country LIKE '%$keyword%') ";
 	$statement = $pdo -> query($cottageQuery);
 	$cottages = $statement -> fetchAll();
+
+	// Pour chaque cottage, vérifier si il y a une location dans les dates sélectionnées
+	// Si oui, cette location ne s'affiche pas
+	foreach($cottages as $cottage){
+		$idCottage = $cottage['idcottage'];
+
+
+		$booked_dateQuery = "SELECT * FROM booking 
+		WHERE (cottage_idcottage = '$idCottage')
+		AND (`start_date` BETWEEN '$start_date' AND '$end_date'
+		OR end_date BETWEEN '$start_date' AND '$end_date')";
+		$statement = $pdo -> query($booked_dateQuery);
+		$booked_dateArray = $statement->fetchAll();
+		
+		if(empty($booked_dateArray)){
+			?>
+				<div class="col-md-4 ftco-animate">
+					<div class="project-wrap">
+						<a href="gite_1.php?id=<?=$cottage['idcottage']?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1']?>);">
+							<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit"?></span>
+						</a>
+						<div class="text p-4">
+							<span class="days"><?= $cottage['cottage_name']?></span>
+							<h3><a href="gite_1.php?id=<?=$cottage['idcottage']?>"><?= $cottage['cottage_city']?></a></h3>
+							<p class="location"><span class="fa fa-map-marker"></span> <?= $cottage['cottage_region']. " " . $cottage['cottage_country']?></p>
+							<ul>
+								<li><span class="flaticon-shower"></span><?=$cottage['cottage_nb_bathroom']?></li>
+								<li><span class="flaticon-king-size"></span><?=$cottage['cottage_nb_bed']?></li>
+								<!-- <li><span class="flaticon-route"></span>Near Mountain</li> -->
+							</ul>
+						</div>
+					</div>
+				</div>
+			<?php
+		}
+	}
 } else {
     //Requête de sélection des gîtes
     $cottageQuery = "SELECT * FROM cottage LIMIT $size OFFSET $offset";
@@ -141,7 +187,7 @@ if (isset($_POST['search'])){
 														<label for="#">Destination</label>
 														<div class="form-field">
 															<div class="icon"><span class="fa fa-search"></span></div>
-															<input type="text" class="form-control" placeholder="Lieu" name="keyword">
+															<input type="text" class="form-control" placeholder="Lieu" name="keyword" required>
 														</div>
 													</div>
 												</div>
@@ -150,7 +196,7 @@ if (isset($_POST['search'])){
 														<label for="#">Arrivée</label>
 														<div class="form-field">
 															<div class="icon"><span class="fa fa-calendar"></span></div>
-															<input type="text" class="form-control checkin_date" placeholder="Date d'arrivée">
+															<input type="text" class="form-control checkin_date" name = "start_date" placeholder="Date d'arrivée" required>
 														</div>
 													</div>
 												</div>
@@ -159,7 +205,7 @@ if (isset($_POST['search'])){
 														<label for="#">Départ</label>
 														<div class="form-field">
 															<div class="icon"><span class="fa fa-calendar"></span></div>
-															<input type="text" class="form-control checkout_date" placeholder="Date de départ">
+															<input type="text" class="form-control checkout_date" name = "end_date" placeholder="Date de départ" required>
 														</div>
 													</div>
 												</div>
@@ -406,7 +452,7 @@ if (isset($_POST['search'])){
 			?>
 				<div class="col-md-4 ftco-animate">
 					<div class="project-wrap">
-						<a href="gite_1.php?id=<?=$cottage['idcottage']?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1']?>);">
+						<a href="Test_Richard.php?id=<?=$cottage['idcottage']?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1']?>);">
 							<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit"?></span>
 						</a>
 						<div class="text p-4">
