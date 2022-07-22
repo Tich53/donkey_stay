@@ -5,7 +5,7 @@ require_once '../../identifiants/connect.php';
 $pdo = new \PDO(DSN, USER, PASS);
 
 //getting id from url
-$cottage_idcottage = $_GET['id'];
+$cottage_idcottage = 1;
 $userid = 3;
 /******************** ADD NEW RESERVATION ******************/
 
@@ -91,7 +91,7 @@ if (isset($_POST['add_reservation'])) {
 	<!-- END nav -->
 
 	<?php
-	$cottage_info = 'SELECT * FROM cottage WHERE idcottage ="'.$_GET['id'].'"';
+	$cottage_info = 'SELECT * FROM cottage WHERE idcottage = 3';
 	foreach ($pdo->query($cottage_info) as $cottage) {
 	?>
 		<div class="hero-wrap js-fullheight" style="background-image: url('<?= $cottage['cottage_photo1']; ?>');">
@@ -428,7 +428,7 @@ if (isset($_POST['add_reservation'])) {
 				Votre réservation est confirmé
 			</div>
 		<?php endif ?>
-		<form action="/gite_1.php" method="post" value="new_reservation" name="action" class="form">
+		<form action="/test_gite_1.php" method="post" value="new_reservation" name="action" class="form">
 			<div>
 				<label for="start_date" class="label">date de début :</label>
 				<input type="date" id="start_date" name="start_date" class="label_input" />
@@ -717,6 +717,24 @@ if (isset($_POST['add_reservation'])) {
 			</div>
 		</section> -->
 
+	<script>
+		let arrayDatesBooked = new Array(
+			<?php
+			$bdd = new \PDO(DSN, USER, PASS);
+			$dateBooking = $bdd->query('SELECT start_date, end_date FROM booking');
+
+			$arrayBooking = array();
+			while ($donnees = $dateBooking->fetch()) {
+				$entree  = "'" . $donnees['start_date'] . ' , ' . $donnees['end_date'] . "'";
+				$arrayBooking[] = $entree;
+			}
+			echo implode(',', $arrayBooking);
+			$dateBooking->closeCursor();
+			?>
+		);
+		console.log(arrayDatesBooked);
+	</script>
+
 	<footer class="ftco-footer bg-bottom ftco-no-pt" style="background-image: url(images/bg_3.jpg);">
 		<div class="container">
 			<div class="row mb-5">
@@ -783,6 +801,7 @@ if (isset($_POST['add_reservation'])) {
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
 	<script src="js/google-map.js"></script>
 	<script src="js/main.js"></script>
+
 
 
 </body>
