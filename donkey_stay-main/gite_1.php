@@ -7,6 +7,7 @@ $pdo = new \PDO(DSN, USER, PASS);
 //getting id from url
 $cottage_idcottage = $_GET['id'];
 $userid = 3;
+
 /******************** ADD NEW RESERVATION ******************/
 
 if (isset($_POST['add_reservation'])) {
@@ -66,6 +67,7 @@ if (isset($_POST['add_reservation'])) {
 	<link rel="stylesheet" href="css/style.css">
 
 	<link rel="stylesheet" href="reservation.css">
+
 </head>
 
 <body>
@@ -423,19 +425,20 @@ if (isset($_POST['add_reservation'])) {
 
 	<section class="formulaire">
 		<h2>Réservation :</h2>
-		<?php if (isset($_POST['add_reservation'])) : ?>
-			<div class="alert alert-success">
-				Votre réservation est confirmé
-			</div>
+		<?php if (isset ($_POST['add_reservation'])):?>
+		<div class="alert alert-success">
+			Votre réservation est confirmée
+		</div>
+
 		<?php endif ?>
 		<form action="/gite_1.php" method="post" value="new_reservation" name="action" class="form">
 			<div>
 				<label for="start_date" class="label">date de début :</label>
-				<input type="date" id="start_date" name="start_date" class="label_input" />
+				<input id="start_date" name="start_date" class="label_input" />
 			</div>
 			<div>
 				<label for="end_date" class="label">date de fin :</label>
-				<input type="date" id="end_date" name="end_date" class="label_input" />
+				<input id="end_date" name="end_date" class="label_input" />
 			</div>
 			<div>
 				<label for="optional" class="label">option :</label>
@@ -784,6 +787,124 @@ if (isset($_POST['add_reservation'])) {
 	<script src="js/google-map.js"></script>
 	<script src="js/main.js"></script>
 
+	<script>
+  tab = [
+    ["2022-07-24", "2022-07-29"],
+    ["2022-08-10", "2022-08-15"],
+  ];
+  datesForDisable = [];
+
+  function convertDate(date) {
+    var yyyy = date.getFullYear().toString();
+    var mm = (date.getMonth() + 1).toString();
+    var dd = date.getDate().toString();
+
+    var mmChars = mm.split("");
+    var ddChars = dd.split("");
+
+    return (
+      yyyy +
+      "-" +
+      (mmChars[1] ? mm : "0" + mmChars[0]) +
+      "-" +
+      (ddChars[1] ? dd : "0" + ddChars[0])
+    );
+  }
+
+  for (var i = 0; i < tab.length; i++) {
+    var start_date = new Date(tab[i][0]);
+    console.log(convertDate(start_date));
+    var end_date = new Date(tab[i][1]);
+    console.log(convertDate(end_date));
+    datesForDisable.push(convertDate(start_date));
+    while (start_date < end_date) {
+      start_date.setDate(start_date.getDate() + 1);
+      //start_date.toString()
+      datesForDisable.push(convertDate(start_date));
+      console.log(start_date);
+    }
+  }
+  for (var i = 0; i < datesForDisable.length; i++) {
+    console.log(datesForDisable[i]);
+  }
+  (function ($) {
+    $.fn.datepicker.dates["fr"] = {
+      days: [
+        "dimanche",
+        "lundi",
+        "mardi",
+        "mercredi",
+        "jeudi",
+        "vendredi",
+        "samedi",
+      ],
+      daysShort: ["dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."],
+      daysMin: ["d", "l", "ma", "me", "j", "v", "s"],
+      months: [
+        "janvier",
+        "février",
+        "mars",
+        "avril",
+        "mai",
+        "juin",
+        "juillet",
+        "août",
+        "septembre",
+        "octobre",
+        "novembre",
+        "décembre",
+      ],
+      monthsShort: [
+        "janv.",
+        "févr.",
+        "mars",
+        "avril",
+        "mai",
+        "juin",
+        "juil.",
+        "août",
+        "sept.",
+        "oct.",
+        "nov.",
+        "déc.",
+      ],
+      today: "Aujourd'hui",
+      monthsTitle: "Mois",
+      clear: "Effacer",
+      weekStart: 1,
+      format: "dd/mm/yyyy",
+    };
+  })(jQuery);
+
+  $(".datepicker").datepicker({
+    language: "fr",
+    autoclose: true,
+    todayHighlight: true,
+  });
+
+  $("#start_date").datepicker({
+    format: "yyyy-mm-dd",
+    language: "fr",
+    autoclose: true,
+    weekStart: 1,
+    calendarWeeks: true,
+    todayHighlight: true,
+    startDate: new Date(),
+    //minDate: new Date(),
+    daysOfWeekDisabled: datesForDisable,
+  });
+  $("#end_date").datepicker({
+    format: "yyyy-mm-dd",
+    language: "fr",
+    autoclose: true,
+    weekStart: 1,
+    calendarWeeks: true,
+    todayHighlight: true,
+    startDate: new Date(),
+    //minDate: new Date(),
+    datesDisabled: datesForDisable,
+  });
+</script>
 
 </body>
 
