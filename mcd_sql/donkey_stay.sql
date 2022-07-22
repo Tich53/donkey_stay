@@ -34,20 +34,14 @@ CREATE TABLE user
     cottage_nb_bed INTEGER NOT NULL,
     cottage_nb_bathroom INTEGER NOT NULL,
     cottage_price_per_night FLOAT NOT NULL,
-    cottage_description VARCHAR
-        (600) NOT NULL,
-    cottage_photo1 VARCHAR
-        (255) NOT NULL,
-    cottage_photo2 VARCHAR
-        (255),
-    cottage_photo3 VARCHAR
-        (255),
-    cottage_photo4 VARCHAR
-        (255),
-    cottage_photo5 VARCHAR
-        (255),
-    cottage_photo6 VARCHAR
-        (255)
+    cottage_description VARCHAR(600) NOT NULL,
+    cottage_photo1 VARCHAR(255) NOT NULL,
+    cottage_photo2 VARCHAR(255),
+    cottage_photo3 VARCHAR(255),
+    cottage_photo4 VARCHAR(255),
+    cottage_photo5 VARCHAR(255),
+    cottage_photo6 VARCHAR(255)
+
 );
 
         CREATE TABLE optional

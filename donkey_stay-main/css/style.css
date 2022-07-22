@@ -12062,8 +12062,8 @@ textarea.form-control {
     "five  five"
     "six   seven";
   }
-  .five {
-/*     width: 200%; */
+  .five img{
+    width: 715px;
   }
 }
 
@@ -12074,6 +12074,9 @@ textarea.form-control {
     "four  four  four"
     "three three three"
     "five  six   seven";
+  }
+  .five img{
+    width: 350px;
   }
 }
 

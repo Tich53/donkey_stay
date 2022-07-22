@@ -1,102 +1,59 @@
 <?php
 session_start();
-require_once('../../identifiants/connect.php');
+require_once '../../identifiants/connect.php';
+
 $pdo = new \PDO(DSN, USER, PASS);
 
-//PAGINATION => 2 étapes
-// Etape 1: Faire la requête de sélection et définir le nombre de page
-// Etape 2: Faire une boucle "FOR" sous la boucle "FOREACH" afin d'afficher le nombre de page dans des liens
-$nbCottageQuery = "SELECT COUNT(idcottage) as nbCottage  FROM cottage";
-$statement = $pdo -> query($nbCottageQuery);
-$nbCottageArray = $statement -> fetchAll();
-$nbCottage = $nbCottageArray[0]['nbCottage'];
+//getting id from url
+$cottage_idcottage = 1;
+$userid = 3;
+/******************** ADD NEW RESERVATION ******************/
 
-$size = 6;
-$nbPage = ceil($nbCottage / $size);
+if (isset($_POST['add_reservation'])) {
 
-if (isset($_GET['page']) && $_GET['page']>0 && $_GET['page']<=$nbPage){
-	$page = $_GET['page'];
-} else {
-	$page = 1;
+	// get the data from a form
+
+	$start_date = trim($_POST['start_date']);
+	$end_date = trim($_POST['end_date']);
+	$optional = trim($_POST['optional']);
+
+	$newBooking = "INSERT INTO booking (start_date, end_date, user_iduser, cottage_idcottage, optional_idoptional) 
+	VALUES (:start_date, :end_date, :userid,:cottage_idcottage,:optional);";
+	$statement = $pdo->prepare($newBooking);
+	$statement->bindValue(':start_date', $start_date, \PDO::PARAM_STR);
+	$statement->bindValue(':end_date', $end_date, \PDO::PARAM_STR);
+	$statement->bindValue(':userid', $userid, \PDO::PARAM_STR);
+	$statement->bindValue(':cottage_idcottage', $cottage_idcottage, \PDO::PARAM_STR);
+	$statement->bindValue(':optional', $optional, \PDO::PARAM_STR);
+	$statement->execute();
+
+	$newBookedDate = "INSERT INTO booked_date (start_booked_date, end_booked_date) 
+	VALUES (:start_date, :end_date);";
+	$statement = $pdo->prepare($newBookedDate);
+	$statement->bindValue(':start_date', $start_date, \PDO::PARAM_STR);
+	$statement->bindValue(':end_date', $end_date, \PDO::PARAM_STR);
+	$statement->execute();
 }
 
-$offset =($page-1) *$size;
 
-if (isset($_POST['search'])){
-	// récupération du mot clef pour trier la destination
-	$keyword = trim($_POST['keyword']);
-
-	// récupération des champs dates sélectionnées dans le formulaire et transformation de ces dates dans le bon format
-    $start_date = date_create(($_POST['start_date']));
-    $start_date = date_format($start_date,"Y/m/d");
-
-    $end_date = date_create(($_POST['end_date']));
-	$end_date = date_format($end_date,"Y/m/d");
-
-	//Requête de sélection des gîtes via keyword
-	$cottageQuery = "SELECT * FROM cottage
-	WHERE (cottage_city LIKE '%$keyword%' OR cottage_region LIKE '%$keyword%' OR cottage_country LIKE '%$keyword%') ";
-	$statement = $pdo -> query($cottageQuery);
-	$cottages = $statement -> fetchAll();
-
-	// Pour chaque cottage, vérifier si il y a une location dans les dates sélectionnées
-	// Si oui, cette location ne s'affiche pas
-	foreach($cottages as $cottage){
-		$idCottage = $cottage['idcottage'];
-
-
-		$booked_dateQuery = "SELECT * FROM booking 
-		WHERE (cottage_idcottage = '$idCottage')
-		AND (`start_date` BETWEEN '$start_date' AND '$end_date'
-		OR end_date BETWEEN '$start_date' AND '$end_date')";
-		$statement = $pdo -> query($booked_dateQuery);
-		$booked_dateArray = $statement->fetchAll();
-		
-		if(empty($booked_dateArray)){
-			?>
-				<div class="col-md-4 ftco-animate">
-					<div class="project-wrap">
-						<a href="gite_1.php?id=<?=$cottage['idcottage']?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1']?>);">
-							<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit"?></span>
-						</a>
-						<div class="text p-4">
-							<span class="days"><?= $cottage['cottage_name']?></span>
-							<h3><a href="gite_1.php?id=<?=$cottage['idcottage']?>"><?= $cottage['cottage_city']?></a></h3>
-							<p class="location"><span class="fa fa-map-marker"></span> <?= $cottage['cottage_region']. " " . $cottage['cottage_country']?></p>
-							<ul>
-								<li><span class="flaticon-shower"></span><?=$cottage['cottage_nb_bathroom']?></li>
-								<li><span class="flaticon-king-size"></span><?=$cottage['cottage_nb_bed']?></li>
-								<!-- <li><span class="flaticon-route"></span>Near Mountain</li> -->
-							</ul>
-						</div>
-					</div>
-				</div>
-			<?php
-		}
-	}
-} else {
-    //Requête de sélection des gîtes
-    $cottageQuery = "SELECT * FROM cottage LIMIT $size OFFSET $offset";
-    $statement = $pdo -> query($cottageQuery);
-    $cottages = $statement -> fetchAll();
-}
-
+// date actuelle echo date("Y-m-d"); 
 ?>
 
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
 	<title>Donkey Gîtes</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-	
+
 	<link href="https://fonts.googleapis.com/css?family=Poppins:300,400,500,600,700,800,900" rel="stylesheet">
 	<link href="https://fonts.googleapis.com/css2?family=Arizonia&display=swap" rel="stylesheet">
 
 	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 
 	<link rel="stylesheet" href="css/animate.css">
-	
+
 	<link rel="stylesheet" href="css/owl.carousel.min.css">
 	<link rel="stylesheet" href="css/owl.theme.default.min.css">
 	<link rel="stylesheet" href="css/magnific-popup.css">
@@ -104,12 +61,13 @@ if (isset($_POST['search'])){
 	<link rel="stylesheet" href="css/bootstrap-datepicker.css">
 	<link rel="stylesheet" href="css/jquery.timepicker.css">
 
-	
+
 	<link rel="stylesheet" href="css/flaticon.css">
 	<link rel="stylesheet" href="css/style.css">
 
-	<link rel="stylesheet" href="index.css">
+	<link rel="stylesheet" href="reservation.css">
 </head>
+
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 		<div class="container">
@@ -126,44 +84,37 @@ if (isset($_POST['search'])){
 					<li class="nav-item"><a href="hotel.html" class="nav-link">Gîtes</a></li>
 					<!-- <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li> -->
 					<li class="nav-item"><a href="contact.html" class="nav-link">Contactez-nous</a></li>
-					
-					<!-- Ajout de la ligne "Bonjour" si $_SESSION non vide sinon "login" -->
-					<?php
-					if (!empty($_SESSION['login'])){
-					?>
-						<li class="nav-item nav-link"><a href="profile.php" class="nav-link">
-							<?= "Bonjour " . $_SESSION['login'];?>
-						</a></li>
-					<?php
-					} else {
-					?>
-						<li class="nav-item nav-link"><a href="login.php" class="nav-link">login</a></li>
-					<?php
-					}
-					?>
 				</ul>
 			</div>
 		</div>
 	</nav>
 	<!-- END nav -->
-	
-	<div class="hero-wrap js-fullheight" style="background-image: url('images/bg_6.webp');">
-		<div class="overlay"></div>
-		<div class="container">
-			<div class="row no-gutters slider-text js-fullheight align-items-center" data-scrollax-parent="true">
-				<div class="col-md-7 ftco-animate">
-					<span class="subheading">Bienvenue chez Donkey Stay</span>
-					<h1 class="mb-4">Découvrez notre sélection des plus beaux gîtes</h1>
-					<p class="caps">...</p>
-				</div>
-<!-- 				<a href="https://vimeo.com/273677495" class="icon-video popup-vimeo d-flex align-items-center justify-content-center mb-4">
+
+	<?php
+	$cottage_info = 'SELECT * FROM cottage WHERE idcottage = 3';
+	foreach ($pdo->query($cottage_info) as $cottage) {
+	?>
+		<div class="hero-wrap js-fullheight" style="background-image: url('<?= $cottage['cottage_photo1']; ?>');">
+			<div class="overlay"></div>
+			<div class="container">
+				<div class="row no-gutters slider-text js-fullheight align-items-center" data-scrollax-parent="true">
+					<div class="col-md-7 ftco-animate">
+						<span class="subheading"></span>
+						<h1 class="mb-4"><?= $cottage['cottage_name']; ?></h1>
+						<p class="location"><span class="fa fa-map-marker"></span> <?= $cottage['cottage_city']; ?>, <?= $cottage['cottage_region']; ?>, <?= $cottage['cottage_country']; ?></p>
+					</div>
+					<!-- 				<a href="https://vimeo.com/273677495" class="icon-video popup-vimeo d-flex align-items-center justify-content-center mb-4">
 					<span class="fa fa-play"></span>
 				</a> -->
+				</div>
 			</div>
 		</div>
-	</div>
+	<?php
+	}
+	?>
 
-	<section class="ftco-section ftco-no-pb ftco-no-pt">
+
+	<!-- 	<section class="ftco-section ftco-no-pb ftco-no-pt">
 		<div class="container">
 			<div class="row">
 				<div class="col-md-12">
@@ -173,21 +124,23 @@ if (isset($_POST['search'])){
 								<div class="nav nav-pills text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
 									<a class="nav-link active mr-md-1" id="v-pills-1-tab" data-toggle="pill" href="#v-pills-1" role="tab" aria-controls="v-pills-1" aria-selected="true">Gîtes</a>
 
-									<!--<a class="nav-link" id="v-pills-2-tab" data-toggle="pill" href="#v-pills-2" role="tab" aria-controls="v-pills-2" aria-selected="false">Hotel</a>-->
+									<a class="nav-link" id="v-pills-2-tab" data-toggle="pill" href="#v-pills-2" role="tab" aria-controls="v-pills-2" aria-selected="false">Hotel</a>
 
 								</div>
 							</div>
 							<div class="col-md-12 tab-wrap">
+								
 								<div class="tab-content" id="v-pills-tabContent">
+
 									<div class="tab-pane fade show active" id="v-pills-1" role="tabpanel" aria-labelledby="v-pills-nextgen-tab">
-										<form action="#" method="POST" class="search-property-1">
+										<form action="#" class="search-property-1">
 											<div class="row no-gutters">
 												<div class="col-md d-flex">
 													<div class="form-group p-4 border-0">
 														<label for="#">Destination</label>
 														<div class="form-field">
 															<div class="icon"><span class="fa fa-search"></span></div>
-															<input type="text" class="form-control" placeholder="Lieu" name="keyword" required>
+															<input type="text" class="form-control" placeholder="Lieu">
 														</div>
 													</div>
 												</div>
@@ -196,7 +149,7 @@ if (isset($_POST['search'])){
 														<label for="#">Arrivée</label>
 														<div class="form-field">
 															<div class="icon"><span class="fa fa-calendar"></span></div>
-															<input type="text" class="form-control checkin_date" name = "start_date" placeholder="Date d'arrivée" required>
+															<input type="text" class="form-control checkin_date" placeholder="Date d'arrivée">
 														</div>
 													</div>
 												</div>
@@ -205,11 +158,11 @@ if (isset($_POST['search'])){
 														<label for="#">Départ</label>
 														<div class="form-field">
 															<div class="icon"><span class="fa fa-calendar"></span></div>
-															<input type="text" class="form-control checkout_date" name = "end_date" placeholder="Date de départ" required>
+															<input type="text" class="form-control checkout_date" placeholder="Date de départ">
 														</div>
 													</div>
 												</div>
-<!-- 												<div class="col-md d-flex">
+												<div class="col-md d-flex">
 													<div class="form-group p-4">
 														<label for="#">Budget</label>
 														<div class="form-field">
@@ -223,19 +176,18 @@ if (isset($_POST['search'])){
 															</div>
 														</div>
 													</div>
-												</div> -->
+												</div>
 												<div class="col-md d-flex">
 													<div class="form-group d-flex w-100 border-0">
 														<div class="form-field w-100 align-items-center d-flex">
-															<input type="submit" value="Search" name="search" class="align-self-stretch form-control btn btn-primary">
+															<input type="submit" value="Search" class="align-self-stretch form-control btn btn-primary">
 														</div>
 													</div>
 												</div>
 											</div>
 										</form>
 									</div>
-
-<!-- 									<div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-performance-tab">
+									<div class="tab-pane fade" id="v-pills-2" role="tabpanel" aria-labelledby="v-pills-performance-tab">
 										<form action="#" class="search-property-1">
 											<div class="row no-gutters">
 												<div class="col-lg d-flex">
@@ -300,19 +252,19 @@ if (isset($_POST['search'])){
 												</div>
 											</div>
 										</form>
-									</div> -->
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</div>
-		</section>
+		</section> -->
 
-		<section class="ftco-section services-section">
+	<!-- 		<section class="ftco-section services-section">
 			<div class="container">
 				<div class="row d-flex">
-					<di$pagev class="col-md-6 order-md-last heading-section pl-md-5 ftco-animate d-flex align-items-center">
+					<div class="col-md-6 order-md-last heading-section pl-md-5 ftco-animate d-flex align-items-center">
 						<div class="w-100">
 							<span class="subheading">Welcome to Pacific</span>
 							<h2 class="mb-4">It's time to start your adventure</h2>
@@ -324,7 +276,7 @@ if (isset($_POST['search'])){
 					</div>
 					<div class="col-md-6">
 						<div class="row">
-<!-- 							<div class="col-md-12 col-lg-6 d-flex align-self-stretch ftco-animate">
+							<div class="col-md-12 col-lg-6 d-flex align-self-stretch ftco-animate">
 								<div class="services services-1 color-1 d-block img" style="background-image: url(images/services-1.jpg);">
 									<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-paragliding"></span></div>
 									<div class="media-body">
@@ -333,7 +285,7 @@ if (isset($_POST['search'])){
 									</div>
 								</div>      
 							</div> -->
-<!-- 							<div class="col-md-12 col-lg-6 d-flex align-self-stretch ftco-animate">
+	<!-- 							<div class="col-md-12 col-lg-6 d-flex align-self-stretch ftco-animate">
 								<div class="services services-1 color-2 d-block img" style="background-image: url(images/services-2.jpg);">
 									<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-route"></span></div>
 									<div class="media-body">
@@ -342,7 +294,7 @@ if (isset($_POST['search'])){
 									</div>
 								</div>    
 							</div> -->
-<!-- 							<div class="col-md-12 col-lg-6 d-flex align-self-stretch ftco-animate">
+	<!-- 							<div class="col-md-12 col-lg-6 d-flex align-self-stretch ftco-animate">
 								<div class="services services-1 color-3 d-block img" style="background-image: url(images/services-3.jpg);">
 									<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-tour-guide"></span></div>
 									<div class="media-body">
@@ -350,7 +302,7 @@ if (isset($_POST['search'])){
 										<p>A small river named Duden flows by their place and supplies it with the necessary</p>
 									</div>
 								</div>      
-							</div> -->
+							</div>
 							<div class="col-md-12 col-lg-6 d-flex align-self-stretch ftco-animate">
 								<div class="services services-1 color-4 d-block img" style="background-image: url(images/parcours1.jpg);">
 									<div class="icon d-flex align-items-center justify-content-center"><span class="flaticon-map"></span></div>
@@ -364,9 +316,9 @@ if (isset($_POST['search'])){
 					</div>
 				</div>
 			</div>
-		</section>
+		</section> -->
 
-<!-- 		<section class="ftco-section img ftco-select-destination" style="background-image: url(images/bg_3.jpg);">
+	<!-- 		<section class="ftco-section img ftco-select-destination" style="background-image: url(images/bg_3.jpg);">
 			<div class="container">
 				<div class="row justify-content-center pb-4">
 					<div class="col-md-12 heading-section text-center ftco-animate">
@@ -397,7 +349,7 @@ if (isset($_POST['search'])){
 											<span>2 Tours</span>
 										</div>
 									</a>
-								</div>
+								</div>PARAM_STR
 							</div>
 							<div class="item">
 								<div class="project-destination">
@@ -423,7 +375,7 @@ if (isset($_POST['search'])){
 								<div class="project-destination">
 									<a href="#" class="img" style="background-image: url(images/place-5.jpg);">
 										<div class="text">
-											<h3>Greece</h3>
+									PARAM_STR		<h3>Greece</h3>
 											<span>7 Tours</span>
 										</div>
 									</a>
@@ -434,62 +386,88 @@ if (isset($_POST['search'])){
 				</div>
 			</div>
 		</section> -->
-
-
-		<section class="ftco-section container">
-			<div class="container">
-				<div class="row justify-content-center pb-4">
-					<div class="col-md-12 heading-section text-center ftco-animate">
-						<span class="subheading">Destination</span>
-						<h2 class="mb-4">Nos Gîtes</h2>
-					</div>
-				</div>
-			</div>
-
+	<section class="ftco-section">
+		<div class="container">
 			<div class="row">
-			<?php
-			foreach($cottages as $cottage){
-			?>
 				<div class="col-md-4 ftco-animate">
 					<div class="project-wrap">
-						<a href="Test_Richard.php?id=<?=$cottage['idcottage']?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1']?>);">
-							<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit"?></span>
+						<a href="#" class="img" style="background-image: url('<?= $cottage['cottage_photo1']; ?>');">
+							<span class="price"><?= $cottage['cottage_price_per_night']; ?>€ / nuit</span>
 						</a>
 						<div class="text p-4">
-							<span class="days"><?= $cottage['cottage_name']?></span>
-							<h3><a href="gite_1.php?id=<?=$cottage['idcottage']?>"><?= $cottage['cottage_city']?></a></h3>
-							<p class="location"><span class="fa fa-map-marker"></span> <?= $cottage['cottage_region']. " " . $cottage['cottage_country']?></p>
+							<span class="days"><?= $cottage['cottage_name']; ?></span>
+							<h3><a href="#"><?= $cottage['cottage_city']; ?></a></h3>
+							<p class="location"><span class="fa fa-map-marker"></span> <?= $cottage['cottage_region']; ?>, <?= $cottage['cottage_country']; ?></p>
 							<ul>
-								<li><span class="flaticon-shower"></span><?=$cottage['cottage_nb_bathroom']?></li>
-								<li><span class="flaticon-king-size"></span><?=$cottage['cottage_nb_bed']?></li>
-								<!-- <li><span class="flaticon-route"></span>Near Mountain</li> -->
+								<li><span class="flaticon-shower"></span>2</li>
+								<li><span class="flaticon-king-size"></span>3</li>
 							</ul>
 						</div>
 					</div>
+					<div class="ftco-grid">
+						<div class="four">
+							<form action="gite_1.php">
+								<input type="submit" value="Reserver" />
+							</form>
+						</div>
+						<div class="three">
+							<p></p>Grange rénovée qui allie le charme de l'ancien et le confort d'un intérieur moderne et design au cœur des Hautes-Pyrénées. Le village de Loudervielle est perché à 1 100m d'altitude, à mi-chemin entre Loudenvielle et la station de ski de Peyragudes. C'est le lieu idéal pour les amoureux de la nature (rando, chiens de traineaux...), de sport (station de ski de Peyragudes à 4 km, spot de parapente) ou de détente (Balnéa).</p>
+						</div>
+						<div class="five"><img src=<?= $cottage['cottage_photo2']; ?>></div>
+						<div class="six"><img src=<?= $cottage['cottage_photo3']; ?>></div>
+						<div class="seven"><img src=<?= $cottage['cottage_photo4']; ?>></div>
+					</div>
 				</div>
-			<?php
-			}
-			if (!isset($_POST['search'])) {
-				?><div class = "pagination">
-				<?php
-				for ($i=1; $i<=$nbPage; $i++) {
-					if ($i == $page) {
-						?>
-							<?= "$i/"; ?>
-						<?php
-					} else {
-						?>
-							<?= "<a href = \"index.php?page=$i\">$i/</a>"; ?>
-						<?php
-					}
-				}
-						?>
-				</div>
-				<?php
-			}
-				?>
-		</section>
-		<section class="ftco-section ftco-about img"style="background-image: url(images/parcours2.jpg);">
+			</div>
+	</section>
+
+	<section class="formulaire">
+		<h2>Réservation :</h2>
+		<?php if (isset($_POST['add_reservation'])) : ?>
+			<div class="alert alert-success">
+				Votre réservation est confirmé
+			</div>
+		<?php endif ?>
+		<form action="/test_gite_1.php" method="post" value="new_reservation" name="action" class="form">
+			<div>
+				<label for="start_date" class="label">date de début :</label>
+				<input type="date" id="start_date" name="start_date" class="label_input" />
+			</div>
+			<div>
+				<label for="end_date" class="label">date de fin :</label>
+				<input type="date" id="end_date" name="end_date" class="label_input" />
+			</div>
+			<div>
+				<label for="optional" class="label">option :</label>
+				<SELECT size="1" name="optional" class="label_input">
+					<OPTION value="choisissez une option">choisissez une option</OPTION>
+					<?php
+					$statement = $pdo->query('SELECT * FROM optional');
+					$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+					foreach ($result as $row) { ?>
+						<OPTION value="<?php echo $row['idoptional']; ?> " selected>
+							<?php
+							echo $row['optional_name'];
+							?>
+						</OPTION>
+
+				</SELECT>
+			</div>
+			<div>
+				<label for="nbr_adults" class="label">nombre d'adultes (<?php echo $row['optional_price_per_adult'] . "€ /pers" ?>) :</label>
+				<input type="int" id="nbr_adults" name="nbr_adults" value=0 class="label_input" />
+			</div>
+			<div>
+				<label for="nbr_children" class="label">nombre d'enfants (<?php echo $row['optional_price_per_child'] . "€ /pers" ?>) :</label>
+				<input type="int" id="nbr_children" name="nbr_children" value=0 class="label_input" />
+			</div>
+		<?php  } ?>
+		<div>
+			<input type="submit" name="add_reservation" value="Réserver" class="button" />
+		</div>
+		</form>
+	</section>
+	<!-- 		<section class="ftco-section ftco-about img"style="background-image: url(images/parcours2.jpg);">
 			<div class="overlay"></div>
 			<div class="container py-md-5">
 				<div class="row py-md-5">
@@ -500,9 +478,9 @@ if (isset($_POST['search'])){
 					</div>
 				</div>
 			</div>
-		</section>
+		</section> -->
 
-		<section class="ftco-section ftco-about ftco-no-pt img">
+	<!-- 		<section class="ftco-section ftco-about ftco-no-pt img">
 			<div class="container">
 				<div class="row d-flex">
 					<div class="col-md-12 about-intro">
@@ -525,9 +503,9 @@ if (isset($_POST['search'])){
 					</div>
 				</div>
 			</div>
-		</section>
+		</section> -->
 
-		<section class="ftco-section testimony-section bg-bottom" style="background-image: url(images/bg_1.jpg);">
+	<!-- 		<section class="ftco-section testimony-section bg-bottom" style="background-image: url(images/bg_1.jpg);">
 			<div class="overlay"></div>
 			<div class="container">
 				<div class="row justify-content-center pb-4">
@@ -610,7 +588,7 @@ if (isset($_POST['search'])){
 											<span class="fa fa-star"></span>
 											<span class="fa fa-star"></span>
 											<span class="fa fa-star"></span>
-											var_dump($cottages);						<span class="fa fa-star"></span>
+											<span class="fa fa-star"></span>
 										</p>
 										<p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
 										<div class="d-flex align-items-center">
@@ -648,10 +626,10 @@ if (isset($_POST['search'])){
 					</div>
 				</div>
 			</div>
-		</section>
+		</section> -->
 
 
-<!-- 		<section class="ftco-section">
+	<!-- 		<section class="ftco-section">
 			<div class="container">
 				<div class="row justify-content-center pb-4">
 					<div class="col-md-12 heading-section text-center ftco-animate">
@@ -675,8 +653,8 @@ if (isset($_POST['search'])){
 									</div>
 								</div>
 								<h3 class="heading"><a href="#">Most Popular Place In This World</a></h3>-->
-								<!-- <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p> -->
-<!-- 								<p><a href="#" class="btn btn-primary">Read more</a></p>
+	<!-- <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p> -->
+	<!-- 								<p><a href="#" class="btn btn-primary">Read more</a></p>
 							</div>
 						</div>
 					</div>
@@ -694,8 +672,9 @@ if (isset($_POST['search'])){
 										<span class="mos">September</span>
 									</div>
 								</div>
-					var_dump($cottages);			<!-- <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p> -->
-<!-- 								<p><a href="#" class="btn btn-primary">Read more</a></p>
+								<h3 class="heading"><a href="#">Most Popular Place In This World</a></h3> -->
+	<!-- <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p> -->
+	<!-- 								<p><a href="#" class="btn btn-primary">Read more</a></p>
 							</div>
 						</div>
 					</div>
@@ -714,8 +693,8 @@ if (isset($_POST['search'])){
 									</div>
 								</div>
 								<h3 class="heading"><a href="#">Most Popular Place In This World</a></h3> -->
-								<!-- <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p> -->
-<!-- 								<p><a href="#" class="btn btn-primary">Read more</a></p>
+	<!-- <p>A small river named Duden flows by their place and supplies it with the necessary regelialia.</p> -->
+	<!-- 								<p><a href="#" class="btn btn-primary">Read more</a></p>
 							</div>
 						</div>
 					</div>
@@ -723,7 +702,7 @@ if (isset($_POST['search'])){
 			</div>
 		</section> -->
 
-<!-- 		<section class="ftco-intro ftco-section ftco-no-pt">
+	<!-- 		<section class="ftco-intro ftco-section ftco-no-pt">
 			<div class="container">
 				<div class="row justify-content-center">
 					<div class="col-md-12 text-center">
@@ -738,91 +717,93 @@ if (isset($_POST['search'])){
 			</div>
 		</section> -->
 
-		<footer class="ftco-footer bg-bottom ftco-no-pt" style="background-image: url(images/bg_3.jpg);">
-			<div class="container">
-				<div class="row mb-5">
-					<div class="col-md pt-5">
-						<div class="ftco-footer-widget pt-md-5 mb-4">
-							<h2 class="ftco-heading-2">About</h2>
-							<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
-							<ul class="ftco-footer-social list-unstyled float-md-left float-lft">
-								<li class="ftco-animate"><a href="#"><span class="fa fa-twitter"></span></a></li>
-								<li class="ftco-animate"><a href="#"><span class="fa fa-facebook"></span></a></li>
-								<li class="ftco-animate"><a href="#"><span class="fa fa-instagram"></span></a></li>
-							</ul>
-						</div>
+	<script>
+		let arrayDatesBooked = new Array(
+			<?php
+			$bdd = new \PDO(DSN, USER, PASS);
+			$dateBooking = $bdd->query('SELECT start_date, end_date FROM booking');
+
+			$arrayBooking = array();
+			while ($donnees = $dateBooking->fetch()) {
+				$entree  = "'" . $donnees['start_date'] . ' , ' . $donnees['end_date'] . "'";
+				$arrayBooking[] = $entree;
+			}
+			echo implode(',', $arrayBooking);
+			$dateBooking->closeCursor();
+			?>
+		);
+		console.log(arrayDatesBooked);
+	</script>
+
+	<footer class="ftco-footer bg-bottom ftco-no-pt" style="background-image: url(images/bg_3.jpg);">
+		<div class="container">
+			<div class="row mb-5">
+				<div class="col-md pt-5">
+					<div class="ftco-footer-widget pt-md-5 mb-4">
+						<h2 class="ftco-heading-2">About</h2>
+						<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+						<ul class="ftco-footer-social list-unstyled float-md-left float-lft">
+							<li class="ftco-animate"><a href="#"><span class="fa fa-twitter"></span></a></li>
+							<li class="ftco-animate"><a href="#"><span class="fa fa-facebook"></span></a></li>
+							<li class="ftco-animate"><a href="#"><span class="fa fa-instagram"></span></a></li>
+						</ul>
 					</div>
-					<div class="col-md pt-5 border-left">
-						<div class="ftco-footer-widget pt-md-5 mb-4 ml-md-5">
-							<h2 class="ftco-heading-2">Information</h2>
-							<ul class="list-unstyled">
-								<li><a href="#" class="py-2 d-block">Online Enquiry</a></li>
-								<li><a href="#" class="py-2 d-block">General Enquiries</a></li>
-								<li><a href="#" class="py-2 d-block">Booking Conditions</a></li>
-								<li><a href="#" class="py-2 d-block">Privacy and Policy</a></li>
-								<li><a href="#" class="py-2 d-block">Refund Policy</a></li>
-								<li><a href="#" class="py-2 d-block">Call Us</a></li>
-							</ul>
-						</div>
+				</div>
+				<div class="col-md pt-5 border-left">
+					<div class="ftco-footer-widget pt-md-5 mb-4 ml-md-5">
+						<h2 class="ftco-heading-2">Information</h2>
+						<ul class="list-unstyled">
+							<li><a href="#" class="py-2 d-block">Online Enquiry</a></li>
+							<li><a href="#" class="py-2 d-block">General Enquiries</a></li>
+							<li><a href="#" class="py-2 d-block">Booking Conditions</a></li>
+							<li><a href="#" class="py-2 d-block">Privacy and Policy</a></li>
+							<li><a href="#" class="py-2 d-block">Refund Policy</a></li>
+							<li><a href="#" class="py-2 d-block">Call Us</a></li>
+						</ul>
 					</div>
-<!-- 					<div class="col-md pt-5 border-left">
-						<div class="ftco-footer-widget pt-md-5 mb-4">
-							<h2 class="ftco-heading-2">Experience</h2>
-							<ul class="list-unstyled">
-								<li><a href="#" class="py-2 d-block">Adventure</a></li>
-								<li><a href="#" class="py-2 d-block">Hotel and Restaurant</a></li>
-								<li><a href="#" class="py-2 d-block">Beach</a></li>
-								<li><a href="#" class="py-2 d-block">Nature</a></li>
-								<li><a href="#" class="py-2 d-block">Camping</a></li>
-								<li><a href="#" class="py-2 d-block">Party</a></li>
+				</div>
+				<div class="col-md pt-5 border-left">
+					<div class="ftco-footer-widget pt-md-5 mb-4">
+						<h2 class="ftco-heading-2">Have a Questions?</h2>
+						<div class="block-23 mb-3">
+							<ul>
+								<li><span class="icon fa fa-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
+								<li><a href="#"><span class="icon fa fa-phone"></span><span class="text">+2 392 3929 210</span></a></li>
+								<li><a href="#"><span class="icon fa fa-paper-plane"></span><span class="text">info@yourdomain.com</span></a></li>
 							</ul>
-						</div>
-					</div> -->
-					<div class="col-md pt-5 border-left">
-						<div class="ftco-footer-widget pt-md-5 mb-4">
-							<h2 class="ftco-heading-2">Have a Questions?</h2>
-							<div class="block-23 mb-3">
-								<ul>
-									<li><span class="icon fa fa-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-									<li><a href="#"><span class="icon fa fa-phone"></span><span class="text">+2 392 3929 210</span></a></li>
-									<li><a href="#"><span class="icon fa fa-paper-plane"></span><span class="text">info@yourdomain.com</span></a></li>
-								</ul>
-							</div>
 						</div>
 					</div>
 				</div>
-<!-- 				<div class="row">
-					<div class="col-md-12 text-center">
-
-						<p> Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0.
-							Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
-							Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0.</p>
-						</div>
-					</div>
-				</div> -->
-			</footer>
-			
-			
-
-			<!-- loader -->
-			<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px"><circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee"/><circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00"/></svg></div>
+			</div>
+	</footer>
 
 
-			<script src="js/jquery.min.js"></script>
-			<script src="js/jquery-migrate-3.0.1.min.js"></script>
-			<script src="js/popper.min.js"></script>
-			<script src="js/bootstrap.min.js"></script>
-			<script src="js/jquery.easing.1.3.js"></script>
-			<script src="js/jquery.waypoints.min.js"></script>
-			<script src="js/jquery.stellar.min.js"></script>
-			<script src="js/owl.carousel.min.js"></script>
-			<script src="js/jquery.magnific-popup.min.js"></script>
-			<script src="js/jquery.animateNumber.min.js"></script>
-			<script src="js/bootstrap-datepicker.js"></script>
-			<script src="js/scrollax.min.js"></script>
-			<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
-			<script src="js/google-map.js"></script>
-			<script src="js/main.js"></script>
-			
-		</body>
-		</html>
+
+	<!-- loader -->
+	<div id="ftco-loader" class="show fullscreen"><svg class="circular" width="48px" height="48px">
+			<circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+			<circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" />
+		</svg></div>
+
+
+	<script src="js/jquery.min.js"></script>
+	<script src="js/jquery-migrate-3.0.1.min.js"></script>
+	<script src="js/popper.min.js"></script>
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/jquery.easing.1.3.js"></script>
+	<script src="js/jquery.waypoints.min.js"></script>
+	<script src="js/jquery.stellar.min.js"></script>
+	<script src="js/owl.carousel.min.js"></script>
+	<script src="js/jquery.magnific-popup.min.js"></script>
+	<script src="js/jquery.animateNumber.min.js"></script>
+	<script src="js/bootstrap-datepicker.js"></script>
+	<script src="js/scrollax.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+	<script src="js/google-map.js"></script>
+	<script src="js/main.js"></script>
+
+
+
+</body>
+
+</html>
