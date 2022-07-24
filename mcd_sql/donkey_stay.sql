@@ -93,3 +93,18 @@ VALUES ('MAISON MÉDIÉVALE', 'Catalogne', 'El Canós', 'Espagne', 3, 2, 120, 'i
 ('GRANGE RÉHABILITÉE', 'Hauts-de-France', 'Montépilloy', 'France', 4, 2, 120, 'images/gite6_1.webp', "Venez vous détendre dans cette chaleureuse grange réhabilitée, avec cour pavée et jardin fleuri, dans un petit village culminant à 134m d'altitude, au cœur du Parc Naturel Régional Oise-Pays de France. Grange réhabilitée dans un petit village au calme comprenant 3 chambres avec lits doubles et 2 matelas individuels en plus."),
 ('DOMAINE LE GROS CHÊNE', 'Normandie', 'Le Landin', 'France', 5, 3, 220, 'images/gite7_1.webp', "Maison de vacances familiale disposant d'une piscine intérieure (chauffée de mi mai jusqu'au 15 septembre uniquement et sans exception, donc inutilisable en dehors), un court de tennis extérieur utilisable de mars à octobre, une salle de billards, un babyfoot, le tout au centre d'un paisible domaine de 15 hectares. Dans les boucles de la Seine, située à 140 km de Paris, 60 km d'Honfleur et Deauville, 40 km de Rouen.");
 
+/* Insertion images table cottage */
+UPDATE cottage
+SET cottage_photo2 = 'images/gite1_2.webp', cottage_photo3 = 'images/gite1_3.webp', cottage_photo4 = 'images/gite1_4.webp' WHERE idcottage = 1;
+UPDATE cottage
+SET cottage_photo2 = 'images/gite2_2.webp', cottage_photo3 = 'images/gite2_3.webp', cottage_photo4 = 'images/gite2_4.webp' WHERE idcottage = 2;
+UPDATE cottage
+SET cottage_photo2 = 'images/gite3_2.webp', cottage_photo3 = 'images/gite3_3.webp', cottage_photo4 = 'images/gite3_4.webp' WHERE idcottage = 3;
+UPDATE cottage
+SET cottage_photo2 = 'images/gite4_2.webp', cottage_photo3 = 'images/gite4_3.webp', cottage_photo4 = 'images/gite4_4.webp' WHERE idcottage = 4;
+UPDATE cottage
+SET cottage_photo2 = 'images/gite5_2.webp', cottage_photo3 = 'images/gite5_3.webp', cottage_photo4 = 'images/gite5_4.webp' WHERE idcottage = 5;
+UPDATE cottage
+SET cottage_photo2 = 'images/gite6_2.webp', cottage_photo3 = 'images/gite6_3.webp', cottage_photo4 = 'images/gite6_4.webp' WHERE idcottage = 6;
+UPDATE cottage
+SET cottage_photo2 = 'images/gite7_2.webp', cottage_photo3 = 'images/gite7_3.webp', cottage_photo4 = 'images/gite7_4.webp' WHERE idcottage = 7;

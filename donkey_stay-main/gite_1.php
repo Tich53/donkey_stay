@@ -71,7 +71,7 @@ if (isset($_POST['add_reservation'])) {
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 		<div class="container">
-			<a class="navbar-brand" href="index.html">Donkey Stay<span>Location de Gîtes d'exception</span></a>
+			<a class="navbar-brand" href="index.php">Donkey Stay<span>Location de Gîtes d'exception</span></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="oi oi-menu"></span> Menu
 			</button>
@@ -81,9 +81,9 @@ if (isset($_POST['add_reservation'])) {
 					<li class="nav-item active"><a href="index.php" class="nav-link">Accueil</a></li>
 					<!-- <li class="nav-item"><a href="about.html" class="nav-link">About</a></li> -->
 					<!-- <li class="nav-item"><a href="destination.html" class="nav-link">Destination</a></li> -->
-					<li class="nav-item"><a href="hotel.html" class="nav-link">Gîtes</a></li>
+<!-- 					<li class="nav-item"><a href="hotel.html" class="nav-link">Gîtes</a></li> -->
 					<!-- <li class="nav-item"><a href="blog.html" class="nav-link">Blog</a></li> -->
-					<li class="nav-item"><a href="contact.html" class="nav-link">Contactez-nous</a></li>
+<!-- 					<li class="nav-item"><a href="contact.html" class="nav-link">Contactez-nous</a></li> -->
 				</ul>
 			</div>
 		</div>

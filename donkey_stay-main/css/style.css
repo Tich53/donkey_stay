@@ -5478,6 +5478,7 @@ input[type="button"].btn-block {
   padding-left: 0;
   list-style: none;
   border-radius: 0.25rem;
+  margin-bottom: 3rem;
 }
 
 .page-link {
@@ -11195,7 +11196,7 @@ h5,
   letter-spacing: 0.1em;
 }
 .ftco-navbar-light.scrolled .nav-link {
- /*  padding-top: 1rem !important; */
+  /*  padding-top: 1rem !important; */
   padding-bottom: 1rem !important;
   color: #000000 !important;
 }
@@ -12025,12 +12026,12 @@ textarea.form-control {
   display: grid;
   grid-column-gap: 20px;
   grid-row-gap: 20px;
-  grid-template-areas: 
-  "four"
-  "three"
-  "five"
-  "six"
-  "seven";
+  grid-template-areas:
+    "four"
+    "three"
+    "five"
+    "six"
+    "seven";
 }
 
 .three {
@@ -12057,12 +12058,12 @@ textarea.form-control {
   .ftco-grid {
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
-    "four  four"
-    "three three"
-    "five  five"
-    "six   seven";
+      "four  four"
+      "three three"
+      "five  five"
+      "six   seven";
   }
-  .five img{
+  .five img {
     width: 715px;
   }
 }
@@ -12071,11 +12072,11 @@ textarea.form-control {
   .ftco-grid {
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-areas:
-    "four  four  four"
-    "three three three"
-    "five  six   seven";
+      "four  four  four"
+      "three three three"
+      "five  six   seven";
   }
-  .five img{
+  .five img {
     width: 350px;
   }
 }
