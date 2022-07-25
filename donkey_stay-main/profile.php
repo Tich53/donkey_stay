@@ -125,10 +125,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			<div class="row no-gutters slider-text js-fullheight align-items-center" data-scrollax-parent="true">
 				<div class="col-md-7 ftco-animate">
 					<!-- <span class="subheading">Bienvenue chez Donkey Stay</span> -->
-					<h1 class="mb-4">Profil</h1> 
-
-
-
+					<h2 class="mb-4">Profil</h2> 
 
                     <!-- Formulaire de modification -->
                     <form action="" method="POST">
@@ -166,13 +163,40 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         </div>
                     </form> 
 
-
+					<!-- historique de réservation -->
+					<h2 class="mb-4">Réservation passée(s) :</h2>
+					<div>
+						<?php 
+						require_once('../../identifiants/connect.php');
+						$pdo = new \PDO(DSN, USER, PASS);
+						$statement = $pdo->query('SELECT * 
+						FROM booking 
+						WHERE date(start_date)<date();');
+						$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+						echo "<table>";
+						//start_date, end_date, nb_adult, nb_child, total_price, user_iduser, cottage_idcottage, optional_idoptional
+						echo "<tr>Historique de vos réservation</tr>";
+						foreach($result as $row){
+						echo "<tr>";
+						echo "<td> date de début</td>";
+						echo "<td>" . $row['start_date'] . "</td>";
+						echo "<td> date de fin</td>";
+						echo "<td>" . $row['start_date'] . "</td>";
+						echo "</tr>";
+						}
+						echo "</table>";
+						?>
+					</div>
+				</div>
+			</div>
+		</div>
+						
 
 					
 
 
 
-<!-- 		<footer class="ftco-footer bg-bottom ftco-no-pt" style="background-image: url(images/bg_3.jpg);">
+ 		<footer class="ftco-footer bg-bottom ftco-no-pt" style="background-image: url(images/bg_3.jpg);">
 			<div class="container">
 				<div class="row mb-5">
 					<div class="col-md pt-5">
@@ -214,7 +238,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 					</div>
 				</div>
 
-			</footer> --> 
+			</footer>  
 			
 
 			<!-- loader -->
@@ -237,5 +261,5 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			<script src="js/google-map.js"></script>
 			<script src="js/main.js"></script>
 			
-		</body>
-		</html>
+</body>
+</html>
