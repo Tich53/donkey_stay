@@ -380,8 +380,7 @@ if (isset($_POST['search'])) {
 									</a>
 								</div>
 							</div>
-							<div class="item">
-								<div class="project-destination">
+							<div class="item">0
 									<a href="#" class="img" style="background-image: url(images/place-5.jpg);">
 										<div class="text">
 											<h3>Greece</h3>
@@ -426,9 +425,9 @@ if (isset($_POST['search'])) {
 						$idCottage = $cottage['idcottage'];
 
 						$booked_dateQuery = "SELECT * FROM booking 
-					WHERE (cottage_idcottage = '$idCottage')
-					AND (`start_date` BETWEEN '$start_date' AND '$end_date'
-					OR end_date BETWEEN '$start_date' AND '$end_date')";
+						WHERE (cottage_idcottage = '$idCottage')
+						AND (`start_date` BETWEEN '$start_date' AND '$end_date'
+						OR end_date BETWEEN '$start_date' AND '$end_date')";
 						$statement = $pdo->query($booked_dateQuery);
 						$booked_dateArray = $statement->fetchAll();
 
@@ -459,7 +458,7 @@ if (isset($_POST['search'])) {
 						?>
 						<div class="col-md-4 ftco-animate">
 							<div class="project-wrap">
-								<a href="Test_Richard.php?id=<?= $cottage['idcottage'] ?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1'] ?>);">
+								<a href="gite_1.php?id=<?= $cottage['idcottage'] ?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1'] ?>);">
 									<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit" ?></span>
 								</a>
 								<div class="text p-4">
@@ -477,6 +476,29 @@ if (isset($_POST['search'])) {
 				<?php
 					}
 				}
+			// Si pas d'utilisation du formulaire search, alors tous les gîtes apparaissent avec la pagination
+			} else {
+				foreach ($cottages as $cottage) {
+					?>
+					<div class="col-md-4 ftco-animate">
+						<div class="project-wrap">
+							<a href="gite_1.php?id=<?= $cottage['idcottage'] ?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1'] ?>);">
+								<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit" ?></span>
+							</a>
+							<div class="text p-4">
+								<span class="days"><?= $cottage['cottage_name'] ?></span>
+								<h3><a href="gite_1.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
+								<p class="location"><span class="fa fa-map-marker"></span> <?= $cottage['cottage_region'] . " " . $cottage['cottage_country'] ?></p>
+								<ul>
+									<li><span class="flaticon-shower"></span><?= $cottage['cottage_nb_bathroom'] ?></li>
+									<li><span class="flaticon-king-size"></span><?= $cottage['cottage_nb_bed'] ?></li>
+									<!-- <li><span class="flaticon-route"></span>Near Mountain</li> -->
+								</ul>
+							</div>
+						</div>
+					</div>
+			<?php
+  	  			}
 			}
 			if (!isset($_POST['search'])) {
 				?><div class="pagination">
