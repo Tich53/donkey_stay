@@ -5,8 +5,9 @@ require_once '../../identifiants/connect.php';
 $pdo = new \PDO(DSN, USER, PASS);
 
 //getting id from url
+$idCottage = $_GET['id'];
+$userid = $_SESSION['id'];
 $cottage_idcottage = $_GET['id'];
-$userid = 3;
 
 /******************** ADD NEW RESERVATION ******************/
 
@@ -16,13 +17,19 @@ if (isset($_POST['add_reservation'])) {
 
 	$start_date = trim($_POST['start_date']);
 	$end_date = trim($_POST['end_date']);
+	$nb_adult = $_POST['nb_adult'];
+	$nb_child = $_POST['nb_child'];
+	$total_price = 0;
 	$optional = trim($_POST['optional']);
 
-	$newBooking = "INSERT INTO booking (start_date, end_date, user_iduser, cottage_idcottage, optional_idoptional) 
-	VALUES (:start_date, :end_date, :userid,:cottage_idcottage,:optional);";
+	$newBooking = "INSERT INTO booking (start_date, end_date, nb_adult, nb_child, total_price, user_iduser, cottage_idcottage, optional_idoptional) 
+	VALUES (:start_date, :end_date, :nb_adult, :nb_child, :total_price, :userid, :cottage_idcottage, :optional);";
 	$statement = $pdo->prepare($newBooking);
 	$statement->bindValue(':start_date', $start_date, \PDO::PARAM_STR);
 	$statement->bindValue(':end_date', $end_date, \PDO::PARAM_STR);
+	$statement->bindValue(':nb_adult', $nb_adult, \PDO::PARAM_STR);
+	$statement->bindValue(':nb_child', $nb_child, \PDO::PARAM_STR);
+	$statement->bindValue(':total_price', $total_price, \PDO::PARAM_STR);
 	$statement->bindValue(':userid', $userid, \PDO::PARAM_STR);
 	$statement->bindValue(':cottage_idcottage', $cottage_idcottage, \PDO::PARAM_STR);
 	$statement->bindValue(':optional', $optional, \PDO::PARAM_STR);
@@ -59,9 +66,17 @@ if (isset($_POST['add_reservation'])) {
 	<link rel="stylesheet" href="css/owl.theme.default.min.css">
 	<link rel="stylesheet" href="css/magnific-popup.css">
 
-	<link rel="stylesheet" href="css/bootstrap-datepicker.css">
-	<link rel="stylesheet" href="css/jquery.timepicker.css">
 
+	<!-- Bootstrap 4 CSS -->
+	<link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    />
+    <!-- Bootstrap Datepicker CSS -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css"
+    />
 
 	<link rel="stylesheet" href="css/flaticon.css">
 	<link rel="stylesheet" href="css/style.css">
@@ -408,7 +423,7 @@ if (isset($_POST['add_reservation'])) {
 					</div>
 					<div class="ftco-grid">
 						<div class="four">
-							<form action="gite_1.php">
+							<form action="gite_1.php?id=<?= $cottage['idcottage'] ?>">
 								<input type="submit" value="Reserver" />
 							</form>
 						</div>
@@ -431,7 +446,7 @@ if (isset($_POST['add_reservation'])) {
 		</div>
 
 		<?php endif ?>
-		<form action="/gite_1.php" method="post" value="new_reservation" name="action" class="form">
+		<form action="gite_1.php?id=<?= $cottage['idcottage'] ?>" method="post" value="new_reservation" name="action" class="form">
 			<div>
 				<label for="start_date" class="label">date de début :</label>
 				<input id="start_date" name="start_date" class="label_input" />
@@ -457,12 +472,12 @@ if (isset($_POST['add_reservation'])) {
 				</SELECT>
 			</div>
 			<div>
-				<label for="nbr_adults" class="label">nombre d'adultes (<?php echo $row['optional_price_per_adult'] . "€ /pers" ?>) :</label>
-				<input type="int" id="nbr_adults" name="nbr_adults" value=0 class="label_input" />
+				<label for="nb_adult" class="label">nombre d'adultes (<?php echo $row['optional_price_per_adult'] . "€ /pers" ?>) :</label>
+				<input type="int" id="nb_adult" name="nb_adult" value=0 class="label_input" />
 			</div>
 			<div>
-				<label for="nbr_children" class="label">nombre d'enfants (<?php echo $row['optional_price_per_child'] . "€ /pers" ?>) :</label>
-				<input type="int" id="nbr_children" name="nbr_children" value=0 class="label_input" />
+				<label for="nb_child" class="label">nombre d'enfants (<?php echo $row['optional_price_per_child'] . "€ /pers" ?>) :</label>
+				<input type="int" id="nb_child" name="nb_child" value=0 class="label_input" />
 			</div>
 		<?php  } ?>
 		<div>
@@ -786,126 +801,145 @@ if (isset($_POST['add_reservation'])) {
 	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
 	<script src="js/google-map.js"></script>
 	<script src="js/main.js"></script>
+						
+	<!-- jQuery library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <!-- Popper JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <!-- Bootstrap 4 JS -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <!-- Bootstrap Datepicker JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+    <script type="text/javascript">
 
-	<script>
-  tab = [
-    ["2022-07-24", "2022-07-29"],
-    ["2022-08-10", "2022-08-15"],
-  ];
-  datesForDisable = [];
+		//remplir le tableau des date de début et de fin des réservations
+        let tab = new Array(
+            <?php
+            $bdd = new \PDO(DSN, USER, PASS);
+            $dateBooking = $bdd->query('SELECT start_date, end_date FROM booking');
+            $arrayBooking = array();
+            while ($donnees = $dateBooking->fetch()) {
+                $entree  = "['" . $donnees['start_date'] . "' , '" . $donnees['end_date'] . "']";
+                $arrayBooking[] = $entree;
+            }
+            echo implode(',', $arrayBooking);
+            $dateBooking->closeCursor();
+            ?>
+        );
+        console.log(tab);
+    
+     // var tab = [["2022-07-24", "2022-07-29"],["2022-08-10", "2022-08-15"],];
+      let datesForDisable = [];
 
-  function convertDate(date) {
-    var yyyy = date.getFullYear().toString();
-    var mm = (date.getMonth() + 1).toString();
-    var dd = date.getDate().toString();
+      function convertDate(date) {
+        var yyyy = date.getFullYear().toString();
+        var mm = (date.getMonth() + 1).toString();
+        var dd = date.getDate().toString();
 
-    var mmChars = mm.split("");
-    var ddChars = dd.split("");
+        var mmChars = mm.split("");
+        var ddChars = dd.split("");
 
-    return (
-      yyyy +
-      "-" +
-      (mmChars[1] ? mm : "0" + mmChars[0]) +
-      "-" +
-      (ddChars[1] ? dd : "0" + ddChars[0])
-    );
-  }
+        return (
+          yyyy +
+          "-" +
+          (mmChars[1] ? mm : "0" + mmChars[0]) +
+          "-" +
+          (ddChars[1] ? dd : "0" + ddChars[0])
+        );
+      }
 
-  for (var i = 0; i < tab.length; i++) {
-    var start_date = new Date(tab[i][0]);
-    console.log(convertDate(start_date));
-    var end_date = new Date(tab[i][1]);
-    console.log(convertDate(end_date));
-    datesForDisable.push(convertDate(start_date));
-    while (start_date < end_date) {
-      start_date.setDate(start_date.getDate() + 1);
-      //start_date.toString()
-      datesForDisable.push(convertDate(start_date));
-      console.log(start_date);
-    }
-  }
-  for (var i = 0; i < datesForDisable.length; i++) {
-    console.log(datesForDisable[i]);
-  }
-  (function ($) {
-    $.fn.datepicker.dates["fr"] = {
-      days: [
-        "dimanche",
-        "lundi",
-        "mardi",
-        "mercredi",
-        "jeudi",
-        "vendredi",
-        "samedi",
-      ],
-      daysShort: ["dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."],
-      daysMin: ["d", "l", "ma", "me", "j", "v", "s"],
-      months: [
-        "janvier",
-        "février",
-        "mars",
-        "avril",
-        "mai",
-        "juin",
-        "juillet",
-        "août",
-        "septembre",
-        "octobre",
-        "novembre",
-        "décembre",
-      ],
-      monthsShort: [
-        "janv.",
-        "févr.",
-        "mars",
-        "avril",
-        "mai",
-        "juin",
-        "juil.",
-        "août",
-        "sept.",
-        "oct.",
-        "nov.",
-        "déc.",
-      ],
-      today: "Aujourd'hui",
-      monthsTitle: "Mois",
-      clear: "Effacer",
-      weekStart: 1,
-      format: "dd/mm/yyyy",
-    };
-  })(jQuery);
+      for (var i = 0; i < tab.length; i++) {
+        var start_date = new Date(tab[i][0]);
+        console.log(convertDate(start_date));
 
-  $(".datepicker").datepicker({
-    language: "fr",
-    autoclose: true,
-    todayHighlight: true,
-  });
+        var end_date = new Date(tab[i][1]);
+		var nb_days = 1;
+        console.log(convertDate(end_date));
+        end_date.setDate(end_date.getDate() - 1);
 
-  $("#start_date").datepicker({
-    format: "yyyy-mm-dd",
-    language: "fr",
-    autoclose: true,
-    weekStart: 1,
-    calendarWeeks: true,
-    todayHighlight: true,
-    startDate: new Date(),
-    //minDate: new Date(),
-    daysOfWeekDisabled: datesForDisable,
-  });
-  $("#end_date").datepicker({
-    format: "yyyy-mm-dd",
-    language: "fr",
-    autoclose: true,
-    weekStart: 1,
-    calendarWeeks: true,
-    todayHighlight: true,
-    startDate: new Date(),
-    //minDate: new Date(),
-    datesDisabled: datesForDisable,
-  });
-</script>
+        datesForDisable.push(convertDate(start_date));
+        while (start_date < end_date) {
+          start_date.setDate(start_date.getDate() + 1);
+          //start_date.toString()
+          datesForDisable.push(convertDate(start_date));
+          console.log(start_date);
+		  nb_days = nb_days + 1;
+        }
+		console.log(start_date);
+		console.log(nb_days);
+      }
 
+      for (var i = 0; i < datesForDisable.length; i++) {
+        console.log(datesForDisable[i]);
+      }
+
+      (function ($) {
+        $.fn.datepicker.dates["fr"] = {
+          days: [
+            "dimanche",
+            "lundi",
+            "mardi",
+            "mercredi",
+            "jeudi",
+            "vendredi",
+            "samedi",
+          ],
+          daysShort: ["dim.", "lun.", "mar.", "mer.", "jeu.", "ven.", "sam."],
+          daysMin: ["d", "l", "ma", "me", "j", "v", "s"],
+          months: [
+            "janvier",
+            "février",
+            "mars",
+            "avril",
+            "mai",
+            "juin",
+            "juillet",
+            "août",
+            "septembre",
+            "octobre",
+            "novembre",
+            "décembre",
+          ],
+          monthsShort: [
+            "janv.",
+            "févr.",
+            "mars",
+            "avril",
+            "mai",
+            "juin",
+            "juil.",
+            "août",
+            "sept.",
+            "oct.",
+            "nov.",
+            "déc.",
+          ],
+          today: "Aujourd'hui",
+          monthsTitle: "Mois",
+          clear: "Effacer",
+          weekStart: 1,
+          format: "dd/mm/yyyy",
+        };
+      })(jQuery);
+
+      $("#start_date").datepicker({
+        format: "yyyy-mm-dd",
+        language: "fr",
+        autoclose: true,
+        todayHighlight: true,
+        startDate: new Date(),
+        datesDisabled: datesForDisable,
+      });
+
+	  $("#end_date").datepicker({
+        format: "yyyy-mm-dd",
+        language: "fr",
+        autoclose: true,
+        todayHighlight: true,
+        startDate: new Date(),
+        datesDisabled: datesForDisable,
+      });
+    </script>
 </body>
 
 </html>

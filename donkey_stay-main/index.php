@@ -459,7 +459,7 @@ if (isset($_POST['search'])) {
 						?>
 						<div class="col-md-4 ftco-animate">
 							<div class="project-wrap">
-								<a href="Test_Richard.php?id=<?= $cottage['idcottage'] ?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1'] ?>);">
+								<a href="gite_1.php?id=<?= $cottage['idcottage'] ?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1'] ?>);">
 									<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit" ?></span>
 								</a>
 								<div class="text p-4">
