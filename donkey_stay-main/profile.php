@@ -139,7 +139,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                             <div class="label_input">
                                 <label for="user_password" class="label">Mot de passe</label>
-                                <input type="text" id="user_password" name="user_password" value=<?=$user_password ?> required>
+                                <input type="password" id="user_password" name="user_password" value=<?=$user_password ?> required>
                             </div>
                             <div class="label_input">
                                 <label for="user_firstname" class="label">Prénom</label>

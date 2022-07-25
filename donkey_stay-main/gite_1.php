@@ -446,7 +446,8 @@ if (isset($_POST['add_reservation'])) {
 		</div>
 
 		<?php endif ?>
-		<form action="gite_1.php?id=<?= $cottage['idcottage'] ?>" method="post" value="new_reservation" name="action" class="form">
+
+		<form action="" method="post" value="new_reservation" name="action" class="form">
 			<div>
 				<label for="start_date" class="label">date de début :</label>
 				<input id="start_date" name="start_date" class="label_input" />
