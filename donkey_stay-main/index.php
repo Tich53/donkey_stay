@@ -84,6 +84,7 @@ if (isset($_POST['search'])) {
 					<li class="nav-item active"><a href="index.php" class="nav-link">Accueil</a></li>
 					<!-- <li class="nav-item"><a href="contact.html" class="nav-link">Contactez-nous</a></li> -->
 					<!-- Ajout de la ligne "Bonjour" si $_SESSION non vide sinon "login" -->
+					<li class="nav-item nav-link"><a href="add_edit_cottage.php" class="nav-link">Créer / consulter ses gîtes</a></li>
 					<?php
 					if (!empty($_SESSION['login'])) {
 					?>
@@ -97,6 +98,7 @@ if (isset($_POST['search'])) {
 					<?php
 					}
 					?>
+					
 				</ul>
 			</div>
 		</div>
@@ -389,6 +391,8 @@ if (isset($_POST['search'])) {
 			<?php
 			}
 			?>
+		</div>
+		
 	</section>
 	<!-- 	<section class="ftco-section ftco-about img" style="background-image: url(images/parcours2.jpg);">
 		<div class="overlay"></div>

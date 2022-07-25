@@ -67,9 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		<div class="container">
 			<div class="row no-gutters slider-text js-fullheight align-items-center" data-scrollax-parent="true">
 				<div class="col-md-7 ftco-animate">
-					<!-- <span class="subheading">Bienvenue chez Donkey Stay</span> -->
 					<h1 class="mb-4">Connexion</h1>
-
 					<?php
 						if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 							// SI TABLEAU $AUTHENTHATION VIDE, ALORS USERNAME OU PASSWORD INCORRECT SINON CONNEXION RÉUSSIE
@@ -87,23 +85,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 							}
 						}
 					?>
-                    
-                    <!-- Formulaire de connection -->
-                    <form action="" method="POST">
-                        <div class = connection_form>
-                            <div class="label_input">
-                                <label for="username" class="label">Nom d'utilisateur</label>
-                                <input type="text" id="username" name="username" placeholder="Nom d'utilisateur" required autofocus>
-                            </div>
-                            <div class="label_input">
-                                <label for="user_password" class="label">Mot de passe</label>
-                                <input type="password" id="user_password" name="user_password" placeholder="Mot de passe" required>
-                            </div>
-                            <div>
-                                <button>Se connecter</button>
-                            </div>
-                        </div>
-                    </form> 
+					<!-- Formulaire de connection -->
+					<form action="" method="POST">
+						<div class = connection_form>
+							<div class="label_input">
+								<label for="username" class="label">Nom d'utilisateur</label>
+								<input type="text" id="username" name="username" placeholder="Nom d'utilisateur" required autofocus>
+							</div>
+							<div class="label_input">
+								<label for="user_password" class="label">Mot de passe</label>
+								<input type="password" id="user_password" name="user_password" placeholder="Mot de passe" required>
+							</div>
+							<div>
+								<button>Se connecter</button>
+							</div>
+						</div>
+					</form> 
+				</div>
+			</div>
+		</div>
+	</div>
+
 
 
 

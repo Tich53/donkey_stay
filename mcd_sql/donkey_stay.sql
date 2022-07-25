@@ -27,7 +27,9 @@ CREATE TABLE cottage (
     cottage_photo3 VARCHAR(255),
     cottage_photo4 VARCHAR(255),
     cottage_photo5 VARCHAR(255),
-    cottage_photo6 VARCHAR(255)
+    cottage_photo6 VARCHAR(255),
+    cottage_user_iduser INTEGER NOT NULL,
+    CONSTRAINT fk_cottage_user FOREIGN KEY (cottage_user_iduser) REFERENCES user (iduser)
 );
 
 CREATE TABLE optional (
@@ -164,7 +166,11 @@ INSERT INTO
         cottage_nb_bathroom,
         cottage_price_per_night,
         cottage_photo1,
-        cottage_description
+        cottage_photo2,
+        cottage_photo3,
+        cottage_photo4,
+        cottage_description,
+        cottage_user_iduser
     )
 VALUES
     (
@@ -176,7 +182,11 @@ VALUES
         2,
         120,
         'images/gite1_1.webp',
-        "Casa del Portal est une maison privée, située dans un petit village médiéval (El Canós), entouré de champs, dans la région de Segarra (Lleida). Entièrement restauré, il dispose de 3 chambres d'une capacité de 8 personnes, d'un salon avec cheminée, d'une salle à manger, d'une cuisine, d'une salle de bain avec baignoire et terrasse. Dans le village, il y a une piscine avec une aire de jeux, que les clients peuvent utiliser gratuitement."
+        'images/gite1_2.webp',
+        'images/gite1_3.webp',
+        'images/gite1_4.webp',
+        "Casa del Portal est une maison privée, située dans un petit village médiéval (El Canós), entouré de champs, dans la région de Segarra (Lleida). Entièrement restauré, il dispose de 3 chambres d'une capacité de 8 personnes, d'un salon avec cheminée, d'une salle à manger, d'une cuisine, d'une salle de bain avec baignoire et terrasse. Dans le village, il y a une piscine avec une aire de jeux, que les clients peuvent utiliser gratuitement.",
+        3
     ),
     (
         'MAS DU XVÈME SIÈCLE',
@@ -187,7 +197,11 @@ VALUES
         1,
         80,
         'images/gite2_1.webp',
-        "Notre ferme catalane du 15ème siècle avec gîte et studio indépendant au bord de la piscine est parfaite pour les familles ou les groupes d'amis à la recherche d'une escapade isolée dans ce coin pittoresque des Pyrénées Orientales. Situé dans un hectare de beaux jardins avec un ruisseau et une piscine à débordement, c'est le lieu idéal pour se détendre et profiter de la nature."
+        'images/gite2_2.webp',
+        'images/gite2_3.webp',
+        'images/gite2_4.webp',
+        "Notre ferme catalane du 15ème siècle avec gîte et studio indépendant au bord de la piscine est parfaite pour les familles ou les groupes d'amis à la recherche d'une escapade isolée dans ce coin pittoresque des Pyrénées Orientales. Situé dans un hectare de beaux jardins avec un ruisseau et une piscine à débordement, c'est le lieu idéal pour se détendre et profiter de la nature.",
+        2
     ),
     (
         'BELLE GRANGE RENOVEE',
@@ -198,7 +212,11 @@ VALUES
         3,
         140,
         'images/gite3_1.webp',
-        "Grange rénovée qui allie le charme de l'ancien et le confort d'un intérieur moderne et design au cœur des Hautes-Pyrénées. Le village de Loudervielle est perché à 1 100m d'altitude, à mi-chemin entre Loudenvielle et la station de ski de Peyragudes. C'est le lieu idéal pour les amoureux de la nature (rando, chiens de traineaux...), de sport (station de ski de Peyragudes à 4 km, spot de parapente) ou de détente (Balnéa)."
+        'images/gite3_2.webp',
+        'images/gite3_3.webp',
+        'images/gite3_4.webp',
+        "Grange rénovée qui allie le charme de l'ancien et le confort d'un intérieur moderne et design au cœur des Hautes-Pyrénées. Le village de Loudervielle est perché à 1 100m d'altitude, à mi-chemin entre Loudenvielle et la station de ski de Peyragudes. C'est le lieu idéal pour les amoureux de la nature (rando, chiens de traineaux...), de sport (station de ski de Peyragudes à 4 km, spot de parapente) ou de détente (Balnéa).",
+        1
     ),
     (
         'CHÂTEAU D`ESCLAVELLES',
@@ -209,7 +227,11 @@ VALUES
         2,
         120,
         'images/gite4_1.webp',
-        "Passez un séjour unique dans ce château du XVI siècle situé en plein cœur d'un élevage de chevaux de sport avec une vue époustouflante sur la boutonnière du pays de Bray. C'est au cœur du Pays de Brays, dans un domaine préservé de 3,5 hectares où se niche un authentique château du 16ème siècle aux multiples facettes enchanteresses."
+        'images/gite4_2.webp',
+        'images/gite4_3.webp',
+        'images/gite4_4.webp',
+        "Passez un séjour unique dans ce château du XVI siècle situé en plein cœur d'un élevage de chevaux de sport avec une vue époustouflante sur la boutonnière du pays de Bray. C'est au cœur du Pays de Brays, dans un domaine préservé de 3,5 hectares où se niche un authentique château du 16ème siècle aux multiples facettes enchanteresses.",
+        4
     ),
     (
         'DOMAINE DE NOINTEL',
@@ -220,7 +242,11 @@ VALUES
         1,
         120,
         'images/gite5_1.webp',
-        "Dans le domaine de Nointel, venez profiter de notre magnifique maison et de son cadre bucolique. Anciennes écuries du château récemment rénovées, la maison appelle à la contemplation et au repos. Nichée entre un château, son domaine, ses dépendances et une église, elle séduira les amoureux de vieilles pierres."
+        'images/gite5_2.webp',
+        'images/gite5_3.webp',
+        'images/gite5_4.webp',
+        "Dans le domaine de Nointel, venez profiter de notre magnifique maison et de son cadre bucolique. Anciennes écuries du château récemment rénovées, la maison appelle à la contemplation et au repos. Nichée entre un château, son domaine, ses dépendances et une église, elle séduira les amoureux de vieilles pierres.",
+        3
     ),
     (
         'GRANGE RÉHABILITÉE',
@@ -231,7 +257,11 @@ VALUES
         2,
         120,
         'images/gite6_1.webp',
-        "Venez vous détendre dans cette chaleureuse grange réhabilitée, avec cour pavée et jardin fleuri, dans un petit village culminant à 134m d'altitude, au cœur du Parc Naturel Régional Oise-Pays de France. Grange réhabilitée dans un petit village au calme comprenant 3 chambres avec lits doubles et 2 matelas individuels en plus."
+        'images/gite6_2.webp',
+        'images/gite6_3.webp',
+        'images/gite6_4.webp',
+        "Venez vous détendre dans cette chaleureuse grange réhabilitée, avec cour pavée et jardin fleuri, dans un petit village culminant à 134m d'altitude, au cœur du Parc Naturel Régional Oise-Pays de France. Grange réhabilitée dans un petit village au calme comprenant 3 chambres avec lits doubles et 2 matelas individuels en plus.",
+        2
     ),
     (
         'DOMAINE LE GROS CHÊNE',
@@ -242,69 +272,9 @@ VALUES
         3,
         220,
         'images/gite7_1.webp',
-        "Maison de vacances familiale disposant d'une piscine intérieure (chauffée de mi mai jusqu'au 15 septembre uniquement et sans exception, donc inutilisable en dehors), un court de tennis extérieur utilisable de mars à octobre, une salle de billards, un babyfoot, le tout au centre d'un paisible domaine de 15 hectares. Dans les boucles de la Seine, située à 140 km de Paris, 60 km d'Honfleur et Deauville, 40 km de Rouen."
+        'images/gite7_2.webp',
+        'images/gite7_3.webp',
+        'images/gite7_4.webp',
+        "Maison de vacances familiale disposant d'une piscine intérieure (chauffée de mi mai jusqu'au 15 septembre uniquement et sans exception, donc inutilisable en dehors), un court de tennis extérieur utilisable de mars à octobre, une salle de billards, un babyfoot, le tout au centre d'un paisible domaine de 15 hectares. Dans les boucles de la Seine, située à 140 km de Paris, 60 km d'Honfleur et Deauville, 40 km de Rouen.",
+        1
     );
-
-/* Insertion images table cottage */
-UPDATE
-    cottage
-SET
-    cottage_photo2 = 'images/gite1_2.webp',
-    cottage_photo3 = 'images/gite1_3.webp',
-    cottage_photo4 = 'images/gite1_4.webp'
-WHERE
-    idcottage = 1;
-
-UPDATE
-    cottage
-SET
-    cottage_photo2 = 'images/gite2_2.webp',
-    cottage_photo3 = 'images/gite2_3.webp',
-    cottage_photo4 = 'images/gite2_4.webp'
-WHERE
-    idcottage = 2;
-
-UPDATE
-    cottage
-SET
-    cottage_photo2 = 'images/gite3_2.webp',
-    cottage_photo3 = 'images/gite3_3.webp',
-    cottage_photo4 = 'images/gite3_4.webp'
-WHERE
-    idcottage = 3;
-
-UPDATE
-    cottage
-SET
-    cottage_photo2 = 'images/gite4_2.webp',
-    cottage_photo3 = 'images/gite4_3.webp',
-    cottage_photo4 = 'images/gite4_4.webp'
-WHERE
-    idcottage = 4;
-
-UPDATE
-    cottage
-SET
-    cottage_photo2 = 'images/gite5_2.webp',
-    cottage_photo3 = 'images/gite5_3.webp',
-    cottage_photo4 = 'images/gite5_4.webp'
-WHERE
-    idcottage = 5;
-
-UPDATE
-    cottage
-SET
-    cottage_photo2 = 'images/gite6_2.webp',
-    cottage_photo3 = 'images/gite6_3.webp',
-    cottage_photo4 = 'images/gite6_4.webp'
-WHERE
-    idcottage = 6;
-
-UPDATE
-    cottage
-SET
-    cottage_photo2 = 'images/gite7_2.webp',
-    cottage_photo3 = 'images/gite7_3.webp',
-    cottage_photo4 = 'images/gite7_4.webp'
-WHERE
-    idcottage = 7;

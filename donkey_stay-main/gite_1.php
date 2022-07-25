@@ -89,22 +89,25 @@ if (isset($_POST['add_reservation'])) {
 
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ml-auto">
+
 					<li class="nav-item nav-link"><a href="index.php" class="nav-link">Accueil</a></li>
-					<!-- <li class="nav-item"><a href="contact.html" class="nav-link">Contactez-nous</a></li> -->
-					<!-- Ajout de la ligne "Bonjour" si $_SESSION non vide sinon "login" -->
-					<?php
-					if (!empty($_SESSION['login'])) {
-					?>
-						<li class="nav-item nav-link"><a href="profile.php" class="nav-link">
-								<?= "Bonjour " . $_SESSION['login']; ?>
-							</a></li>
-					<?php
-					} else {
-					?>
-						<li class="nav-item nav-link"><a href="login.php" class="nav-link">login</a></li>
-					<?php
-					}
-					?>
+						<!-- <li class="nav-item"><a href="contact.html" class="nav-link">Contactez-nous</a></li> -->
+						<!-- Ajout de la ligne "Bonjour" si $_SESSION non vide sinon "login" -->
+						<li class="nav-item nav-link"><a href="add_edit_cottage.php" class="nav-link">Créer / consulter ses gîtes</a></li>
+						<?php
+						if (!empty($_SESSION['login'])) {
+						?>
+							<li class="nav-item nav-link"><a href="profile.php" class="nav-link">
+									<?= "Bonjour " . $_SESSION['login']; ?>
+								</a></li>
+						<?php
+						} else {
+						?>
+							<li class="nav-item nav-link"><a href="login.php" class="nav-link">login</a></li>
+						<?php
+						}
+						?>
+
 				</ul>
 			</div>
 		</div>
