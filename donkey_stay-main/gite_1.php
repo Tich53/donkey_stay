@@ -9,7 +9,7 @@ $idCottage = $_GET['id'];
 $userid = $_SESSION['id'];
 $cottage_idcottage = $_GET['id'];
 
-/**************** ADD NEW RESERVATION *************************/
+/******************** ADD NEW RESERVATION ******************/
 
 if (isset($_POST['add_reservation'])) {
 
@@ -21,30 +21,6 @@ if (isset($_POST['add_reservation'])) {
 	$nb_child = $_POST['nb_child'];
 	$total_price = 0;
 	$optional = trim($_POST['optional']);
-
-	function dateDifference($start_date , $end_date , $differenceFormat='%d')
-	{
-
-		$date1=date_create($start_date);
-		$date1=date_format($start_date,'Y-m-d'); 
-	
-		$date2=date_create($end_date);
-		$date2=date_format($start_date,'Y-m-d');
-	
-		$nb_days=date_diff($date1, $date2);
-
-		return $nb_days->format($nb_days);
-	}
-
-	$nb_days=dateDifference($start_date , $end_date , $differenceFormat='%d');
-	var_dump($nb_days);
-	
-	$statement = $pdo->query("SELECT cottage_price_per_night 
-	FROM cottage WHERE idcottage= $idCottage ;");
-	$price_per_night = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-	$total_price = ($nb_days*$price_per_night) + ($nb_adult*$optional_price_per_adult)  + ($nb_child*$optional_price_per_child) ; 
-	var_dump($total_price);
 
 	$newBooking = "INSERT INTO booking (start_date, end_date, nb_adult, nb_child, total_price, user_iduser, cottage_idcottage, optional_idoptional) 
 	VALUES (:start_date, :end_date, :nb_adult, :nb_child, :total_price, :userid, :cottage_idcottage, :optional);";
@@ -212,7 +188,7 @@ if (isset($_POST['add_reservation'])) {
 				<SELECT size="1" name="optional" class="label_input">
 					<OPTION value="choisissez une option">choisissez une option</OPTION>
 					<?php
-					$statement = $pdo->query('SELECT cottage_price_per_night FROM optional');
+					$statement = $pdo->query('SELECT * FROM optional');
 					$result = $statement->fetchAll(PDO::FETCH_ASSOC);
 					foreach ($result as $row) { ?>
 						<OPTION value="<?php echo $row['idoptional']; ?> " selected>
@@ -225,12 +201,10 @@ if (isset($_POST['add_reservation'])) {
 			</div>
 			<div>
 				<label for="nb_adult" class="label">nombre d'adultes (<?php echo $row['optional_price_per_adult'] . "€ /pers" ?>) :</label>
-				<?php $optional_price_per_adult=$row['optional_price_per_adult'] ?>
 				<input type="int" id="nb_adult" name="nb_adult" value=0 class="label_input" />
 			</div>
 			<div>
 				<label for="nb_child" class="label">nombre d'enfants (<?php echo $row['optional_price_per_child'] . "€ /pers" ?>) :</label>
-				<?php $optional_price_per_child=$row['optional_price_per_child'] ?>
 				<input type="int" id="nb_child" name="nb_child" value=0 class="label_input" />
 			</div>
 		<?php  } ?>
@@ -446,5 +420,3 @@ if (isset($_POST['add_reservation'])) {
 </body>
 
 </html>
-
-

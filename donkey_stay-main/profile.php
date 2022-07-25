@@ -167,45 +167,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 					<h2 class="mb-4">Réservation passée(s) :</h2>
 					<div>
 						<?php 
-						
-						$statement = $pdo->query("SELECT * 
-						FROM booking INNER JOIN cottage on idcottage=cottage_idcottage WHERE user_iduser=$id ;");
-						$past_reservations = $statement->fetchAll(PDO::FETCH_ASSOC);
-						var_dump($past_reservations);						
+						require_once('../../identifiants/connect.php');
+						$pdo = new \PDO(DSN, USER, PASS);
+						$statement = $pdo->query('SELECT * 
+						FROM booking 
+						WHERE date(start_date)<date();');
+						$result = $statement->fetchAll(PDO::FETCH_ASSOC);
 						echo "<table>";
 						//start_date, end_date, nb_adult, nb_child, total_price, user_iduser, cottage_idcottage, optional_idoptional
-						echo "<tr><strong>Réservations à venir</strong></tr>";
-						foreach($past_reservations as $past_reservation){
-							$start_date=date_create($past_reservation['start_date']);
-							$start_date=date_format($start_date,'Y-m-d');
-							$today = date("Y-m-d"); 	
-							if($start_date>$today)	{
-								echo "<tr>";
-								echo "<td> date de début</td>";
-								echo "<td>" . $past_reservation['start_date'] . "</td>";
-								echo "<td> date de fin </td>";
-								echo "<td>" . $past_reservation['end_date'] . "</td>";
-								echo "<td> cottage </td>";
-								echo "<td>" . $past_reservation['cottage_name'] . "</td>";
-								echo "</tr>";
-							}
-						}
-						echo "</table>";
-						echo "<br>";
-						echo "<table>";
-						echo "<tr><strong>Historique de vos réservation</strong></tr>";
-						foreach($past_reservations as $past_reservation){
-							$start_date=date_create($past_reservation['start_date']);
-							$start_date=date_format($start_date,'Y-m-d');
-							$today = date("Y-m-d"); 	
-							if($start_date<=$today)	{
-								echo "<tr>";
-								echo "<td> date de début</td>";
-								echo "<td>" . $past_reservation['start_date'] . "</td>";
-								echo "<td> date de fin</td>";
-								echo "<td>" . $past_reservation['end_date'] . "</td>";
-								echo "</tr>";
-							}
+						echo "<tr>Historique de vos réservation</tr>";
+						foreach($result as $row){
+						echo "<tr>";
+						echo "<td> date de début</td>";
+						echo "<td>" . $row['start_date'] . "</td>";
+						echo "<td> date de fin</td>";
+						echo "<td>" . $row['start_date'] . "</td>";
+						echo "</tr>";
 						}
 						echo "</table>";
 						?>
@@ -217,9 +194,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 					
 
-	</div>
 
- 	<!-- 	<footer class="ftco-footer bg-bottom ftco-no-pt" style="background-image: url(images/bg_3.jpg);">
+
+ 		<footer class="ftco-footer bg-bottom ftco-no-pt" style="background-image: url(images/bg_3.jpg);">
 			<div class="container">
 				<div class="row mb-5">
 					<div class="col-md pt-5">
@@ -261,7 +238,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 					</div>
 				</div>
 
-			</footer> -->  
+			</footer>  
 			
 
 			<!-- loader -->
