@@ -5,7 +5,7 @@ require_once '../../identifiants/connect.php';
 $pdo = new \PDO(DSN, USER, PASS);
 
 //getting id from url
-$idCottage = $_GET['id'];
+/* $idCottage = $_GET['id']; */
 $userid = $_SESSION['id'];
 $cottage_idcottage = $_GET['id'];
 
@@ -89,7 +89,7 @@ if (isset($_POST['add_reservation'])) {
 
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ml-auto">
-					<li class="nav-item active"><a href="index.php" class="nav-link">Accueil</a></li>
+					<li class="nav-item nav-link"><a href="index.php" class="nav-link">Accueil</a></li>
 					<!-- <li class="nav-item"><a href="contact.html" class="nav-link">Contactez-nous</a></li> -->
 					<!-- Ajout de la ligne "Bonjour" si $_SESSION non vide sinon "login" -->
 					<?php

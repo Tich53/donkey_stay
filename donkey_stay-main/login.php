@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 		<div class="container">
-			<a class="navbar-brand" href="index.html">Donkey Stay<span>Location de Gîtes d'exception</span></a>
+			<a class="navbar-brand" href="index.php">Donkey Stay<span>Location de Gîtes d'exception</span></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="oi oi-menu"></span> Menu
 			</button>
@@ -55,8 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item active"><a href="index.php" class="nav-link">Accueil</a></li>
-					<li class="nav-item"><a href="hotel.html" class="nav-link">Gîtes</a></li>
-					<li class="nav-item"><a href="contact.html" class="nav-link">Contactez-nous</a></li>
+					<!-- <li class="nav-item"><a href="contact.html" class="nav-link">Contactez-nous</a></li> -->
 				</ul>
 			</div>
 		</div>
@@ -112,7 +111,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-<!-- 		<footer class="ftco-footer bg-bottom ftco-no-pt" style="background-image: url(images/bg_3.jpg);">
+<!-- <footer class="ftco-footer bg-bottom ftco-no-pt" style="background-image: url(images/bg_3.jpg);">
 			<div class="container">
 				<div class="row mb-5">
 					<div class="col-md pt-5">
@@ -154,7 +153,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 					</div>
 				</div>
 
-			</footer> --> 
+			</footer> -->
 			
 
 			<!-- loader -->
