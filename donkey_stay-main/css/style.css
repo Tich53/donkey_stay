@@ -12067,7 +12067,7 @@ textarea.form-control {
   }
 }
 
-@media (min-width: 1200px) {
+@media (min-width: 991.98px) {
   .ftco-grid {
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-areas:
@@ -12359,7 +12359,7 @@ textarea.form-control {
 .bg-bottom {
   background-size: cover;
   background-repeat: no-repeat;
-  background-position: bottom center;
+/*   background-position: bottom center; */
 }
 
 .testimony-section,
@@ -12367,7 +12367,7 @@ textarea.form-control {
   position: relative;
 }
 .testimony-section .overlay,
-.ftco-select-destination .overlay {
+/* .ftco-select-destination .overlay {
   position: absolute;
   top: 0;
   left: 0;
@@ -12388,7 +12388,7 @@ textarea.form-control {
   background: linear-gradient(45deg, #207ce5 0%, #13d42a 100%);
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#207ce5', endColorstr='#13d42a', GradientType=1 );
   opacity: 0.6;
-}
+} */
 .testimony-section .owl-carousel,
 .ftco-select-destination .owl-carousel {
   margin: 0;
