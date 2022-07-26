@@ -47,7 +47,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 		<div class="container">
-			<a class="navbar-brand" href="index.html">Donkey Stay<span>Location de Gîtes d'exception</span></a>
+			<a class="navbar-brand" href="index.php">Donkey Stay<span>Location de Gîtes d'exception</span></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="oi oi-menu"></span> Menu
 			</button>
@@ -55,8 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item active"><a href="index.php" class="nav-link">Accueil</a></li>
-					<li class="nav-item"><a href="hotel.html" class="nav-link">Gîtes</a></li>
-					<li class="nav-item"><a href="contact.html" class="nav-link">Contactez-nous</a></li>
+					<!-- <li class="nav-item"><a href="contact.html" class="nav-link">Contactez-nous</a></li> -->
 				</ul>
 			</div>
 		</div>
@@ -68,9 +67,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 		<div class="container">
 			<div class="row no-gutters slider-text js-fullheight align-items-center" data-scrollax-parent="true">
 				<div class="col-md-7 ftco-animate">
-					<!-- <span class="subheading">Bienvenue chez Donkey Stay</span> -->
 					<h1 class="mb-4">Connexion</h1>
-
 					<?php
 						if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 							// SI TABLEAU $AUTHENTHATION VIDE, ALORS USERNAME OU PASSWORD INCORRECT SINON CONNEXION RÉUSSIE
@@ -88,23 +85,27 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 							}
 						}
 					?>
-                    
-                    <!-- Formulaire de connection -->
-                    <form action="" method="POST">
-                        <div class = connection_form>
-                            <div class="label_input">
-                                <label for="username" class="label">Nom d'utilisateur</label>
-                                <input type="text" id="username" name="username" placeholder="Nom d'utilisateur" required autofocus>
-                            </div>
-                            <div class="label_input">
-                                <label for="user_password" class="label">Mot de passe</label>
-                                <input type="password" id="user_password" name="user_password" placeholder="Mot de passe" required>
-                            </div>
-                            <div>
-                                <button>Se connecter</button>
-                            </div>
-                        </div>
-                    </form> 
+					<!-- Formulaire de connection -->
+					<form action="" method="POST">
+						<div class = connection_form>
+							<div class="label_input">
+								<label for="username" class="label">Nom d'utilisateur</label>
+								<input type="text" id="username" name="username" placeholder="Nom d'utilisateur" required autofocus>
+							</div>
+							<div class="label_input">
+								<label for="user_password" class="label">Mot de passe</label>
+								<input type="password" id="user_password" name="user_password" placeholder="Mot de passe" required>
+							</div>
+							<div>
+								<button>Se connecter</button>
+							</div>
+						</div>
+					</form> 
+				</div>
+			</div>
+		</div>
+	</div>
+
 
 
 
@@ -112,7 +113,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-<!-- 		<footer class="ftco-footer bg-bottom ftco-no-pt" style="background-image: url(images/bg_3.jpg);">
+<!-- <footer class="ftco-footer bg-bottom ftco-no-pt" style="background-image: url(images/bg_3.jpg);">
 			<div class="container">
 				<div class="row mb-5">
 					<div class="col-md pt-5">
@@ -154,7 +155,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 					</div>
 				</div>
 
-			</footer> --> 
+			</footer> -->
 			
 
 			<!-- loader -->

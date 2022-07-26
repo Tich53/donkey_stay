@@ -1,0 +1,38 @@
+[33mc8aa00c[m[33m ([m[1;36mHEAD -> [m[1;32mpt_25072022_2[m[33m, [m[1;31morigin/pt_25072022_2[m[33m)[m HEAD@{0}: commit: MAJ index.php + gite.php + script.css
+[33m03d1fdd[m[33m ([m[1;31morigin/develop[m[33m, [m[1;32mpt_25072022[m[33m)[m HEAD@{1}: checkout: moving from pt_25072022 to pt_25072022_2
+[33m03d1fdd[m[33m ([m[1;31morigin/develop[m[33m, [m[1;32mpt_25072022[m[33m)[m HEAD@{2}: pull origin develop: Fast-forward
+[33ma45753e[m[33m ([m[1;31morigin/pt_25072022[m[33m)[m HEAD@{3}: commit: Update BDD & img
+[33me05b6a3[m[33m ([m[1;32mdevelop[m[33m)[m HEAD@{4}: checkout: moving from develop to pt_25072022
+[33me05b6a3[m[33m ([m[1;32mdevelop[m[33m)[m HEAD@{5}: pull origin develop: Fast-forward
+[33mb4c5753[m HEAD@{6}: checkout: moving from pt_24072022 to develop
+[33mfee2496[m[33m ([m[1;31morigin/pt_24072022[m[33m)[m HEAD@{7}: reset: moving to HEAD
+[33mfee2496[m[33m ([m[1;31morigin/pt_24072022[m[33m)[m HEAD@{8}: commit: Update index.php, gite_1.php, SQL & add img
+[33mb4c5753[m HEAD@{9}: checkout: moving from develop to pt_24072022
+[33mb4c5753[m HEAD@{10}: pull origin develop: Fast-forward
+[33m905bae4[m HEAD@{11}: checkout: moving from pt_22072022 to develop
+[33me77c545[m[33m ([m[1;31morigin/pt_22072022[m[33m, [m[1;32mpt_22072022[m[33m)[m HEAD@{12}: commit: add img & Update gite_1.php
+[33me9a4d7c[m[33m ([m[1;32mpt_21072022_2[m[33m)[m HEAD@{13}: checkout: moving from pt_21072022_2 to pt_22072022
+[33me9a4d7c[m[33m ([m[1;32mpt_21072022_2[m[33m)[m HEAD@{14}: pull origin develop: Fast-forward
+[33mc0ad378[m[33m ([m[1;31morigin/pt_21072022_2[m[33m)[m HEAD@{15}: commit: Update donkey_stay.sql & gite_1.php
+[33m2ca0890[m HEAD@{16}: Branch: renamed refs/heads/pt_21072022 to refs/heads/pt_21072022_2
+[33m2ca0890[m HEAD@{18}: pull origin develop: Fast-forward
+[33me2ca1c0[m[33m ([m[1;31morigin/pt_21072022[m[33m)[m HEAD@{19}: commit: Update gite_1.php & style.css
+[33m905bae4[m HEAD@{20}: checkout: moving from develop to pt_21072022
+[33m905bae4[m HEAD@{21}: pull origin develop: Fast-forward
+[33m2089ba7[m HEAD@{22}: checkout: moving from pt_update_gite_1.php to develop
+[33m4b76519[m[33m ([m[1;31morigin/pt_update_gite_1.php[m[33m)[m HEAD@{23}: commit: Update gite_1.php & style.css
+[33m920873f[m HEAD@{24}: checkout: moving from pt_updatecss to pt_update_gite_1.php
+[33m920873f[m HEAD@{25}: pull origin develop: Fast-forward
+[33ma9f674b[m[33m ([m[1;31morigin/pt_updatecss[m[33m)[m HEAD@{26}: commit: update sql/css + add gite_1.php
+[33mb23f1d0[m[33m ([m[1;31morigin/pt_updatebdd[m[33m)[m HEAD@{27}: checkout: moving from pt_updatebdd to pt_updatecss
+[33mb23f1d0[m[33m ([m[1;31morigin/pt_updatebdd[m[33m)[m HEAD@{28}: checkout: moving from pt_themepacific to pt_updatebdd
+[33mb23f1d0[m[33m ([m[1;31morigin/pt_updatebdd[m[33m)[m HEAD@{29}: commit: update bdd 18072022
+[33mada838c[m HEAD@{30}: pull origin develop: Fast-forward
+[33mfa62d9c[m[33m ([m[1;31morigin/pt_themepacific[m[33m)[m HEAD@{31}: commit: add theme pacific
+[33m2089ba7[m HEAD@{32}: checkout: moving from develop to pt_themepacific
+[33m2089ba7[m HEAD@{33}: checkout: moving from develop to develop
+[33m2089ba7[m HEAD@{34}: checkout: moving from main to develop
+[33m5ba72af[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{35}: checkout: moving from develop to main
+[33m2089ba7[m HEAD@{36}: pull origin develop: Fast-forward
+[33m5ba72af[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{37}: checkout: moving from main to develop
+[33m5ba72af[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mmain[m[33m)[m HEAD@{38}: clone: from github.com:Tich53/donkey_stay.git
