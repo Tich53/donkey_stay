@@ -98,7 +98,7 @@ if (isset($_POST['search'])) {
 					<?php
 					}
 					?>
-					
+
 				</ul>
 			</div>
 		</div>
@@ -247,30 +247,10 @@ if (isset($_POST['search'])) {
 			?>
 							<div class="col-md-4 ftco-animate">
 								<div class="project-wrap">
-									<?php
-									if (empty($_SESSION['login'])) {
-									?>
-										<h3><a href="login.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
-									<?php
-									} else {
-									?>
-										<h3><a href="gite_1.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
-									<?php
-									}
-									?>
+									<h3><a href="gite_1.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
 									<div class="text p-4">
 										<span class="days"><?= $cottage['cottage_name'] ?></span>
-										<?php
-										if (empty($_SESSION['login'])) {
-										?>
-											<h3><a href="login.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
-										<?php
-										} else {
-										?>
-											<h3><a href="gite_1.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
-										<?php
-										}
-										?>
+										<h3><a href="gite_1.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
 										<p class="location"><span class="fa fa-map-marker"></span> <?= $cottage['cottage_region'] . " " . $cottage['cottage_country'] ?></p>
 										<ul>
 											<li><span class="flaticon-shower"></span><?= $cottage['cottage_nb_bathroom'] ?></li>
@@ -288,33 +268,12 @@ if (isset($_POST['search'])) {
 						?>
 						<div class="col-md-4 ftco-animate">
 							<div class="project-wrap">
-								<?php
-								if (empty($_SESSION['login'])) {
-								?>
-									<a href="login.php?id=<?= $cottage['idcottage'] ?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1'] ?>);">
-										<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit" ?></span>
-									</a>
-								<?php
-								} else {
-								?>
-									<a href="gite_1.php?id=<?= $cottage['idcottage'] ?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1'] ?>);">
-										<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit" ?></span>
-									</a>
-								<?php
-								} ?>
+								<a href="gite_1.php?id=<?= $cottage['idcottage'] ?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1'] ?>);">
+									<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit" ?></span>
+								</a>
 								<div class="text p-4">
 									<span class="days"><?= $cottage['cottage_name'] ?></span>
-									<?php
-									if (empty($_SESSION['login'])) {
-									?>
-										<h3><a href="login.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
-									<?php
-									} else {
-									?>
-										<h3><a href="gite_1.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
-									<?php
-									}
-									?>
+									<h3><a href="gite_1.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
 									<p class="location"><span class="fa fa-map-marker"></span> <?= $cottage['cottage_region'] . " " . $cottage['cottage_country'] ?></p>
 									<ul>
 										<li><span class="flaticon-shower"></span><?= $cottage['cottage_nb_bathroom'] ?></li>
@@ -333,33 +292,12 @@ if (isset($_POST['search'])) {
 					?>
 					<div class="col-md-4 ftco-animate">
 						<div class="project-wrap">
-							<?php
-							if (empty($_SESSION['login'])) {
-							?>
-								<a href="login.php?id=<?= $cottage['idcottage'] ?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1'] ?>);">
-									<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit" ?></span>
-								</a>
-							<?php
-							} else {
-							?>
-								<a href="gite_1.php?id=<?= $cottage['idcottage'] ?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1'] ?>);">
-									<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit" ?></span>
-								</a>
-							<?php
-							} ?>
+							<a href="gite_1.php?id=<?= $cottage['idcottage'] ?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1'] ?>);">
+								<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit" ?></span>
+							</a>
 							<div class="text p-4">
 								<span class="days"><?= $cottage['cottage_name'] ?></span>
-								<?php
-								if (empty($_SESSION['login'])) {
-								?>
-									<h3><a href="login.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
-								<?php
-								} else {
-								?>
-									<h3><a href="gite_1.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
-								<?php
-								}
-								?>
+								<h3><a href="gite_1.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
 								<p class="location"><span class="fa fa-map-marker"></span> <?= $cottage['cottage_region'] . " " . $cottage['cottage_country'] ?></p>
 								<ul>
 									<li><span class="flaticon-shower"></span><?= $cottage['cottage_nb_bathroom'] ?></li>
@@ -392,7 +330,7 @@ if (isset($_POST['search'])) {
 			}
 			?>
 		</div>
-		
+
 	</section>
 	<!-- 	<section class="ftco-section ftco-about img" style="background-image: url(images/parcours2.jpg);">
 		<div class="overlay"></div>

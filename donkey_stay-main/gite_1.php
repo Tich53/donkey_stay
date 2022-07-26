@@ -6,41 +6,46 @@ $pdo = new \PDO(DSN, USER, PASS);
 
 //getting id from url
 /* $idCottage = $_GET['id']; */
-$userid = $_SESSION['id'];
+/* $userid = $_SESSION['id']; */
 $cottage_idcottage = $_GET['id'];
 
 /******************** ADD NEW RESERVATION ******************/
 
 if (isset($_POST['add_reservation'])) {
+	if (empty($_SESSION['login'])) {
+		header("location: /login.php?id=$cottage_idcottage");
+	} else {
 
-	// get the data from a form
+		// get the data from a form
 
-	$start_date = trim($_POST['start_date']);
-	$end_date = trim($_POST['end_date']);
-	$nb_adult = $_POST['nb_adult'];
-	$nb_child = $_POST['nb_child'];
-	$total_price = 0;
-	$optional = trim($_POST['optional']);
+		$userid = $_SESSION['id'];
+		$start_date = trim($_POST['start_date']);
+		$end_date = trim($_POST['end_date']);
+		$nb_adult = $_POST['nb_adult'];
+		$nb_child = $_POST['nb_child'];
+		$total_price = 0;
+		$optional = trim($_POST['optional']);
 
-	$newBooking = "INSERT INTO booking (start_date, end_date, nb_adult, nb_child, total_price, user_iduser, cottage_idcottage, optional_idoptional) 
+		$newBooking = "INSERT INTO booking (start_date, end_date, nb_adult, nb_child, total_price, user_iduser, cottage_idcottage, optional_idoptional) 
 	VALUES (:start_date, :end_date, :nb_adult, :nb_child, :total_price, :userid, :cottage_idcottage, :optional);";
-	$statement = $pdo->prepare($newBooking);
-	$statement->bindValue(':start_date', $start_date, \PDO::PARAM_STR);
-	$statement->bindValue(':end_date', $end_date, \PDO::PARAM_STR);
-	$statement->bindValue(':nb_adult', $nb_adult, \PDO::PARAM_STR);
-	$statement->bindValue(':nb_child', $nb_child, \PDO::PARAM_STR);
-	$statement->bindValue(':total_price', $total_price, \PDO::PARAM_STR);
-	$statement->bindValue(':userid', $userid, \PDO::PARAM_STR);
-	$statement->bindValue(':cottage_idcottage', $cottage_idcottage, \PDO::PARAM_STR);
-	$statement->bindValue(':optional', $optional, \PDO::PARAM_STR);
-	$statement->execute();
+		$statement = $pdo->prepare($newBooking);
+		$statement->bindValue(':start_date', $start_date, \PDO::PARAM_STR);
+		$statement->bindValue(':end_date', $end_date, \PDO::PARAM_STR);
+		$statement->bindValue(':nb_adult', $nb_adult, \PDO::PARAM_STR);
+		$statement->bindValue(':nb_child', $nb_child, \PDO::PARAM_STR);
+		$statement->bindValue(':total_price', $total_price, \PDO::PARAM_STR);
+		$statement->bindValue(':userid', $userid, \PDO::PARAM_STR);
+		$statement->bindValue(':cottage_idcottage', $cottage_idcottage, \PDO::PARAM_STR);
+		$statement->bindValue(':optional', $optional, \PDO::PARAM_STR);
+		$statement->execute();
 
-	$newBookedDate = "INSERT INTO booked_date (start_booked_date, end_booked_date) 
+		$newBookedDate = "INSERT INTO booked_date (start_booked_date, end_booked_date) 
 	VALUES (:start_date, :end_date);";
-	$statement = $pdo->prepare($newBookedDate);
-	$statement->bindValue(':start_date', $start_date, \PDO::PARAM_STR);
-	$statement->bindValue(':end_date', $end_date, \PDO::PARAM_STR);
-	$statement->execute();
+		$statement = $pdo->prepare($newBookedDate);
+		$statement->bindValue(':start_date', $start_date, \PDO::PARAM_STR);
+		$statement->bindValue(':end_date', $end_date, \PDO::PARAM_STR);
+		$statement->execute();
+	}
 }
 
 
@@ -89,25 +94,22 @@ if (isset($_POST['add_reservation'])) {
 
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ml-auto">
-
 					<li class="nav-item nav-link"><a href="index.php" class="nav-link">Accueil</a></li>
-						<!-- <li class="nav-item"><a href="contact.html" class="nav-link">Contactez-nous</a></li> -->
-						<!-- Ajout de la ligne "Bonjour" si $_SESSION non vide sinon "login" -->
-						<li class="nav-item nav-link"><a href="add_edit_cottage.php" class="nav-link">Créer / consulter ses gîtes</a></li>
-						<?php
-						if (!empty($_SESSION['login'])) {
-						?>
-							<li class="nav-item nav-link"><a href="profile.php" class="nav-link">
-									<?= "Bonjour " . $_SESSION['login']; ?>
-								</a></li>
-						<?php
-						} else {
-						?>
-							<li class="nav-item nav-link"><a href="login.php" class="nav-link">login</a></li>
-						<?php
-						}
-						?>
-
+					<!-- <li class="nav-item"><a href="contact.html" class="nav-link">Contactez-nous</a></li> -->
+					<!-- Ajout de la ligne "Bonjour" si $_SESSION non vide sinon "login" -->
+					<?php
+					if (!empty($_SESSION['login'])) {
+					?>
+						<li class="nav-item nav-link"><a href="profile.php" class="nav-link">
+								<?= "Bonjour " . $_SESSION['login']; ?>
+							</a></li>
+					<?php
+					} else {
+					?>
+						<li class="nav-item nav-link"><a href="login.php" class="nav-link">login</a></li>
+					<?php
+					}
+					?>
 				</ul>
 			</div>
 		</div>
@@ -170,12 +172,17 @@ if (isset($_POST['add_reservation'])) {
 
 	<section class="formulaire">
 		<h2>Réservation :</h2>
-		<?php if (isset($_POST['add_reservation'])) : ?>
-			<div class="alert alert-success">
-				Votre réservation est confirmée
-			</div>
-
-		<?php endif ?>
+		<?php if (isset($_POST['add_reservation'])) {
+			if (!empty($_SESSION['login'])) { ?>
+				<div class="alert alert-success">
+					<?php echo "réservation est confirmée"; ?>
+				</div>
+		<?php
+			} else {
+				header("Location: /login.php?id=<?= $cottage_idcottage ?>");
+				exit;
+			}
+		} ?>
 
 		<form action="" method="post" value="new_reservation" name="action" class="form">
 			<div>
@@ -295,8 +302,7 @@ if (isset($_POST['add_reservation'])) {
 		//remplir le tableau des date de début et de fin des réservations
 		let tab = new Array(
 			<?php
-			$bdd = new \PDO(DSN, USER, PASS);
-			$dateBooking = $bdd->query('SELECT start_date, end_date FROM booking');
+			$dateBooking = $pdo->query('SELECT start_date, end_date FROM booking');
 			$arrayBooking = array();
 			while ($donnees = $dateBooking->fetch()) {
 				$entree  = "['" . $donnees['start_date'] . "' , '" . $donnees['end_date'] . "']";
