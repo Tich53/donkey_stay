@@ -74,7 +74,7 @@ if (isset($_POST['search'])) {
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 		<div class="container">
-			<a class="navbar-brand" href="index.html">Donkey Stay<span>Location de Gîtes d'exception</span></a>
+			<a class="navbar-brand" href="index.php">Donkey Stay<span>Location de Gîtes d'exception</span></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="oi oi-menu"></span> Menu
 			</button>
@@ -245,12 +245,30 @@ if (isset($_POST['search'])) {
 			?>
 							<div class="col-md-4 ftco-animate">
 								<div class="project-wrap">
-									<a href="gite_1.php?id=<?= $cottage['idcottage'] ?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1'] ?>);">
-										<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit" ?></span>
-									</a>
+									<?php
+									if (empty($_SESSION['login'])) {
+									?>
+										<h3><a href="login.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
+									<?php
+									} else {
+									?>
+										<h3><a href="gite_1.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
+									<?php
+									}
+									?>
 									<div class="text p-4">
 										<span class="days"><?= $cottage['cottage_name'] ?></span>
-										<h3><a href="gite_1.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
+										<?php
+										if (empty($_SESSION['login'])) {
+										?>
+											<h3><a href="login.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
+										<?php
+										} else {
+										?>
+											<h3><a href="gite_1.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
+										<?php
+										}
+										?>
 										<p class="location"><span class="fa fa-map-marker"></span> <?= $cottage['cottage_region'] . " " . $cottage['cottage_country'] ?></p>
 										<ul>
 											<li><span class="flaticon-shower"></span><?= $cottage['cottage_nb_bathroom'] ?></li>
@@ -268,12 +286,33 @@ if (isset($_POST['search'])) {
 						?>
 						<div class="col-md-4 ftco-animate">
 							<div class="project-wrap">
-								<a href="gite_1.php?id=<?= $cottage['idcottage'] ?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1'] ?>);">
-									<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit" ?></span>
-								</a>
+								<?php
+								if (empty($_SESSION['login'])) {
+								?>
+									<a href="login.php?id=<?= $cottage['idcottage'] ?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1'] ?>);">
+										<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit" ?></span>
+									</a>
+								<?php
+								} else {
+								?>
+									<a href="gite_1.php?id=<?= $cottage['idcottage'] ?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1'] ?>);">
+										<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit" ?></span>
+									</a>
+								<?php
+								} ?>
 								<div class="text p-4">
 									<span class="days"><?= $cottage['cottage_name'] ?></span>
-									<h3><a href="gite_1.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
+									<?php
+									if (empty($_SESSION['login'])) {
+									?>
+										<h3><a href="login.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
+									<?php
+									} else {
+									?>
+										<h3><a href="gite_1.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
+									<?php
+									}
+									?>
 									<p class="location"><span class="fa fa-map-marker"></span> <?= $cottage['cottage_region'] . " " . $cottage['cottage_country'] ?></p>
 									<ul>
 										<li><span class="flaticon-shower"></span><?= $cottage['cottage_nb_bathroom'] ?></li>
@@ -292,12 +331,33 @@ if (isset($_POST['search'])) {
 					?>
 					<div class="col-md-4 ftco-animate">
 						<div class="project-wrap">
-							<a href="gite_1.php?id=<?= $cottage['idcottage'] ?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1'] ?>);">
-								<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit" ?></span>
-							</a>
+							<?php
+							if (empty($_SESSION['login'])) {
+							?>
+								<a href="login.php?id=<?= $cottage['idcottage'] ?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1'] ?>);">
+									<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit" ?></span>
+								</a>
+							<?php
+							} else {
+							?>
+								<a href="gite_1.php?id=<?= $cottage['idcottage'] ?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1'] ?>);">
+									<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit" ?></span>
+								</a>
+							<?php
+							} ?>
 							<div class="text p-4">
 								<span class="days"><?= $cottage['cottage_name'] ?></span>
-								<h3><a href="gite_1.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
+								<?php
+								if (empty($_SESSION['login'])) {
+								?>
+									<h3><a href="login.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
+								<?php
+								} else {
+								?>
+									<h3><a href="gite_1.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
+								<?php
+								}
+								?>
 								<p class="location"><span class="fa fa-map-marker"></span> <?= $cottage['cottage_region'] . " " . $cottage['cottage_country'] ?></p>
 								<ul>
 									<li><span class="flaticon-shower"></span><?= $cottage['cottage_nb_bathroom'] ?></li>
@@ -373,8 +433,8 @@ if (isset($_POST['search'])) {
 		<div class="container">
 			<div class="row justify-content-center pb-4">
 				<div class="col-md-7 text-center heading-section heading-section-white ftco-animate">
-					<span class="subheading">Testimonial</span>
-					<h2 class="mb-4">Tourist Feedback</h2>
+					<span class="subheading"></span>
+					<h2 class="mb-4">Avis Clients</h2>
 				</div>
 			</div>
 			<div class="row ftco-animate">
@@ -390,12 +450,12 @@ if (isset($_POST['search'])) {
 										<span class="fa fa-star"></span>
 										<span class="fa fa-star"></span>
 									</p>
-									<p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+									<p class="mb-4">Le top du top en terme de location saisonnière, en particulier la possibilité de faire une petite balade à dos d'âne.</p>
 									<div class="d-flex align-items-center">
-										<div class="user-img" style="background-image: url(images/person_1.jpg)"></div>
+										<div class="user-img" style="background-image: url(images/CédricL.png)"></div>
 										<div class="pl-3">
-											<p class="name">Roger Scott</p>
-											<span class="position">Marketing Manager</span>
+											<p class="name">CédricL</p>
+											<span class="position"></span>
 										</div>
 									</div>
 								</div>
@@ -413,10 +473,10 @@ if (isset($_POST['search'])) {
 									</p>
 									<p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
 									<div class="d-flex align-items-center">
-										<div class="user-img" style="background-image: url(images/person_2.jpg)"></div>
+										<div class="user-img" style="background-image: url(images/SamiaB.jfif)"></div>
 										<div class="pl-3">
-											<p class="name">Roger Scott</p>
-											<span class="position">Marketing Manager</span>
+											<p class="name">SamiaB</p>
+											<span class="position"></span>
 										</div>
 									</div>
 								</div>
@@ -436,7 +496,7 @@ if (isset($_POST['search'])) {
 									<div class="d-flex align-items-center">
 										<div class="user-img" style="background-image: url(images/person_3.jpg)"></div>
 										<div class="pl-3">
-											<p class="name">Roger Scott</p>
+											<p class="name">Roger Scott3</p>
 											<span class="position">Marketing Manager</span>
 										</div>
 									</div>
@@ -457,7 +517,7 @@ if (isset($_POST['search'])) {
 									<div class="d-flex align-items-center">
 										<div class="user-img" style="background-image: url(images/person_1.jpg)"></div>
 										<div class="pl-3">
-											<p class="name">Roger Scott</p>
+											<p class="name">Roger Scott4</p>
 											<span class="position">Marketing Manager</span>
 										</div>
 									</div>
@@ -474,12 +534,12 @@ if (isset($_POST['search'])) {
 										<span class="fa fa-star"></span>
 										<span class="fa fa-star"></span>
 									</p>
-									<p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+									<p class="mb-4">Sans équivalent dans le domaine, un site esthétique et merveilleusement intuitif ainsi qu'une équipe remarquable.</p>
 									<div class="d-flex align-items-center">
-										<div class="user-img" style="background-image: url(images/person_2.jpg)"></div>
+										<div class="user-img" style="background-image: url(images/AntoineD.jfif)"></div>
 										<div class="pl-3">
-											<p class="name">Roger Scott</p>
-											<span class="position">Marketing Manager</span>
+											<p class="name">AntoineD</p>
+											<span class="position"></span>
 										</div>
 									</div>
 								</div>
