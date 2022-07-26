@@ -95,17 +95,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <body>                           
 	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 		<div class="container">
-			<a class="navbar-brand" href="index.php">Donkey Stay<span>Location de Gîtes d'exception</span></a>
+			<a class="navbar-brand" href="index.html">Donkey Stay<span>Location de Gîtes d'exception</span></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="oi oi-menu"></span>
 			</button>
 
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ml-auto">
-					<li class="nav-item nav-link"><a href="index.php" class="nav-link">Accueil</a></li>
-					<!-- <li class="nav-item"><a href="contact.html" class="nav-link">Contactez-nous</a></li> -->
+					<li class="nav-item active"><a href="index.php" class="nav-link">Accueil</a></li>
+					<li class="nav-item"><a href="hotel.html" class="nav-link">Gîtes</a></li>
+					<li class="nav-item"><a href="contact.html" class="nav-link">Contactez-nous</a></li>
 					<!-- AJOUT DE LA LIGNE CONNECTE(E) EN TANT QUE SI $_SESSION ACTIF -->
-					<li class="nav-item active"><a href="logout.php" class="nav-link">
+					<li class="nav-item nav-link"><a href="logout.php" class="nav-link">
 					<?php
 						if (!empty($_SESSION['login'])){
 							echo "Se déconnecter";
@@ -161,27 +162,47 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                             </div>
                         </div>
                     </form> 
-
+					<?php  echo "<br>"; ?>
 					<!-- historique de réservation -->
-					<h2 class="mb-4">Réservation passée(s) :</h2>
+					<h2 class="mb-4">Historique de vos réservations</h2>
 					<div>
 						<?php 
-						require_once('../../identifiants/connect.php');
-						$pdo = new \PDO(DSN, USER, PASS);
-						$statement = $pdo->query('SELECT * 
-						FROM booking 
-						WHERE date(start_date)<date();');
-						$result = $statement->fetchAll(PDO::FETCH_ASSOC);
+						
+						$statement = $pdo->query("SELECT * 
+						FROM booking INNER JOIN cottage on idcottage=cottage_idcottage WHERE user_iduser=$id ;");
+						$past_reservations = $statement->fetchAll(PDO::FETCH_ASSOC);
+
+						echo "<h4><strong>Réservation(s) à venir:</strong></h4>";
 						echo "<table>";
-						//start_date, end_date, nb_adult, nb_child, total_price, user_iduser, cottage_idcottage, optional_idoptional
-						echo "<tr>Historique de vos réservation</tr>";
-						foreach($result as $row){
-						echo "<tr>";
-						echo "<td> date de début</td>";
-						echo "<td>" . $row['start_date'] . "</td>";
-						echo "<td> date de fin</td>";
-						echo "<td>" . $row['start_date'] . "</td>";
-						echo "</tr>";
+						echo "<tr><th>date de début</th><th>date de fin</th><th>nom du gîte</th></tr>";
+						foreach($past_reservations as $past_reservation){
+							$start_date=date_create($past_reservation['start_date']);
+							$start_date=date_format($start_date,'Y-m-d');
+							$today = date("Y-m-d"); 	
+							if($start_date>$today)	{
+								echo "<tr>";
+								echo "<td>" . $past_reservation['start_date'] . "</td>";
+								echo "<td>" . $past_reservation['end_date'] . "</td>";
+								echo "<td>" . $past_reservation['cottage_name'] . "</td>";
+								echo "</tr>";
+							}
+						}
+						echo "</table>";
+						echo "<br>";
+						echo "<h4><strong>Réservation(s) passée(s):</strong></h4>";
+						echo "<table>";
+						echo "<tr><th>date de début</th><th>date de fin</th><th>nom du gîte</th></tr>";
+						foreach($past_reservations as $past_reservation){
+							$start_date=date_create($past_reservation['start_date']);
+							$start_date=date_format($start_date,'Y-m-d');
+							$today = date("Y-m-d"); 	
+							if($start_date<=$today)	{
+								echo "<tr>";
+								echo "<td>" . $past_reservation['start_date'] . "</td>";
+								echo "<td>" . $past_reservation['end_date'] . "</td>";
+								echo "<td>" . $past_reservation['cottage_name'] . "</td>";
+								echo "</tr>";
+							}
 						}
 						echo "</table>";
 						?>
@@ -189,15 +210,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 				</div>
 			</div>
 		</div>
-	</div>
-
 						
 
 					
 
+	</div>
 
-
- 		<footer class="ftco-footer bg-bottom ftco-no-pt" style="background-image: url(images/bg_3.jpg);">
+ 	<!-- 	<footer class="ftco-footer bg-bottom ftco-no-pt" style="background-image: url(images/bg_3.jpg);">
 			<div class="container">
 				<div class="row mb-5">
 					<div class="col-md pt-5">
@@ -224,7 +243,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 							</ul>
 						</div>
 					</div>
-
 					<div class="col-md pt-5 border-left">
 						<div class="ftco-footer-widget pt-md-5 mb-4">
 							<h2 class="ftco-heading-2">Have a Questions?</h2>
@@ -238,8 +256,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 						</div>
 					</div>
 				</div>
-
-			</footer>  
+			</footer> -->  
 			
 
 			<!-- loader -->
