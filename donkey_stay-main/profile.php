@@ -7,13 +7,14 @@ $pdo = new \PDO(DSN, USER, PASS);
 //PAGINATION => 2 étapes
 // Etape 1: Faire la requête de sélection et définir le nombre de page
 // Etape 2: Faire une boucle "FOR" sous la boucle "FOREACH" afin d'afficher le nombre de page dans des liens
-$nbCottageQuery = "SELECT COUNT(idcottage) as nbCottage  FROM cottage";
-$statement = $pdo->query($nbCottageQuery);
-$nbCottageArray = $statement->fetchAll();
-$nbCottage = $nbCottageArray[0]['nbCottage'];
+$idUser = $_SESSION['id'];
+$nbBookingQuery = "SELECT COUNT(idbooking) as nbBooking  FROM booking WHERE user_iduser = $idUser";
+$statement = $pdo->query($nbBookingQuery);
+$nbBookingArray = $statement->fetchAll();
+$nbBooking = $nbBookingArray[0]['nbBooking'];
 
 $size = 6;
-$nbPage = ceil($nbCottage / $size);
+$nbPage = ceil($nbBooking / $size);
 
 if (isset($_GET['page']) && $_GET['page'] > 0 && $_GET['page'] <= $nbPage) {
 	$page = $_GET['page'];
@@ -23,26 +24,8 @@ if (isset($_GET['page']) && $_GET['page'] > 0 && $_GET['page'] <= $nbPage) {
 
 $offset = ($page - 1) * $size;
 
-if (isset($_POST['search'])) {
-	// récupération du mot clef pour trier la destination
-	$keyword = trim($_POST['keyword']);
-
-
-
-	//Requête de sélection des gîtes via keyword
-	$cottageQuery = "SELECT * FROM cottage
-	WHERE (cottage_city LIKE '%$keyword%' OR cottage_region LIKE '%$keyword%' OR cottage_country LIKE '%$keyword%') ";
-	$statement = $pdo->query($cottageQuery);
-	$cottages = $statement->fetchAll();
-} else {
-	//Requête de sélection des gîtes
-	$cottageQuery = "SELECT * FROM cottage LIMIT $size OFFSET $offset";
-	$statement = $pdo->query($cottageQuery);
-	$cottages = $statement->fetchAll();
-}
-
 //Requête de modification
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if (isset($_POST['edit'])) {
 	$iduser = trim($_POST['iduser']);
 	$modifyUsername = trim($_POST['username']);
 	$modifyUser_password = trim($_POST['user_password']);
@@ -76,9 +59,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <?php
 }
 
+// Requête d'annulation
+
+if (isset($_POST['annulation'])) {
+	try {
+		$idbooking = $_POST['idbooking'];
+		$sth = $pdo->prepare("DELETE FROM `booking` WHERE idbooking = :idbooking");
+		$sth->execute(array(':idbooking' => $idbooking));
+		/* echo "Réservation annulée"; */
+	} catch (PDOException $e) {
+		echo "Erreur:" . $e->getMessage();
+	}
+}
+
 // Requête de sélection des infos utilisateurs
-$id = $_SESSION['id'];
-$userQuery = "SELECT * FROM user WHERE iduser = $id";
+$userQuery = "SELECT * FROM user WHERE iduser = $idUser";
 $statement = $pdo->query($userQuery);
 $userInfo = $statement->fetchAll();
 
@@ -89,17 +84,6 @@ $user_firstname = $userInfo[0][3];
 $user_lastname = $userInfo[0][4];
 $user_phone = $userInfo[0][5];
 $user_email = $userInfo[0][6];
-
-/* if (isset($_POST['action']) && $_POST['action'] === 'logout') {
-    //Réinitialisation du tableau de session
-    //On le vide intégralement
-     $_SESSION = array();
-    // Destruction de la session
-     session_destroy();
-    // Destruction du tableau de session
-    unset($_SESSION);
-    header('location: index.php');
-} */
 ?>
 
 <!DOCTYPE html>
@@ -196,60 +180,11 @@ $user_email = $userInfo[0][6];
 								<input type="text" id="user_email" name="user_email" value=<?= $user_email ?> required>
 							</div>
 							<div>
-								<button>Modifier</button>
+								<button type="submit" name="edit"> Modifier </button>
 							</div>
 						</div>
 					</form>
-					<?php echo "<br>"; ?>
 					<!-- historique de réservation -->
-					<h2 class="mb-4">Historique de vos réservations</h2>
-					<div>
-						<?php
-
-						$statement = $pdo->query("SELECT * 
-						FROM booking INNER JOIN cottage on idcottage=cottage_idcottage WHERE user_iduser=$id ;");
-						$past_reservations = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-						echo "<h4><strong>Réservation(s) à venir:</strong></h4>";
-						echo "<table>";
-						echo "<tr><th>date de début</th><th>date de fin</th><th>nom du gîte</th></tr>";
-						foreach ($past_reservations as $past_reservation) {
-							$start_date = date_create($past_reservation['start_date']);
-							$start_date = date_format($start_date, 'Y-m-d');
-							$today = date("Y-m-d");
-							if ($start_date > $today) {
-								echo "<tr>";
-								echo "<td>" . $past_reservation['start_date'] . "</td>";
-								echo "<td>" . $past_reservation['end_date'] . "</td>";
-								echo "<td>" . $past_reservation['cottage_name'] . "</td>";
-								echo "<td>" . $past_reservation['cottage_region'] . "</td>";
-								echo "<td>" . $past_reservation['cottage_city'] . "</td>";
-								echo "<td>" . $past_reservation['cottage_country'] . "</td>";
-								echo "<td>" . $past_reservation['cottage_nb_bed'] . "</td>";
-								echo "<td>" . $past_reservation['cottage_nb_bathroom'] . "</td>";
-								echo "<td>" . $past_reservation['cottage_photo1'] . "</td>";
-								echo "</tr>";
-							}
-						}
-						echo "</table>";
-						echo "<br>";
-						echo "<h4><strong>Réservation(s) passée(s):</strong></h4>";
-						echo "<table>";
-						echo "<tr><th>date de début</th><th>date de fin</th><th>nom du gîte</th></tr>";
-						foreach ($past_reservations as $past_reservation) {
-							$start_date = date_create($past_reservation['start_date']);
-							$start_date = date_format($start_date, 'Y-m-d');
-							$today = date("Y-m-d");
-							if ($start_date <= $today) {
-								echo "<tr>";
-								echo "<td>" . $past_reservation['start_date'] . "</td>";
-								echo "<td>" . $past_reservation['end_date'] . "</td>";
-								echo "</tr>";
-							}
-						}
-						echo "</table>";
-						?>
-					</div>
 				</div>
 			</div>
 		</div>
@@ -258,30 +193,48 @@ $user_email = $userInfo[0][6];
 		<div class="container">
 			<div class="row justify-content-center pb-4">
 				<div class="col-md-12 heading-section text-center ftco-animate">
-					<h2 class="mb-4">Réservations</h2>
+					<h2 class="mb-4">Mes réservations</h2>
 				</div>
 			</div>
 		</div>
-
 		<div class="row">
 			<?php
-			$id = $_SESSION['id'];
-			$sql = 'SELECT * FROM booking INNER JOIN cottage ON idcottage=cottage_idcottage' ;
+			$sql = "SELECT * FROM booking INNER JOIN cottage ON idcottage=cottage_idcottage WHERE user_iduser = '$idUser' ORDER BY start_date DESC";
 			foreach ($pdo->query($sql) as $reservation) {
+				$start_date = date_create($reservation['start_date']);
+				$start_date = date_format($start_date, 'Y-m-d');
+				$today = date("Y-m-d");
 			?>
 				<div class="col-md-4 ftco-animate">
 					<div class="project-wrap">
-						<div class="img" style="background-image: url(<?= $reservation['cottage_photo1'] ?>);">
+						<?php if ($start_date > $today) { ?>
 							<span class="price"><?= "Prix du séjour " . 276 . "€" ?></span>
-						</div>
+							<div class="img" style="background-image: url(<?= $reservation['cottage_photo1'] ?>);"></div>
+						<?php } else { ?>
+							<span class="price"><?= "Prix du séjour " . 288 . "€" ?></span>
+							<div class="img old" style="background-image: url(<?= $reservation['cottage_photo1'] ?>);"></div>
+						<?php } ?>
 						<div class="text p-4">
 							<span class="days"><?= $reservation['cottage_name'] ?></span>
 							<h3><?= $reservation['cottage_city'] ?></h3>
 							<p class="location"><span class="fa fa-map-marker"></span> <?= $reservation['cottage_region'] . " " . $reservation['cottage_country'] ?></p>
-							<p class="location"><span class="fa fa-map-marker"></span> <?= $reservation['cottage_region'] . " " . $reservation['cottage_country'] ?></p>
-							<ul>
+							<p class="location_period"> Début de séjour: <?= $reservation['start_date'] ?></p>
+							<p class="location_period"> Fin de séjour: <?= $reservation['end_date'] ?></p>
+							<ul class="list">
 								<li><span class="flaticon-shower"></span><?= $reservation['cottage_nb_bathroom'] ?></li>
 								<li><span class="flaticon-king-size"></span><?= $reservation['cottage_nb_bed'] ?></li>
+								<?php if ($start_date > $today) { ?>
+									<li class="button">
+										<form action="profile.php" method="POST">
+											<div class=edit_form>
+												<input type="hidden" id="idbooking" name="idbooking" value=<?= $reservation['idbooking'] ?>>
+											</div>
+											<div class="button">
+												<button type="submit" name="annulation"> Annuler </button>
+											</div>
+										</form>
+									</li>
+								<?php } ?>
 							</ul>
 						</div>
 					</div>
@@ -329,7 +282,7 @@ $user_email = $userInfo[0][6];
 						<h2 class="ftco-heading-2">Information</h2>
 						<ul class="list-unstyled">
 							<li><a href="#" class="py-2 d-block">Online Enquiry</a></li>
-							<li><a href="	var_dump($_SESSION);#" class="py-2 d-block">General Enquiries</a></li>
+							<li><a href="#" class="py-2 d-block">General Enquiries</a></li>
 							<li><a href="#" class="py-2 d-block">Booking Conditions</a></li>
 							<li><a href="#" class="py-2 d-block">Privacy and Policy</a></li>
 							<li><a href="#" class="py-2 d-block">Refund Policy</a></li>
