@@ -72,3 +72,8 @@ vertical-align: 50vh;
     justify-content: center;
   }
   
+  .delete{
+    background: #F15D30;
+    color: #fff;
+    border-color: #fff;
+  }
