@@ -26,27 +26,39 @@ if (isset($_POST['add_reservation'])) {
 		$total_price = 0;
 		$optional = trim($_POST['optional']);
 
-		$newBooking = "INSERT INTO booking (start_date, end_date, nb_adult, nb_child, total_price, user_iduser, cottage_idcottage, optional_idoptional) 
-	VALUES (:start_date, :end_date, :nb_adult, :nb_child, :total_price, :userid, :cottage_idcottage, :optional);";
-		$statement = $pdo->prepare($newBooking);
-		$statement->bindValue(':start_date', $start_date, \PDO::PARAM_STR);
-		$statement->bindValue(':end_date', $end_date, \PDO::PARAM_STR);
-		$statement->bindValue(':nb_adult', $nb_adult, \PDO::PARAM_STR);
-		$statement->bindValue(':nb_child', $nb_child, \PDO::PARAM_STR);
-		$statement->bindValue(':total_price', $total_price, \PDO::PARAM_STR);
-		$statement->bindValue(':userid', $userid, \PDO::PARAM_STR);
-		$statement->bindValue(':cottage_idcottage', $cottage_idcottage, \PDO::PARAM_STR);
-		$statement->bindValue(':optional', $optional, \PDO::PARAM_STR);
-		$statement->execute();
+		$booked_dateQuery = "SELECT * FROM booking 
+		WHERE (cottage_idcottage = '$cottage_idcottage')
+		AND (`start_date` BETWEEN '$start_date' AND '$end_date'
+		OR end_date BETWEEN '$start_date' AND '$end_date')";
+		$statement = $pdo->query($booked_dateQuery);
+		$booked_dateArray = $statement->fetchAll();
 
-		$newBookedDate = "INSERT INTO booked_date (start_booked_date, end_booked_date) 
-	VALUES (:start_date, :end_date);";
-		$statement = $pdo->prepare($newBookedDate);
-		$statement->bindValue(':start_date', $start_date, \PDO::PARAM_STR);
-		$statement->bindValue(':end_date', $end_date, \PDO::PARAM_STR);
-		$statement->execute();
+		if (!empty($booked_dateArray)){
+			$unavailable = "Malheureusement, ces dates ne sont plus disponibles. Merci de sélectionner d'autres dates.";
+		} else {
+			$newBooking = "INSERT INTO booking (start_date, end_date, nb_adult, nb_child, total_price, user_iduser, cottage_idcottage, optional_idoptional) 
+			VALUES (:start_date, :end_date, :nb_adult, :nb_child, :total_price, :userid, :cottage_idcottage, :optional);";
+			$statement = $pdo->prepare($newBooking);
+			$statement->bindValue(':start_date', $start_date, \PDO::PARAM_STR);
+			$statement->bindValue(':end_date', $end_date, \PDO::PARAM_STR);
+			$statement->bindValue(':nb_adult', $nb_adult, \PDO::PARAM_STR);
+			$statement->bindValue(':nb_child', $nb_child, \PDO::PARAM_STR);
+			$statement->bindValue(':total_price', $total_price, \PDO::PARAM_STR);
+			$statement->bindValue(':userid', $userid, \PDO::PARAM_STR);
+			$statement->bindValue(':cottage_idcottage', $cottage_idcottage, \PDO::PARAM_STR);
+			$statement->bindValue(':optional', $optional, \PDO::PARAM_STR);
+			$statement->execute();
+
+			$newBookedDate = "INSERT INTO booked_date (start_booked_date, end_booked_date) 
+				VALUES (:start_date, :end_date);";
+			$statement = $pdo->prepare($newBookedDate);
+			$statement->bindValue(':start_date', $start_date, \PDO::PARAM_STR);
+			$statement->bindValue(':end_date', $end_date, \PDO::PARAM_STR);
+			$statement->execute();
+		}
 	}
 }
+
 
 
 // date actuelle echo date("Y-m-d"); 
@@ -100,6 +112,7 @@ if (isset($_POST['add_reservation'])) {
 					<?php
 					if (!empty($_SESSION['login'])) {
 					?>
+						<li class="nav-item nav-link"><a href="add_edit_cottage.php" class="nav-link">Gérer mes gîtes</a></li>
 						<li class="nav-item nav-link"><a href="profile.php" class="nav-link">
 								<?= "Bonjour " . $_SESSION['login']; ?>
 							</a></li>
@@ -173,10 +186,13 @@ if (isset($_POST['add_reservation'])) {
 	<section class="formulaire">
 		<h2>Réservation :</h2>
 		<?php if (isset($_POST['add_reservation'])) {
-			if (!empty($_SESSION['login'])) { ?>
-				<div class="alert alert-success">
-					<?php echo "réservation est confirmée"; ?>
-				</div>
+				if (!empty($booked_dateArray)) {
+					echo $unavailable;
+				} elseif (!empty($_SESSION['login'])){
+		?>
+					<div class="alert alert-success">
+						<?php echo "réservation est confirmée"; ?>
+					</div>
 		<?php
 			} else {
 				header("Location: /login.php?id=<?= $cottage_idcottage ?>");

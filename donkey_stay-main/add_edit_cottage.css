@@ -1,0 +1,74 @@
+h1 {
+    margin-top: 50px;
+  }
+
+h3{
+text-align: center;
+vertical-align: 50vh;
+}
+
+.row_add_edit_cottage{
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-right: -15px;
+    margin-left: -15px;
+    justify-content: center;
+  }
+  
+  form {
+    margin: auto;
+    max-width: 90%;
+  }
+  
+  
+  .ftco-navbar-light_profil {
+    background: dimgray !important;
+    position: absolute;
+    top: -8px;
+    left: 0;
+    right: 0;
+    z-index: 3;
+  }
+  
+  .hero-wrap_profil .overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    content: "";
+    opacity: 0.3;
+  }
+  
+  .ftco-navbar-light_profil.scrolled.awake {
+    margin-top: 0px;
+    -webkit-transition: 0.3s all ease-out;
+    -o-transition: 0.3s all ease-out;
+    transition: 0.3s all ease-out;
+  }
+  
+  .ftco-navbar-light_profil.scrolled {
+    position: fixed;
+    right: 0;
+    left: 0;
+    top: 0;
+    margin-top: -130px;
+    background: dimgray !important;
+    -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  }
+  
+  .pagination {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+  }
+  
+  .pagination a {
+    display: flex;
+    justify-content: center;
+  }
+  

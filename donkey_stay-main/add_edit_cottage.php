@@ -6,9 +6,27 @@ $pdo = new \PDO(DSN, USER, PASS);
 
 $userId = $_SESSION['id'];
 
+//Requête de suppression
+if (isset($_POST['delete'])) {
+
+	$idCottage = $_POST['idCottage'];
+	var_dump($idCottage);
+
+
+    $cottageDelete = "DELETE FROM cottage WHERE idcottage = $idCottage";
+    $statement = $pdo -> prepare($cottageDelete);
+    $statement -> execute();
+}
+
+// Requête de sélection des cottage dont l'ID utilisateur de la fiche cottage est égal à celui repris dans $_SESSION
 $cottageQuery = "SELECT * FROM cottage WHERE cottage_user_iduser = '$userId'";
 $statement = $pdo->query($cottageQuery);
 $cottages = $statement->fetchAll();
+
+if (empty($cottages)){
+	$noCottage = "Vous n'avez aucun gîte en gestion";
+}
+
 
 ?>
 
@@ -38,10 +56,12 @@ $cottages = $statement->fetchAll();
 	<link rel="stylesheet" href="css/flaticon.css">
 	<link rel="stylesheet" href="css/style.css">
 
+	<link rel="stylesheet" href="add_edit_cottage.css">
+
 </head>
 
 <body>
-	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light_profil" id="ftco-navbar">
 		<div class="container">
 			<a class="navbar-brand" href="index.html">Donkey Stay<span>Location de Gîtes d'exception</span></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
@@ -53,10 +73,10 @@ $cottages = $statement->fetchAll();
 					<li class="nav-item active"><a href="index.php" class="nav-link">Accueil</a></li>
 					<!-- <li class="nav-item"><a href="contact.html" class="nav-link">Contactez-nous</a></li> -->
 					<!-- Ajout de la ligne "Bonjour" si $_SESSION non vide sinon "login" -->
-					<li class="nav-item nav-link"><a href="add_edit_cottage.php" class="nav-link">Créer / consulter ses gîtes</a></li>
 					<?php
 					if (!empty($_SESSION['login'])) {
 					?>
+						<li class="nav-item nav-link"><a href="add_edit_cottage.php" class="nav-link">Gérer mes gîtes</a></li>
 						<li class="nav-item nav-link"><a href="profile.php" class="nav-link">
 								<?= "Bonjour " . $_SESSION['login']; ?>
 							</a></li>
@@ -80,31 +100,40 @@ $cottages = $statement->fetchAll();
 			<div class="row justify-content-center pb-4">
 				<div class="col-md-12 heading-section text-center ftco-animate">
 					<h2 class="mb-4">Mes Gîtes</h2>
+					<a href="add_cottage.php">Ajouter un gîte</a>
 				</div>
 			</div>
 		</div>
 		<div class="row">
 			<?php
+			if (empty($cottages)){
+				?> 
+				<h3><?=$noCottage?></h3>
+			<?php
+			}
 			foreach ($cottages as $cottage) {
 			?>
 				<div class="col-md-4 ftco-animate">
 					<div class="project-wrap">
-						<a href="edit_cottage.php?id=<?= $cottage['idcottage'] ?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1'] ?>);">
-							<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit" ?></span>
-						</a>
-						<div class="text p-4">
-							<span class="days"><?= $cottage['cottage_name'] ?></span>
-							<h3><a href="edit_cottage.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
-							<p class="location"><span class="fa fa-map-marker"></span> <?= $cottage['cottage_region'] . " " . $cottage['cottage_country'] ?></p>
-							<ul>
-								<li><span class="flaticon-shower"></span><?= $cottage['cottage_nb_bathroom'] ?></li>
-								<li><span class="flaticon-king-size"></span><?= $cottage['cottage_nb_bed'] ?></li>
-								<!-- <li><span class="flaticon-route"></span>Near Mountain</li> -->
-							</ul>
-						</div>
+						<form action="" method="POST">
+							<input type="hidden" name="idCottage" value="<?=$cottage['idcottage']?>">
+							<a href="edit_cottage.php?id=<?= $cottage['idcottage'] ?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1'] ?>);">
+								<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit" ?></span>
+							</a>
+							<div class="text p-4">
+								<span class="days"><?= $cottage['cottage_name'] ?></span>
+								<h3><a href="edit_cottage.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
+								<p class="location"><span class="fa fa-map-marker"></span> <?= $cottage['cottage_region'] . " " . $cottage['cottage_country'] ?></p>
+								<ul>
+									<li><span class="flaticon-shower"></span><?= $cottage['cottage_nb_bathroom'] ?></li>
+									<li><span class="flaticon-king-size"></span><?= $cottage['cottage_nb_bed'] ?></li>
+									<!-- <li><span class="flaticon-route"></span>Near Mountain</li> -->
+								</ul>
+								<button type="submit" name="delete">Supprimer</button>
+							</div>
+						</form>
 					</div>
 				</div>
-
 			<?php
 			}
 			?>

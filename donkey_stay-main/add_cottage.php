@@ -3,12 +3,11 @@ session_start();
 require_once('../../identifiants/connect.php');
 $pdo = new \PDO(DSN, USER, PASS);
 
-$idCottage = $_GET['id'];
 $idUser = $_SESSION['id'];
 
 
 
-//Requête de mise à jour du gîte
+//Requête d'ajout de gîte
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cottage_name = trim($_POST['cottage_name']);
     $cottage_region = trim($_POST['cottage_region']);
@@ -25,25 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $cottage_photo5 = trim($_POST['cottage_photo5']);
     $cottage_photo6 = trim($_POST['cottage_photo6']);
 
-    $updateCottage = "UPDATE cottage 
-    SET 
-    cottage_name = :cottage_name, 
-    cottage_region = :cottage_region,
-    cottage_city = :cottage_city,
-    cottage_country = :cottage_country,
-    cottage_nb_bed = :cottage_nb_bed,
-    cottage_nb_bathroom = :cottage_nb_bathroom,
-    cottage_price_per_night = :cottage_price_per_night,
-    cottage_description = :cottage_description,
-    cottage_photo1 = :cottage_photo1,
-    cottage_photo2 = :cottage_photo2,
-    cottage_photo3 = :cottage_photo3,
-    cottage_photo4 = :cottage_photo4,
-    cottage_photo5 = :cottage_photo5,
-    cottage_photo6 = :cottage_photo6
-    WHERE idcottage = :idcottage";
 
-    $statement = $pdo->prepare($updateCottage);
+    $createCottage = "INSERT INTO cottage (cottage_name, cottage_region, cottage_city, cottage_country, cottage_nb_bed, cottage_nb_bathroom, cottage_price_per_night, cottage_description, cottage_photo1, cottage_photo2, cottage_photo3, cottage_photo4, cottage_photo5, cottage_photo6, cottage_user_iduser) VALUES (:cottage_name, :cottage_region, :cottage_city, :cottage_country, :cottage_nb_bed, :cottage_nb_bathroom, :cottage_price_per_night, :cottage_description, :cottage_photo1, :cottage_photo2, :cottage_photo3, :cottage_photo4, :cottage_photo5, :cottage_photo6, :idUser)"; 
+
+    $statement = $pdo->prepare($createCottage);
     $statement->bindValue(':cottage_name', $cottage_name, \PDO::PARAM_STR);
     $statement->bindValue(':cottage_region', $cottage_region, \PDO::PARAM_STR);
     $statement->bindValue(':cottage_city', $cottage_city, \PDO::PARAM_STR);
@@ -58,15 +42,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $statement->bindValue(':cottage_photo4', $cottage_photo4, \PDO::PARAM_STR);
     $statement->bindValue(':cottage_photo5', $cottage_photo5, \PDO::PARAM_STR);
     $statement->bindValue(':cottage_photo6', $cottage_photo6, \PDO::PARAM_STR);
-    $statement->bindValue(':idcottage', $idCottage, \PDO::PARAM_INT);
+    $statement->bindValue(':idUser', $idUser, \PDO::PARAM_INT);
     $statement->execute();
+
+    header("Location: add_edit_cottage.php");
 
 }
 
-//Requête de sélection des informations du gîte
-$cottageQuery = "SELECT * FROM cottage WHERE idcottage = '$idCottage'";
-$statement = $pdo -> query($cottageQuery);
-$cottageInformation = $statement -> fetchAll();
+
 
 
 ?>
@@ -140,88 +123,72 @@ $cottageInformation = $statement -> fetchAll();
 			<div class="row no-gutters slider-text js-fullheight align-items-center" data-scrollax-parent="true">
 				<div class="col-md-7 ftco-animate">
 
-                <?php
-                if($idUser !== $cottageInformation[0]['cottage_user_iduser']){
-                ?> 
-                <div class="image"> 
-                    <span>"Non non petit malin, tu n'as pas le droit de modifier une fiche qui ne t'appartient pas !!!"</span>
-                    <img src="images/index.png" alt="Interdit"></div>
-                <?php
-                } else {
-                ?>
-					<h1 class="mb-4">Mettre à jour "<?=$cottageInformation[0]['cottage_name']?>"</h1>
-                    <form class=".cottage_form" action="" method="POST" enctype="multipart/form-data">
+					<h1 class="mb-4">Ajouter un gîte"</h1>
+                    <form class=".cottage_form" action="" method="POST">
 
                         <div class="label_input">
                             <label class="label" for="cottage_name">Nom du gîte*</label>
-                            <input type="text" id="cottage_name" name = "cottage_name" value="<?=$cottageInformation[0]['cottage_name']?>" required>
+                            <input type="text" id="cottage_name" name = "cottage_name" required>
                         </div>
                         <div class="label_input">
                             <label class="label" for="cottage_region">Région*</label>
-                            <input type="text" id="cottage_region" name="cottage_region" value="<?=$cottageInformation[0]['cottage_region']?>" required>
+                            <input type="text" id="cottage_region" name="cottage_region" required>
                         </div>
                         <div class="label_input">
                             <label class="label" for="cottage_city">Ville*</label>
-                            <input type="text" id="cottage_city" name="cottage_city" value="<?=$cottageInformation[0]['cottage_city']?>" required>
+                            <input type="text" id="cottage_city" name="cottage_city" required>
                         </div>
                         <div class="label_input">
                             <label class="label" for="cottage_country">Pays*</label>
-                            <input type="text" id="cottage_country" name="cottage_country" value="<?=$cottageInformation[0]['cottage_country']?>" required>
+                            <input type="text" id="cottage_country" name="cottage_country" required>
                         </div>
                         <div class="label_input">
                             <label class="label" for="cottage_nb_bed">Nombre de chambre(s)*</label>
-                            <input type="text" id="cottage_nb_bed" name="cottage_nb_bed" value="<?=$cottageInformation[0]['cottage_nb_bed']?>" required>
+                            <input type="text" id="cottage_nb_bed" name="cottage_nb_bed" required>
                         </div>
                         <div class="label_input">
                             <label class="label" for="cottage_nb_bathroom">Nombre de salle de bain(s)*</label>
-                            <input type="text" id="cottage_nb_bathroom" name="cottage_nb_bathroom" value="<?=$cottageInformation[0]['cottage_nb_bathroom']?>" required>
+                            <input type="text" id="cottage_nb_bathroom" name="cottage_nb_bathroom" required>
                         </div>
                         <div class="label_input">
                             <label class="label" for="cottage_price_per_night">Prix/nuit*</label>
-                            <input type="text" id="cottage_price_per_night" name="cottage_price_per_night" value="<?=$cottageInformation[0]['cottage_price_per_night']?>" required>
+                            <input type="text" id="cottage_price_per_night" name="cottage_price_per_night" required>
                         </div>
                         <div class="label_input">
                             <label class="label" for="cottage_description">Description*</label>
-                            <textarea class ="textarea" type="text" id="cottage_description" name="cottage_description" rows="5" required><?=$cottageInformation[0]['cottage_description']?></textarea>
+                            <textarea class ="textarea" type="text" id="cottage_description" name="cottage_description" rows="5" required></textarea>
                         </div>
                         <div class="label_input">
                             <label class="label" for="cottage_photo1">Photo principale*</label>
-                            <input type="text" id="cottage_photo1" name="cottage_photo1" value="<?=$cottageInformation[0]['cottage_photo1']?>" required>
-                            <img src="<?=$cottageInformation[0]['cottage_photo1']?>" alt="">
+                            <input type="text" id="cottage_photo1" name="cottage_photo1" required>
                         </div>
                         <div class="label_input">
                             <label class="label" for="cottage_photo2">Photo</label>
-                            <input type="text" id="cottage_photo2" name="cottage_photo2" value="<?=$cottageInformation[0]['cottage_photo2']?>">
-                            <img src="<?=$cottageInformation[0]['cottage_photo2']?>" alt="">
+                            <input type="text" id="cottage_photo2" name="cottage_photo2">
                         </div>
                         <div class="label_input">
                             <label class="label" for="cottage_photo3">Photo</label>
-                            <input type="text" id="cottage_photo3" name="cottage_photo3" value="<?=$cottageInformation[0]['cottage_photo3']?>">
-                            <img src="<?=$cottageInformation[0]['cottage_photo3']?>" alt="">
+                            <input type="text" id="cottage_photo3" name="cottage_photo3">
                         </div>
                         <div class="label_input">
                             <label class="label" for="cottage_photo4">Photo</label>
-                            <input type="text" id="cottage_photo4" name="cottage_photo4" value="<?=$cottageInformation[0]['cottage_photo4']?>">
-                            <img src="<?=$cottageInformation[0]['cottage_photo4']?>" alt="">
+                            <input type="text" id="cottage_photo4" name="cottage_photo4">
                         </div>
                         <div class="label_input">
                             <label class="label" for="cottage_photo5">Photo</label>
-                            <input type="text" id="cottage_photo5" name="cottage_photo5" value="<?=$cottageInformation[0]['cottage_photo5']?>">
-                            <img src="<?=$cottageInformation[0]['cottage_photo5']?>" alt="">
+                            <input type="text" id="cottage_photo5" name="cottage_photo5">
                         </div>
                         <div class="label_input">
                             <label class="label" for="cottage_photo6">Photo</label>
-                            <input type="text" id="cottage_photo6" name="cottage_photo6" value="<?=$cottageInformation[0]['cottage_photo6']?>">
-                            <img src="<?=$cottageInformation[0]['cottage_photo6']?>" alt="">
+                            <input type="text" id="cottage_photo6" name="cottage_photo6">
                         </div>
                         <div class="label_input">
                             <label class="label" for="cottage_user_iduser"></label>
-                            <input type="hidden" id="cottage_user_iduser" name="cottage_user_iduser" value="<?=$cottageInformation[0]['cottage_user_iduser']?>">
+                            <input type="hidden" id="cottage_user_iduser" name="cottage_user_iduser" value="<?=$idUser?>">
                         </div>
-                        <button>Mettre à jour !</button>
+                        <button>Valider</button>
                     </form>
                 
-                <?php } ?>
 				</div>
 			</div>
 		</div>
