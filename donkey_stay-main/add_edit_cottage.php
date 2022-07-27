@@ -129,7 +129,7 @@ if (empty($cottages)){
 									<li><span class="flaticon-king-size"></span><?= $cottage['cottage_nb_bed'] ?></li>
 									<!-- <li><span class="flaticon-route"></span>Near Mountain</li> -->
 								</ul>
-								<button type="submit" name="delete">Supprimer</button>
+								<button class ="delete" type="submit" name="delete">Supprimer</button>
 							</div>
 						</form>
 					</div>
