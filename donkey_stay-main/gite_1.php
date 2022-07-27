@@ -328,7 +328,7 @@ if (isset($_POST['add_reservation'])) {
 		//remplir le tableau des date de début et de fin des réservations
 		let tab = new Array(
 			<?php
-			$dateBooking = $pdo->query('SELECT start_date, end_date FROM booking');
+			$dateBooking = $pdo->query("SELECT start_date, end_date FROM booking WHERE cottage_idcottage='$cottage_idcottage'");
 			$arrayBooking = array();
 			while ($donnees = $dateBooking->fetch()) {
 				$entree  = "['" . $donnees['start_date'] . "' , '" . $donnees['end_date'] . "']";
