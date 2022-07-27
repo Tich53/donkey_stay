@@ -56,6 +56,7 @@ if (isset($_POST['edit'])) {
 
 ?>
 	<div class="maj"><?php echo "Mise à jour effectuée !"; ?></div>
+
 <?php
 }
 
@@ -84,6 +85,7 @@ $user_firstname = $userInfo[0][3];
 $user_lastname = $userInfo[0][4];
 $user_phone = $userInfo[0][5];
 $user_email = $userInfo[0][6];
+
 ?>
 
 <!DOCTYPE html>
@@ -121,7 +123,7 @@ $user_email = $userInfo[0][6];
 		<div class="container">
 			<a class="navbar-brand" href="index.php">Donkey Stay<span>Location de Gîtes d'exception</span></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="oi oi-menu"></span> Menu
+				<span class="oi oi-menu"></span>
 			</button>
 
 			<div class="collapse navbar-collapse" id="ftco-nav">
@@ -152,7 +154,7 @@ $user_email = $userInfo[0][6];
 		<div class="container">
 			<div class="row no-gutters slider-text js-fullheight align-items-center" data-scrollax-parent="true">
 				<div class="col-md-7 ftco-animate">
-					<h2 class="mb-4">Profil</h2>
+					<h2 class="mb-4" id="title">Profil</h2>
 					<!-- Formulaire de modification -->
 					<form action="" method="POST">
 						<div class=edit_form>

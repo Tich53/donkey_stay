@@ -169,9 +169,9 @@ if (isset($_POST['add_reservation'])) {
 					</div>
 					<div class="ftco-grid">
 						<div class="four">
-							<form action="gite_1.php?id=<?= $cottage['idcottage'] ?>">
+<!-- 							<form action="gite_1.php?id=<?= $cottage['idcottage'] ?>">
 								<input type="submit" value="Reserver" />
-							</form>
+							</form> -->
 						</div>
 						<div class="three">
 							<p><?= $cottage['cottage_description'] ?></p>
@@ -188,7 +188,7 @@ if (isset($_POST['add_reservation'])) {
 		<h2>Réservation :</h2>
 		<?php if (isset($_POST['add_reservation'])) {
 				if (!empty($booked_dateArray)) {
-					echo $unavailable;
+					echo $unavailable; 
 				} elseif (!empty($_SESSION['login'])){
 		?>
 					<div class="alert alert-success">
