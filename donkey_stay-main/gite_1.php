@@ -228,9 +228,6 @@ if (isset($_POST['add_reservation'])) {
 			</div>
 			<div>
 			    <input type="hidden" id="price_for_adult" value=<?= $row['optional_price_per_adult']; ?> onChange="computeTotalPrice();">
-				<?php
-					var_dump($row['optional_price_per_adult']);
-				?>
 				<label for="nb_adult" class="label">nombre d'adultes (<?php echo $row['optional_price_per_adult'] . "€ /pers" ?>) :</label>
 				<input type="int" id="nb_adult" name="nb_adult" value=0 class="label_input" onChange="computeTotalPrice();"/>
 			</div>
@@ -328,7 +325,7 @@ if (isset($_POST['add_reservation'])) {
 		//remplir le tableau des date de début et de fin des réservations
 		let tab = new Array(
 			<?php
-			$dateBooking = $pdo->query('SELECT start_date, end_date FROM booking');
+			$dateBooking = $pdo->query("SELECT start_date, end_date FROM booking WHERE cottage_idcottage='$cottage_idcottage'");
 			$arrayBooking = array();
 			while ($donnees = $dateBooking->fetch()) {
 				$entree  = "['" . $donnees['start_date'] . "' , '" . $donnees['end_date'] . "']";
