@@ -160,7 +160,7 @@ if (isset($_POST['add_reservation'])) {
 							</form>
 						</div>
 						<div class="three">
-							<p></p>Grange rénovée qui allie le charme de l'ancien et le confort d'un intérieur moderne et design au cœur des Hautes-Pyrénées. Le village de Loudervielle est perché à 1 100m d'altitude, à mi-chemin entre Loudenvielle et la station de ski de Peyragudes. C'est le lieu idéal pour les amoureux de la nature (rando, chiens de traineaux...), de sport (station de ski de Peyragudes à 4 km, spot de parapente) ou de détente (Balnéa).</p>
+							<p><?= $cottage['cottage_description'] ?></p>
 						</div>
 						<div class="five"><img src=<?= $cottage['cottage_photo2']; ?>></div>
 						<div class="six"><img src=<?= $cottage['cottage_photo3']; ?>></div>

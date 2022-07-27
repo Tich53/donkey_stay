@@ -7,7 +7,7 @@ $pdo = new \PDO(DSN, USER, PASS);
 $userId = $_SESSION['id'];
 
 $cottageQuery = "SELECT * FROM cottage WHERE cottage_user_iduser = '$userId'";
-$statement = $pdo -> query($cottageQuery);
+$statement = $pdo->query($cottageQuery);
 $cottages = $statement->fetchAll();
 
 ?>
@@ -49,7 +49,7 @@ $cottages = $statement->fetchAll();
 			</button>
 
 			<div class="collapse navbar-collapse" id="ftco-nav">
-			<ul class="navbar-nav ml-auto">
+				<ul class="navbar-nav ml-auto">
 					<li class="nav-item active"><a href="index.php" class="nav-link">Accueil</a></li>
 					<!-- <li class="nav-item"><a href="contact.html" class="nav-link">Contactez-nous</a></li> -->
 					<!-- Ajout de la ligne "Bonjour" si $_SESSION non vide sinon "login" -->
@@ -67,14 +67,14 @@ $cottages = $statement->fetchAll();
 					<?php
 					}
 					?>
-					
+
 				</ul>
 			</div>
 		</div>
 	</nav>
 	<!-- END nav -->
 
-		
+
 	<section class="ftco-section container">
 		<div class="container">
 			<div class="row justify-content-center pb-4">
@@ -83,7 +83,6 @@ $cottages = $statement->fetchAll();
 				</div>
 			</div>
 		</div>
-		<h1>Mes gîtes</h1>
 		<div class="row">
 			<?php
 			foreach ($cottages as $cottage) {
@@ -118,7 +117,7 @@ $cottages = $statement->fetchAll();
 
 
 
-    <script src="js/jquery.min.js"></script>
+	<script src="js/jquery.min.js"></script>
 	<script src="js/jquery-migrate-3.0.1.min.js"></script>
 	<script src="js/popper.min.js"></script>
 	<script src="js/bootstrap.min.js"></script>

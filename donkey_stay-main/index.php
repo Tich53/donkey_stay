@@ -408,10 +408,6 @@ if (isset($_POST['search'])) {
 								<div class="text">
 									<p class="star">
 										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
-										<span class="fa fa-star"></span>
 									</p>
 									<p class="mb-4">Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
 									<div class="d-flex align-items-center">
