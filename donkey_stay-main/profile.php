@@ -212,10 +212,10 @@ $user_email = $userInfo[0][6];
 				<div class="col-md-4 ftco-animate">
 					<div class="project-wrap">
 						<?php if ($start_date > $today) { ?>
-							<span class="price"><?= "Prix du séjour " . 276 . "€" ?></span>
+							<span class="price"><?= "Prix du séjour : " . $reservation['total_price'] . "€" ?></span>
 							<div class="img" style="background-image: url(<?= $reservation['cottage_photo1'] ?>);"></div>
 						<?php } else { ?>
-							<span class="price"><?= "Prix du séjour " . 288 . "€" ?></span>
+							<span class="price"><?= "Prix du séjour : " . $reservation['total_price'] . "€" ?></span>
 							<div class="img old" style="background-image: url(<?= $reservation['cottage_photo1'] ?>);"></div>
 						<?php } ?>
 						<div class="text p-4">
