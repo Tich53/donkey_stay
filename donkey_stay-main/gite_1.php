@@ -228,9 +228,6 @@ if (isset($_POST['add_reservation'])) {
 			</div>
 			<div>
 			    <input type="hidden" id="price_for_adult" value=<?= $row['optional_price_per_adult']; ?> onChange="computeTotalPrice();">
-				<?php
-					var_dump($row['optional_price_per_adult']);
-				?>
 				<label for="nb_adult" class="label">nombre d'adultes (<?php echo $row['optional_price_per_adult'] . "€ /pers" ?>) :</label>
 				<input type="int" id="nb_adult" name="nb_adult" value=0 class="label_input" onChange="computeTotalPrice();"/>
 			</div>
