@@ -23,7 +23,8 @@ if (isset($_POST['add_reservation'])) {
 		$end_date = trim($_POST['end_date']);
 		$nb_adult = $_POST['nb_adult'];
 		$nb_child = $_POST['nb_child'];
-		$total_price = 0;
+		$total_price = $_POST['total_price']; //modifier ça avec la valeur calculer en js
+
 		$optional = trim($_POST['optional']);
 
 		$booked_dateQuery = "SELECT * FROM booking 
@@ -99,7 +100,7 @@ if (isset($_POST['add_reservation'])) {
 <body>
 	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
 		<div class="container">
-			<a class="navbar-brand" href="index.php">Donkey Stay<span>Location de Gîtes d'exception</span></a>
+			<a class="navbar-brand" href="index.php" id="title">Donkey Stay<span>Location de Gîtes d'exception</span></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
 				<span class="oi oi-menu"></span> Menu
 			</button>
@@ -202,17 +203,17 @@ if (isset($_POST['add_reservation'])) {
 
 		<form action="" method="post" value="new_reservation" name="action" class="form">
 			<div>
+				<input type="hidden" id="price_per_night" value=<?=$cottage['cottage_price_per_night'];?> onChange="computeTotalPrice();">
 				<label for="start_date" class="label">date de début :</label>
-				<input id="start_date" name="start_date" class="label_input" />
+				<input id="start_date" name="start_date" class="label_input" onChange="computeTotalPrice();"/>
 			</div>
 			<div>
 				<label for="end_date" class="label">date de fin :</label>
-				<input id="end_date" name="end_date" class="label_input" />
+				<input id="end_date" name="end_date" class="label_input" onChange="computeTotalPrice();"/>
 			</div>
 			<div>
 				<label for="optional" class="label">option :</label>
 				<SELECT size="1" name="optional" class="label_input">
-					<OPTION value="choisissez une option">choisissez une option</OPTION>
 					<?php
 					$statement = $pdo->query('SELECT * FROM optional');
 					$result = $statement->fetchAll(PDO::FETCH_ASSOC);
@@ -226,16 +227,25 @@ if (isset($_POST['add_reservation'])) {
 				</SELECT>
 			</div>
 			<div>
+			    <input type="hidden" id="price_for_adult" value=<?= $row['optional_price_per_adult']; ?> onChange="computeTotalPrice();">
+				<?php
+					var_dump($row['optional_price_per_adult']);
+				?>
 				<label for="nb_adult" class="label">nombre d'adultes (<?php echo $row['optional_price_per_adult'] . "€ /pers" ?>) :</label>
-				<input type="int" id="nb_adult" name="nb_adult" value=0 class="label_input" />
+				<input type="int" id="nb_adult" name="nb_adult" value=0 class="label_input" onChange="computeTotalPrice();"/>
 			</div>
 			<div>
+				<input type="hidden" id="price_for_child" value=<?= $row['optional_price_per_child']; ?> onChange="computeTotalPrice();">
 				<label for="nb_child" class="label">nombre d'enfants (<?php echo $row['optional_price_per_child'] . "€ /pers" ?>) :</label>
-				<input type="int" id="nb_child" name="nb_child" value=0 class="label_input" />
+				<input type="int" id="nb_child" name="nb_child" value=0 class="label_input" onChange="computeTotalPrice();"/>
 			</div>
 		<?php  } ?>
 		<div>
-			<input type="submit" name="add_reservation" value="Réserver" class="button" />
+		<label for="total_price" class="label"> Prix Total en € : </label>
+		<input type="int" id="total_price" name="total_price" readonly class="label_input"></input>
+		</div>				
+		<div>
+			<input type="submit" name="add_reservation" id="add_reservation" value="Réserver" class="button" />
 		</div>
 		</form>
 	</section>
@@ -330,16 +340,16 @@ if (isset($_POST['add_reservation'])) {
 		);
 		console.log(tab);
 
-		// var tab = [["2022-07-24", "2022-07-29"],["2022-08-10", "2022-08-15"],];
+		// let tab = [["2022-07-24", "2022-07-29"],["2022-08-10", "2022-08-15"],];
 		let datesForDisable = [];
 
 		function convertDate(date) {
-			var yyyy = date.getFullYear().toString();
-			var mm = (date.getMonth() + 1).toString();
-			var dd = date.getDate().toString();
+			let yyyy = date.getFullYear().toString();
+			let mm = (date.getMonth() + 1).toString();
+			let dd = date.getDate().toString();
 
-			var mmChars = mm.split("");
-			var ddChars = dd.split("");
+			let mmChars = mm.split("");
+			let ddChars = dd.split("");
 
 			return (
 				yyyy +
@@ -350,12 +360,12 @@ if (isset($_POST['add_reservation'])) {
 			);
 		}
 
-		for (var i = 0; i < tab.length; i++) {
-			var start_date = new Date(tab[i][0]);
+		for (let i = 0; i < tab.length; i++) {
+			let start_date = new Date(tab[i][0]);
 			console.log(convertDate(start_date));
 
-			var end_date = new Date(tab[i][1]);
-			var nb_days = 1;
+			let end_date = new Date(tab[i][1]);
+			let nb_days = 1;
 			console.log(convertDate(end_date));
 			end_date.setDate(end_date.getDate() - 1);
 
@@ -371,7 +381,7 @@ if (isset($_POST['add_reservation'])) {
 			console.log(nb_days);
 		}
 
-		for (var i = 0; i < datesForDisable.length; i++) {
+		for (let i = 0; i < datesForDisable.length; i++) {
 			console.log(datesForDisable[i]);
 		}
 
@@ -420,7 +430,7 @@ if (isset($_POST['add_reservation'])) {
 				monthsTitle: "Mois",
 				clear: "Effacer",
 				weekStart: 1,
-				format: "dd/mm/yyyy",
+				format: "yyyy-mm-dd",
 			};
 		})(jQuery);
 
@@ -441,7 +451,61 @@ if (isset($_POST['add_reservation'])) {
 			startDate: new Date(),
 			datesDisabled: datesForDisable,
 		});
+
+
 	</script>
+	<script type="text/javascript">
+	
+		function computeTotalPrice() {
+			
+			let total_price = document.getElementById('total_price');
+			
+		 	// get start_date and end_date from datepicker
+			let start_date = $('#start_date').val();
+			console.log(start_date);
+			let end_date = $('#end_date').val();
+			console.log(end_date);
+			// convert start_date and end_date to Date format
+			start_date = new Date(start_date);
+			end_date = new Date(end_date);
+			let nb_days = 0;
+
+			while (start_date <= end_date) {
+				start_date.setDate(start_date.getDate() + 1);
+				nb_days = nb_days + 1;
+			}
+			console.log(nb_days);
+		
+			let price_per_night = document.getElementById('price_per_night').value;
+			console.log(price_per_night);
+			let price_for_adult = document.getElementById('price_for_adult').value;
+			console.log(price_for_adult);
+			let nb_adult = document.getElementById('nb_adult').value;
+			console.log(nb_adult);
+			let price_for_child = document.getElementById('price_for_child').value;
+			console.log(price_for_child);
+			let nb_child = document.getElementById('nb_child').value;
+			console.log(nb_child);
+
+			//let title= document.querySelector("#title");
+			//title.textContent="MAXIME";
+			//title.innerHTML="<strong>MAX</strong>";      parseInt(nb_days)
+
+			//total_price.innerHTML="<strong>MAX</strong>";
+
+			total_price.value = (parseInt(price_per_night)*parseInt(nb_days)) + (parseInt(price_for_adult) * parseInt(nb_adult)) + ( parseInt(price_for_child) * parseInt(nb_child));
+			return total_price;
+			console.log(total_price);
+
+			var formInfo = document.forms['total_price'];
+
+			formInfo.total_price.value = total_price;
+
+		}
+
+		console.log(computeTotalPrice());
+
+ 	</script>
 </body>
 
 </html>
