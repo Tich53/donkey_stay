@@ -61,6 +61,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $statement->bindValue(':idcottage', $idCottage, \PDO::PARAM_INT);
     $statement->execute();
 
+    header("Location: add_edit_cottage.php");
+
 }
 
 //Requête de sélection des informations du gîte
@@ -99,11 +101,11 @@ $cottageInformation = $statement -> fetchAll();
     <link rel="stylesheet" href="edit_cottage.css">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light_profil" id="ftco-navbar">
 		<div class="container">
 			<a class="navbar-brand" href="index.php">Donkey Stay<span>Location de Gîtes d'exception</span></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="oi oi-menu"></span> Menu
+				<span class="oi oi-menu"></span>
 			</button>
 
 			<div class="collapse navbar-collapse" id="ftco-nav">
@@ -117,7 +119,7 @@ $cottageInformation = $statement -> fetchAll();
                         <li class="nav-item nav-link"><a href="add_edit_cottage.php" class="nav-link">Gérer mes gîtes</a></li>
 						<li class="nav-item nav-link">
                             <a href="profile.php" class="nav-link">
-							    <?= "Bonjour " . $_SESSION['login']; ?>
+                            <?= $_SESSION['login']; ?>
 							</a>
                         </li>
 					<?php
@@ -134,7 +136,6 @@ $cottageInformation = $statement -> fetchAll();
 	</nav>
 	<!-- END nav -->
 	
-	<div class="hero-wrap js-fullheight" style="background-image: url('images/bg_6.webp');">
 		<div class="overlay"></div>
 		<div class="container">
 			<div class="row no-gutters slider-text js-fullheight align-items-center" data-scrollax-parent="true">
@@ -144,12 +145,12 @@ $cottageInformation = $statement -> fetchAll();
                 if($idUser !== $cottageInformation[0]['cottage_user_iduser']){
                 ?> 
                 <div class="image"> 
-                    <span>"Non non petit malin, tu n'as pas le droit de modifier une fiche qui ne t'appartient pas !!!"</span>
+                    <span>Non non petit malin, tu n'as pas le droit de modifier une fiche qui ne t'appartient pas !!!</span>
                     <img src="images/index.png" alt="Interdit"></div>
                 <?php
                 } else {
                 ?>
-					<h1 class="mb-4">Mettre à jour "<?=$cottageInformation[0]['cottage_name']?>"</h1>
+					<h1 class="mb-4" id="title">Mettre à jour "<?=$cottageInformation[0]['cottage_name']?>"</h1>
                     <form class=".cottage_form" action="" method="POST" enctype="multipart/form-data">
 
                         <div class="label_input">

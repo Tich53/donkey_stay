@@ -77,3 +77,13 @@ vertical-align: 50vh;
     color: #fff;
     border-color: #fff;
   }
+
+  #noCottage{
+    text-align: center;
+  }
+
+  .row2{
+    display: flex;
+    justify-content: center;
+    margin-top: 100px;
+  }

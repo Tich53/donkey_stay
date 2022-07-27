@@ -65,7 +65,7 @@ if (empty($cottages)){
 		<div class="container">
 			<a class="navbar-brand" href="index.html">Donkey Stay<span>Location de Gîtes d'exception</span></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="oi oi-menu"></span> Menu
+				<span class="oi oi-menu"></span> 
 			</button>
 
 			<div class="collapse navbar-collapse" id="ftco-nav">
@@ -78,7 +78,7 @@ if (empty($cottages)){
 					?>
 						<li class="nav-item nav-link"><a href="add_edit_cottage.php" class="nav-link">Gérer mes gîtes</a></li>
 						<li class="nav-item nav-link"><a href="profile.php" class="nav-link">
-								<?= "Bonjour " . $_SESSION['login']; ?>
+							<?= $_SESSION['login']; ?>
 							</a></li>
 					<?php
 					} else {
@@ -104,13 +104,15 @@ if (empty($cottages)){
 				</div>
 			</div>
 		</div>
-		<div class="row">
-			<?php
-			if (empty($cottages)){
-				?> 
-				<h3><?=$noCottage?></h3>
-			<?php
-			}
+	
+		<?php
+		if (empty($cottages)){
+			?> 
+			<div class="row2">
+			<h3 id="noCottage"><?=$noCottage?></h3>
+		<?php
+		}
+		?>	<div class="row"> <?php
 			foreach ($cottages as $cottage) {
 			?>
 				<div class="col-md-4 ftco-animate">

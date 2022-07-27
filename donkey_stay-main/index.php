@@ -74,7 +74,7 @@ if (isset($_POST['search'])) {
 		<div class="container">
 			<a class="navbar-brand" href="index.php">Donkey Stay<span>Location de Gîtes d'exception</span></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="oi oi-menu"></span> Menu
+				<span class="oi oi-menu"></span>
 			</button>
 
 			<div class="collapse navbar-collapse" id="ftco-nav">
@@ -87,7 +87,7 @@ if (isset($_POST['search'])) {
 					?>
 						<li class="nav-item nav-link"><a href="add_edit_cottage.php" class="nav-link">Gérer mes gîtes</a></li>
 						<li class="nav-item nav-link"><a href="profile.php" class="nav-link">
-								<?= "Bonjour " . $_SESSION['login']; ?>
+							<?= $_SESSION['login']; ?>
 							</a></li>
 					<?php
 					} else {
@@ -108,8 +108,18 @@ if (isset($_POST['search'])) {
 		<div class="container">
 			<div class="row no-gutters slider-text js-fullheight align-items-center" data-scrollax-parent="true">
 				<div class="col-md-7 ftco-animate">
-					<span class="subheading">Bienvenue chez Donkey Stay</span>
-					<h1 class="mb-4">Découvrez notre sélection des plus beaux gîtes</h1>
+					<?php
+					if ((!empty($_SESSION['login']))) {
+						?>
+					<h1 class="mb-4">Bonjour <?= $_SESSION['login']; ?> !</h1>
+					<span class="subheading"> Bienvenue  chez Donkey Stay</span>
+					<?php
+					} else {
+					?>
+						<span class="subheading">Bienvenue  chez Donkey Stay</span>
+					<?php } ?>
+
+					<h2 class="mb-4">Découvrez notre sélection des plus beaux gîtes</h2>
 					<p class="caps"></p>
 				</div>
 			</div>
