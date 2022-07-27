@@ -50,8 +50,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 }
 
 
-
-
 ?>
 
 <!DOCTYPE html>
@@ -79,14 +77,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	<link rel="stylesheet" href="css/flaticon.css">
 	<link rel="stylesheet" href="css/style.css">
 
-    <link rel="stylesheet" href="edit_cottage.css">
+    <link rel="stylesheet" href="add_cottage.css">
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light_profil" id="ftco-navbar">
 		<div class="container">
 			<a class="navbar-brand" href="index.php">Donkey Stay<span>Location de Gîtes d'exception</span></a>
 			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-				<span class="oi oi-menu"></span> Menu
+				<span class="oi oi-menu"></span> 
 			</button>
 
 			<div class="collapse navbar-collapse" id="ftco-nav">
@@ -100,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                         <li class="nav-item nav-link"><a href="add_edit_cottage.php" class="nav-link">Gérer mes gîtes</a></li>
 						<li class="nav-item nav-link">
                             <a href="profile.php" class="nav-link">
-							    <?= "Bonjour " . $_SESSION['login']; ?>
+							    <?= $_SESSION['login']; ?>
 							</a>
                         </li>
 					<?php
@@ -117,13 +115,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 	</nav>
 	<!-- END nav -->
 	
-	<div class="hero-wrap js-fullheight" style="background-image: url('images/bg_6.webp');">
+
 		<div class="overlay"></div>
 		<div class="container">
 			<div class="row no-gutters slider-text js-fullheight align-items-center" data-scrollax-parent="true">
 				<div class="col-md-7 ftco-animate">
-
-					<h1 class="mb-4">Ajouter un gîte"</h1>
+					<h1 class="mb-4" id="title">Ajouter un gîte</h1>
                     <form class=".cottage_form" action="" method="POST">
 
                         <div class="label_input">

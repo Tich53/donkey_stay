@@ -115,7 +115,7 @@ if (isset($_POST['add_reservation'])) {
 					?>
 						<li class="nav-item nav-link"><a href="add_edit_cottage.php" class="nav-link">Gérer mes gîtes</a></li>
 						<li class="nav-item nav-link"><a href="profile.php" class="nav-link">
-								<?= "Bonjour " . $_SESSION['login']; ?>
+							<?= $_SESSION['login']; ?>
 							</a></li>
 					<?php
 					} else {
