@@ -7,38 +7,32 @@ $idCottage = $_GET['id'];
 $idUser = $_SESSION['id'];
 
 
-//Vérification que l'utilisateur est bien sur une de ses pages
 
-    //Requête de sélection des informations du gîte
-    $cottageQuery = "SELECT * FROM cottage WHERE idcottage = '$idCottage'";
-    $statement = $pdo -> query($cottageQuery);
-    $cottageInformation = $statement -> fetchAll();
+//Requête de mise à jour du gîte
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $cottage_name = trim($_POST['cottage_name']);
+    $cottage_region = trim($_POST['cottage_region']);
+    $cottage_city= trim($_POST['cottage_city']);
+    $cottage_country = trim($_POST['cottage_country']);
+    $cottage_nb_bed = trim($_POST['cottage_nb_bed']);
+    $cottage_nb_bathroom = trim($_POST['cottage_nb_bathroom']);
+    $cottage_price_per_night = trim($_POST['cottage_price_per_night']);
+    $cottage_description = trim($_POST['cottage_description']);
+    $cottage_photo1 = trim($_POST['cottage_photo1']);
+    $cottage_photo2 = trim($_POST['cottage_photo2']);
+    $cottage_photo3 = trim($_POST['cottage_photo3']);
+    $cottage_photo4 = trim($_POST['cottage_photo4']);
+    $cottage_photo5 = trim($_POST['cottage_photo5']);
+    $cottage_photo6 = trim($_POST['cottage_photo6']);
 
-    //Requête de mise à jour du gîte
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $cottage_name = trim($_POST['cottage_name']);
-        $cottage_region = trim($_POST['cottage_region']);
-        $cottage_city= trim($_POST['cottage_city']);
-        $cottage_country = trim($_POST['cottage_country']);
-        $cottage_nb_bed = trim($_POST['cottage_nb_bed']);
-        $cottage_nb_bathroom = trim($_POST['cottage_nb_bathroom']);
-        $cottage_price_per_night = trim($_POST['cottage_price_per_night']);
-        $cottage_description = trim($_POST['cottage_description']);
-        $cottage_photo1 = trim($_POST['cottage_photo1']);
-        $cottage_photo2 = trim($_POST['cottage_photo2']);
-        $cottage_photo3 = trim($_POST['cottage_photo3']);
-        $cottage_photo4 = trim($_POST['cottage_photo4']);
-        $cottage_photo5 = trim($_POST['cottage_photo5']);
-        $cottage_photo6 = trim($_POST['cottage_photo6']);
-
-        $updateCottage = "UPDATE cottage 
-	SET 
-	cottage_name = :cottage_name, 
-	cottage_region = :cottage_region,
-	cottage_city = :cottage_city,
-	cottage_country = :cottage_country,
-	cottage_nb_bed = :cottage_nb_bed,
-	cottage_nb_bathroom = :cottage_nb_bathroom,
+    $updateCottage = "UPDATE cottage 
+    SET 
+    cottage_name = :cottage_name, 
+    cottage_region = :cottage_region,
+    cottage_city = :cottage_city,
+    cottage_country = :cottage_country,
+    cottage_nb_bed = :cottage_nb_bed,
+    cottage_nb_bathroom = :cottage_nb_bathroom,
     cottage_price_per_night = :cottage_price_per_night,
     cottage_description = :cottage_description,
     cottage_photo1 = :cottage_photo1,
@@ -47,27 +41,32 @@ $idUser = $_SESSION['id'];
     cottage_photo4 = :cottage_photo4,
     cottage_photo5 = :cottage_photo5,
     cottage_photo6 = :cottage_photo6
-	WHERE idcottage = :idcottage";
-    
-        $statement = $pdo->prepare($updateCottage);
-        $statement->bindValue(':cottage_name', $cottage_name, \PDO::PARAM_STR);
-        $statement->bindValue(':cottage_region', $cottage_region, \PDO::PARAM_STR);
-        $statement->bindValue(':cottage_city', $cottage_city, \PDO::PARAM_STR);
-        $statement->bindValue(':cottage_country', $cottage_country, \PDO::PARAM_STR);
-        $statement->bindValue(':cottage_nb_bed', $cottage_nb_bed, \PDO::PARAM_INT);
-        $statement->bindValue(':cottage_nb_bathroom', $cottage_nb_bathroom, \PDO::PARAM_INT);
-        $statement->bindValue(':cottage_price_per_night', $cottage_price_per_night, \PDO::PARAM_STR);
-        $statement->bindValue(':cottage_description', $cottage_description, \PDO::PARAM_STR);
-        $statement->bindValue(':cottage_photo1', $cottage_photo1, \PDO::PARAM_STR);
-        $statement->bindValue(':cottage_photo2', $cottage_photo2, \PDO::PARAM_STR);
-        $statement->bindValue(':cottage_photo3', $cottage_photo3, \PDO::PARAM_STR);
-        $statement->bindValue(':cottage_photo4', $cottage_photo4, \PDO::PARAM_STR);
-        $statement->bindValue(':cottage_photo5', $cottage_photo5, \PDO::PARAM_STR);
-        $statement->bindValue(':cottage_photo6', $cottage_photo6, \PDO::PARAM_STR);
-        $statement->bindValue(':idcottage', $idCottage, \PDO::PARAM_INT);
-        $statement->execute();
-    }
+    WHERE idcottage = :idcottage";
 
+    $statement = $pdo->prepare($updateCottage);
+    $statement->bindValue(':cottage_name', $cottage_name, \PDO::PARAM_STR);
+    $statement->bindValue(':cottage_region', $cottage_region, \PDO::PARAM_STR);
+    $statement->bindValue(':cottage_city', $cottage_city, \PDO::PARAM_STR);
+    $statement->bindValue(':cottage_country', $cottage_country, \PDO::PARAM_STR);
+    $statement->bindValue(':cottage_nb_bed', $cottage_nb_bed, \PDO::PARAM_INT);
+    $statement->bindValue(':cottage_nb_bathroom', $cottage_nb_bathroom, \PDO::PARAM_INT);
+    $statement->bindValue(':cottage_price_per_night', $cottage_price_per_night, \PDO::PARAM_STR);
+    $statement->bindValue(':cottage_description', $cottage_description, \PDO::PARAM_STR);
+    $statement->bindValue(':cottage_photo1', $cottage_photo1, \PDO::PARAM_STR);
+    $statement->bindValue(':cottage_photo2', $cottage_photo2, \PDO::PARAM_STR);
+    $statement->bindValue(':cottage_photo3', $cottage_photo3, \PDO::PARAM_STR);
+    $statement->bindValue(':cottage_photo4', $cottage_photo4, \PDO::PARAM_STR);
+    $statement->bindValue(':cottage_photo5', $cottage_photo5, \PDO::PARAM_STR);
+    $statement->bindValue(':cottage_photo6', $cottage_photo6, \PDO::PARAM_STR);
+    $statement->bindValue(':idcottage', $idCottage, \PDO::PARAM_INT);
+    $statement->execute();
+
+}
+
+//Requête de sélection des informations du gîte
+$cottageQuery = "SELECT * FROM cottage WHERE idcottage = '$idCottage'";
+$statement = $pdo -> query($cottageQuery);
+$cottageInformation = $statement -> fetchAll();
 
 
 ?>
@@ -112,13 +111,15 @@ $idUser = $_SESSION['id'];
 					<li class="nav-item active"><a href="index.php" class="nav-link">Accueil</a></li>
 					<!-- <li class="nav-item"><a href="contact.html" class="nav-link">Contactez-nous</a></li> -->
 					<!-- Ajout de la ligne "Bonjour" si $_SESSION non vide sinon "login" -->
-					<li class="nav-item nav-link"><a href="add_edit_cottage.php" class="nav-link">Créer / consulter ses gîtes</a></li>
 					<?php
 					if (!empty($_SESSION['login'])) {
 					?>
-						<li class="nav-item nav-link"><a href="profile.php" class="nav-link">
-								<?= "Bonjour " . $_SESSION['login']; ?>
-							</a></li>
+                        <li class="nav-item nav-link"><a href="add_edit_cottage.php" class="nav-link">Gérer mes gîtes</a></li>
+						<li class="nav-item nav-link">
+                            <a href="profile.php" class="nav-link">
+							    <?= "Bonjour " . $_SESSION['login']; ?>
+							</a>
+                        </li>
 					<?php
 					} else {
 					?>
@@ -149,7 +150,7 @@ $idUser = $_SESSION['id'];
                 } else {
                 ?>
 					<h1 class="mb-4">Mettre à jour "<?=$cottageInformation[0]['cottage_name']?>"</h1>
-                    <form class=".cottage_form" action="" method="POST">
+                    <form class=".cottage_form" action="" method="POST" enctype="multipart/form-data">
 
                         <div class="label_input">
                             <label class="label" for="cottage_name">Nom du gîte*</label>
@@ -215,7 +216,7 @@ $idUser = $_SESSION['id'];
                         </div>
                         <div class="label_input">
                             <label class="label" for="cottage_user_iduser"></label>
-                            <input type="text" id="cottage_user_iduser" name="cottage_user_iduser" value="<?=$cottageInformation[0]['cottage_user_iduser']?>">
+                            <input type="hidden" id="cottage_user_iduser" name="cottage_user_iduser" value="<?=$cottageInformation[0]['cottage_user_iduser']?>">
                         </div>
                         <button>Mettre à jour !</button>
                     </form>

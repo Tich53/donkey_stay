@@ -26,8 +26,6 @@ if (isset($_POST['search'])) {
 	// récupération du mot clef pour trier la destination
 	$keyword = trim($_POST['keyword']);
 
-
-
 	//Requête de sélection des gîtes via keyword
 	$cottageQuery = "SELECT * FROM cottage
 	WHERE (cottage_city LIKE '%$keyword%' OR cottage_region LIKE '%$keyword%' OR cottage_country LIKE '%$keyword%') ";
@@ -84,10 +82,10 @@ if (isset($_POST['search'])) {
 					<li class="nav-item active"><a href="index.php" class="nav-link">Accueil</a></li>
 					<!-- <li class="nav-item"><a href="contact.html" class="nav-link">Contactez-nous</a></li> -->
 					<!-- Ajout de la ligne "Bonjour" si $_SESSION non vide sinon "login" -->
-					<li class="nav-item nav-link"><a href="add_edit_cottage.php" class="nav-link">Créer / consulter ses gîtes</a></li>
 					<?php
 					if (!empty($_SESSION['login'])) {
 					?>
+						<li class="nav-item nav-link"><a href="add_edit_cottage.php" class="nav-link">Gérer mes gîtes</a></li>
 						<li class="nav-item nav-link"><a href="profile.php" class="nav-link">
 								<?= "Bonjour " . $_SESSION['login']; ?>
 							</a></li>
@@ -231,7 +229,7 @@ if (isset($_POST['search'])) {
 
 				if ($start_date !== $end_date) {
 
-					// Pour chaque cottage, vérifier si il y a une location dans les dates sélectionnées
+					// Pour chaque cottage, vérifier s'il y a une location dans les dates sélectionnées
 					// Si oui, cette location ne s'affiche pas
 					foreach ($cottages as $cottage) {
 						$idCottage = $cottage['idcottage'];

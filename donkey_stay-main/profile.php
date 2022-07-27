@@ -143,16 +143,20 @@ $user_email = $userInfo[0][6];
 			<div class="collapse navbar-collapse" id="ftco-nav">
 				<ul class="navbar-nav ml-auto">
 					<li class="nav-item active"><a href="index.php" class="nav-link">Accueil</a></li>
-					<!-- <li class="nav-item"><a href="contact.html" class="nav-link">Contactez-nous</a></li> -->
-					<li class="nav-item nav-link"><a href="add_edit_cottage.php" class="nav-link">Créer / consulter ses gîtes</a></li>
+
 					<!-- AJOUT DE LA LIGNE CONNECTE(E) EN TANT QUE SI $_SESSION ACTIF -->
-					<li class="nav-item nav-link"><a href="logout.php" class="nav-link">
-							<?php
-							if (!empty($_SESSION['login'])) {
-								echo "Se déconnecter";
-							}
-							?>
-						</a></li>
+					<?php
+					if (!empty($_SESSION['login'])) {
+					?>
+						<li class="nav-item nav-link"><a href="add_edit_cottage.php" class="nav-link">Gérer mes gîtes</a></li>
+						<li class="nav-item nav-link"><a href="logout.php" class="nav-link">
+								<?= "Se déconnecter"; ?>
+							</a></li>
+					<?php
+					}
+					?>
+					</a></li>
+
 				</ul>
 			</div>
 		</div>
