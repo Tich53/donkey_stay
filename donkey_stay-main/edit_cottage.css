@@ -44,11 +44,12 @@ input{
     display: flex;
     flex-direction: column;
     justify-content: center;
-    text-align: center;
+/*     text-align: center; */
     color: red;
     font-weight: bolder;
     font-size: larger;
     margin-left: 300px;
+    margin: 100px;
 }
 
 .ftco-navbar-light_profil {
@@ -67,6 +68,10 @@ input{
     color: #fff;
     border: none;
     margin-bottom: 50px;
+  }
+
+  #malin{
+    margin-top: 100px;
   }
 
 

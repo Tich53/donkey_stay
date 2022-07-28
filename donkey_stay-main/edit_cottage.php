@@ -106,7 +106,7 @@ $cottageInformation = $statement->fetchAll();
         <div class="container">
             <a class="navbar-brand" href="index.php">Donkey Stay<span>Location de Gîtes d'exception</span></a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="oi oi-menu"></span>
+                <span class="oi oi-menu"></span> Menu
             </button>
 
             <div class="collapse navbar-collapse" id="ftco-nav">
@@ -145,7 +145,7 @@ $cottageInformation = $statement->fetchAll();
     if ($idUser !== $cottageInformation[0]['cottage_user_iduser']) {
     ?>
         <div class="image">
-            <span>Non non petit malin, tu n'as pas le droit de modifier une fiche qui ne t'appartient pas !!!</span>
+            <span id="malin">Non non petit malin, tu n'as pas le droit de modifier une fiche qui ne t'appartient pas !!!</span>
             <img src="images/index.png" alt="Interdit">
         </div>
     <?php
