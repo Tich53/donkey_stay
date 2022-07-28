@@ -131,3 +131,8 @@ button {
   transition: all 0.3s ease;
   border-radius: 5px;
 }
+
+.ftco-section-new {
+  padding: 7em 0;
+  width: 100%;
+}

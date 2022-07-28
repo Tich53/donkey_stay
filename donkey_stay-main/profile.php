@@ -55,7 +55,7 @@ if (isset($_POST['edit'])) {
 	$statement->execute();
 
 ?>
-	<div class="maj"><?php echo "Mise à jour effectuée !"; ?></div>
+	<!-- <div class="maj"><?php echo "Mise à jour effectuée !"; ?></div> -->
 
 <?php
 }
@@ -195,7 +195,7 @@ $user_email = $userInfo[0][6];
 			</div>
 		</div>
 	</div>
-	<section class="ftco-section container">
+	<section class="ftco-section-new container">
 		<div class="container">
 			<div class="row justify-content-center pb-4">
 				<div class="col-md-12 heading-section text-center ftco-animate">
