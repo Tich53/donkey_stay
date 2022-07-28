@@ -75,5 +75,6 @@ vertical-align: 50vh;
   .delete{
     background: #F15D30;
     color: #fff;
-    border-color: #fff;
+    border:none;
+    border-radius: 5px;
   }
