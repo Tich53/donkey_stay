@@ -1,71 +1,111 @@
-/* h1{
-    margin-top: 50px;
-    color: black;
-} */
-
-#title{
-    color: black;
-    margin-top: 100px;
+h1 {
+  margin-top: 50px;
 }
 
-form{
-    margin: auto;
-    max-width: 90%;
-}
-.cottage_form{
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    flex-direction: column;
-    margin: auto;
+#title {
+  color: black;
+  margin-top: 100px;
 }
 
-.label_input{
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 50px;
+form {
+  margin: auto;
+  max-width: 90%;
 }
 
-.label{
-    color: #f15d30;
-    font-weight: bold;
+.formulaire {
+  margin-left: 50px;
+  max-width: 90%;
+}
+.cottage_form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  flex-direction: column;
+  margin: auto;
 }
 
-.textarea{
-    width: 60vw;
+.label_input {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
 }
 
-input{
-    width:60vw;
+.label {
+  color: #f15d30;
+  font-weight: bold;
 }
 
-.image{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: center;
-    color: red;
-    font-weight: bolder;
-    font-size: larger;
-    background-color: lightgrey;
-    opacity: 80%;
+button {
+  border-radius: 5px;
+  max-width: 120px;
+  justify-content: end;
+  background: #f15d30;
+  color: #fff;
+  border: none;
+  margin-bottom: 50px;
 }
 
+.incorrect {
+  color: red;
+  font-weight: bolder;
+  background-color: lightgrey;
+  opacity: 80%;
+  text-align: center;
+}
+
+.textarea {
+  width: 60vw;
+}
+
+input {
+  width: 60vw;
+}
+
+.image {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  color: red;
+  font-weight: bolder;
+  font-size: larger;
+  background-color: lightgrey;
+  opacity: 80%;
+}
 
 .ftco-navbar-light_profil {
-    background: dimgray !important;
-    position: absolute;
-    top: -8px;
-    left: 0;
-    right: 0;
-    z-index: 3;
-  }
-  
-  button {
-    border-radius: 5px;
-    max-width: 120px;
-    justify-content: end;
-    background: #f15d30;
-    color: #fff;
-    border: none;
-  }
+  background: dimgray !important;
+  position: absolute;
+  top: -8px;
+  left: 0;
+  right: 0;
+  z-index: 3;
+}
+
+.hero-wrap_profil .overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  content: "";
+  opacity: 0.3;
+}
+
+.ftco-navbar-light_profil.scrolled.awake {
+  margin-top: 0px;
+  -webkit-transition: 0.3s all ease-out;
+  -o-transition: 0.3s all ease-out;
+  transition: 0.3s all ease-out;
+}
+
+.ftco-navbar-light_profil.scrolled {
+  position: fixed;
+  right: 0;
+  left: 0;
+  top: 0;
+  margin-top: -130px;
+  background: dimgray !important;
+  -webkit-box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+  box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.1);
+}

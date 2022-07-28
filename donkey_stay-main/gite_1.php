@@ -34,7 +34,7 @@ if (isset($_POST['add_reservation'])) {
 		$statement = $pdo->query($booked_dateQuery);
 		$booked_dateArray = $statement->fetchAll();
 
-		if (!empty($booked_dateArray)){
+		if (!empty($booked_dateArray)) {
 			$unavailable = "Malheureusement, ces dates ne sont plus disponibles. Merci de sélectionner d'autres dates.";
 		} else {
 			$newBooking = "INSERT INTO booking (start_date, end_date, nb_adult, nb_child, total_price, user_iduser, cottage_idcottage, optional_idoptional) 
@@ -115,7 +115,7 @@ if (isset($_POST['add_reservation'])) {
 					?>
 						<li class="nav-item nav-link"><a href="add_edit_cottage.php" class="nav-link">Gérer mes gîtes</a></li>
 						<li class="nav-item nav-link"><a href="profile.php" class="nav-link">
-							<?= $_SESSION['login']; ?>
+								<?= $_SESSION['login']; ?>
 							</a></li>
 					<?php
 					} else {
@@ -169,7 +169,7 @@ if (isset($_POST['add_reservation'])) {
 					</div>
 					<div class="ftco-grid">
 						<div class="four">
-<!-- 							<form action="gite_1.php?id=<?= $cottage['idcottage'] ?>">
+							<!-- 							<form action="gite_1.php?id=<?= $cottage['idcottage'] ?>">
 								<input type="submit" value="Reserver" />
 							</form> -->
 						</div>
@@ -187,13 +187,13 @@ if (isset($_POST['add_reservation'])) {
 	<section class="formulaire">
 		<h2>Réservation :</h2>
 		<?php if (isset($_POST['add_reservation'])) {
-				if (!empty($booked_dateArray)) {
-					echo $unavailable; 
-				} elseif (!empty($_SESSION['login'])){
+			if (!empty($booked_dateArray)) {
+				echo $unavailable;
+			} elseif (!empty($_SESSION['login'])) {
 		?>
-					<div class="alert alert-success">
-						<?php echo "réservation est confirmée"; ?>
-					</div>
+				<div class="alert alert-success">
+					<?php echo "réservation est confirmée"; ?>
+				</div>
 		<?php
 			} else {
 				header("Location: /login.php?id=<?= $cottage_idcottage ?>");
@@ -203,13 +203,13 @@ if (isset($_POST['add_reservation'])) {
 
 		<form action="" method="post" value="new_reservation" name="action" class="form">
 			<div>
-				<input type="hidden" id="price_per_night" value=<?=$cottage['cottage_price_per_night'];?> onChange="computeTotalPrice();">
+				<input type="hidden" id="price_per_night" value=<?= $cottage['cottage_price_per_night']; ?> onChange="computeTotalPrice();">
 				<label for="start_date" class="label">date de début :</label>
-				<input id="start_date" name="start_date" class="label_input" onChange="computeTotalPrice();"/>
+				<input id="start_date" name="start_date" class="label_input" onChange="computeTotalPrice();" />
 			</div>
 			<div>
 				<label for="end_date" class="label">date de fin :</label>
-				<input id="end_date" name="end_date" class="label_input" onChange="computeTotalPrice();"/>
+				<input id="end_date" name="end_date" class="label_input" onChange="computeTotalPrice();" />
 			</div>
 			<div>
 				<label for="optional" class="label">option :</label>
@@ -227,20 +227,20 @@ if (isset($_POST['add_reservation'])) {
 				</SELECT>
 			</div>
 			<div>
-			    <input type="hidden" id="price_for_adult" value=<?= $row['optional_price_per_adult']; ?> onChange="computeTotalPrice();">
+				<input type="hidden" id="price_for_adult" value=<?= $row['optional_price_per_adult']; ?> onChange="computeTotalPrice();">
 				<label for="nb_adult" class="label">nombre d'adultes (<?php echo $row['optional_price_per_adult'] . "€ /pers" ?>) :</label>
-				<input type="int" id="nb_adult" name="nb_adult" value=0 class="label_input" onChange="computeTotalPrice();"/>
+				<input type="int" id="nb_adult" name="nb_adult" value=0 class="label_input" onChange="computeTotalPrice();" />
 			</div>
 			<div>
 				<input type="hidden" id="price_for_child" value=<?= $row['optional_price_per_child']; ?> onChange="computeTotalPrice();">
 				<label for="nb_child" class="label">nombre d'enfants (<?php echo $row['optional_price_per_child'] . "€ /pers" ?>) :</label>
-				<input type="int" id="nb_child" name="nb_child" value=0 class="label_input" onChange="computeTotalPrice();"/>
+				<input type="int" id="nb_child" name="nb_child" value=0 class="label_input" onChange="computeTotalPrice();" />
 			</div>
 		<?php  } ?>
 		<div>
-		<label for="total_price" class="label"> Prix Total en € : </label>
-		<input type="int" id="total_price" name="total_price" readonly class="label_input"></input>
-		</div>				
+			<label for="total_price" class="label"> Prix Total en € : </label>
+			<input type="int" id="total_price" name="total_price" readonly class="label_input"></input>
+		</div>
 		<div>
 			<input type="submit" name="add_reservation" id="add_reservation" value="Réserver" class="button" />
 		</div>
@@ -251,8 +251,8 @@ if (isset($_POST['add_reservation'])) {
 			<div class="row mb-5">
 				<div class="col-md pt-5">
 					<div class="ftco-footer-widget pt-md-5 mb-4">
-						<h2 class="ftco-heading-2">About</h2>
-						<p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia, there live the blind texts.</p>
+						<h2 class="ftco-heading-2">À propos</h2>
+						<p>Loin de tous les tracas du quotidien, se trouve, sur les collines, les plaines, et les montagnes, un âne intrépide et plein de fougue, impatient de vous rencontrer pour partager un bout de route avec vous. Qu'allez-vous décider ?</p>
 						<ul class="ftco-footer-social list-unstyled float-md-left float-lft">
 							<li class="ftco-animate"><a href="#"><span class="fa fa-twitter"></span></a></li>
 							<li class="ftco-animate"><a href="#"><span class="fa fa-facebook"></span></a></li>
@@ -262,30 +262,38 @@ if (isset($_POST['add_reservation'])) {
 				</div>
 				<div class="col-md pt-5 border-left">
 					<div class="ftco-footer-widget pt-md-5 mb-4 ml-md-5">
-						<h2 class="ftco-heading-2">Information</h2>
+						<h2 class="ftco-heading-2">Informations</h2>
 						<ul class="list-unstyled">
-							<li><a href="#" class="py-2 d-block">Online Enquiry</a></li>
-							<li><a href="#" class="py-2 d-block">General Enquiries</a></li>
-							<li><a href="#" class="py-2 d-block">Booking Conditions</a></li>
-							<li><a href="#" class="py-2 d-block">Privacy and Policy</a></li>
-							<li><a href="#" class="py-2 d-block">Refund Policy</a></li>
-							<li><a href="#" class="py-2 d-block">Call Us</a></li>
+							<li><a href="#" class="py-2 d-block">Demandes en ligne</a></li>
+							<li><a href="#" class="py-2 d-block">Demandes générales</a></li>
+							<li><a href="#" class="py-2 d-block">Conditions de réservation</a></li>
+							<li><a href="#" class="py-2 d-block">Confidentialité et politique</a></li>
+							<li><a href="#" class="py-2 d-block">Politique de remboursement</a></li>
+							<li><a href="#" class="py-2 d-block">Appelez-nous</a></li>
 						</ul>
 					</div>
 				</div>
 				<div class="col-md pt-5 border-left">
 					<div class="ftco-footer-widget pt-md-5 mb-4">
-						<h2 class="ftco-heading-2">Have a Questions?</h2>
+						<h2 class="ftco-heading-2">Nous contacter?</h2>
 						<div class="block-23 mb-3">
 							<ul>
-								<li><span class="icon fa fa-map-marker"></span><span class="text">203 Fake St. Mountain View, San Francisco, California, USA</span></li>
-								<li><a href="#"><span class="icon fa fa-phone"></span><span class="text">+2 392 3929 210</span></a></li>
-								<li><a href="#"><span class="icon fa fa-paper-plane"></span><span class="text">info@yourdomain.com</span></a></li>
+								<li><span class="icon fa fa-map-marker"></span><span class="text">7 Rue Castéja, 92100 Boulogne-Billancourt</span></li>
+								<li><a href="#"><span class="icon fa fa-phone"></span><span class="text">+1 234 567 890</span></a></li>
+								<li><a href="#"><span class="icon fa fa-paper-plane"></span><span class="text">info@yourdonkey.com</span></a></li>
 							</ul>
 						</div>
 					</div>
 				</div>
 			</div>
+			<!--                <div class="row">
+                    <div class="col-md-12 text-center">
+                        <p> Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0.
+                            Copyright &copy;<script>document.write(new Date().getFullYear());</script> All rights reserved | This template is made with <i class="fa fa-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank">Colorlib</a>
+                            Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0.</p>
+                        </div>
+                    </div>
+                </div> -->
 	</footer>
 
 
@@ -448,16 +456,13 @@ if (isset($_POST['add_reservation'])) {
 			startDate: new Date(),
 			datesDisabled: datesForDisable,
 		});
-
-
 	</script>
 	<script type="text/javascript">
-	
 		function computeTotalPrice() {
-			
+
 			let total_price = document.getElementById('total_price');
-			
-		 	// get start_date and end_date from datepicker
+
+			// get start_date and end_date from datepicker
 			let start_date = $('#start_date').val();
 			console.log(start_date);
 			let end_date = $('#end_date').val();
@@ -472,7 +477,7 @@ if (isset($_POST['add_reservation'])) {
 				nb_days = nb_days + 1;
 			}
 			console.log(nb_days);
-		
+
 			let price_per_night = document.getElementById('price_per_night').value;
 			console.log(price_per_night);
 			let price_for_adult = document.getElementById('price_for_adult').value;
@@ -490,7 +495,7 @@ if (isset($_POST['add_reservation'])) {
 
 			//total_price.innerHTML="<strong>MAX</strong>";
 
-			total_price.value = (parseInt(price_per_night)*parseInt(nb_days)) + (parseInt(price_for_adult) * parseInt(nb_adult)) + ( parseInt(price_for_child) * parseInt(nb_child));
+			total_price.value = (parseInt(price_per_night) * parseInt(nb_days)) + (parseInt(price_for_adult) * parseInt(nb_adult)) + (parseInt(price_for_child) * parseInt(nb_child));
 			return total_price;
 			console.log(total_price);
 
@@ -501,8 +506,7 @@ if (isset($_POST['add_reservation'])) {
 		}
 
 		console.log(computeTotalPrice());
-
- 	</script>
+	</script>
 </body>
 
 </html>
