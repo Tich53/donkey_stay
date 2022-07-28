@@ -253,21 +253,23 @@ if (isset($_POST['search'])) {
 
 						if (empty($booked_dateArray)) {
 			?>
-							<div class="col-md-4 ftco-animate">
-								<div class="project-wrap">
+						<div class="col-md-4 ftco-animate">
+							<div class="project-wrap">
+								<a href="gite_1.php?id=<?= $cottage['idcottage'] ?>" class="img" style="background-image: url(<?= $cottage['cottage_photo1'] ?>);">
+									<span class="price"><?= $cottage['cottage_price_per_night'] . "€ / nuit" ?></span>
+								</a>
+								<div class="text p-4">
+									<span class="days"><?= $cottage['cottage_name'] ?></span>
 									<h3><a href="gite_1.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
-									<div class="text p-4">
-										<span class="days"><?= $cottage['cottage_name'] ?></span>
-										<h3><a href="gite_1.php?id=<?= $cottage['idcottage'] ?>"><?= $cottage['cottage_city'] ?></a></h3>
-										<p class="location"><span class="fa fa-map-marker"></span> <?= $cottage['cottage_region'] . " " . $cottage['cottage_country'] ?></p>
-										<ul>
-											<li><span class="flaticon-shower"></span><?= $cottage['cottage_nb_bathroom'] ?></li>
-											<li><span class="flaticon-king-size"></span><?= $cottage['cottage_nb_bed'] ?></li>
-											<!-- <li><span class="flaticon-route"></span>Near Mountain</li> -->
-										</ul>
-									</div>
+									<p class="location"><span class="fa fa-map-marker"></span> <?= $cottage['cottage_region'] . " " . $cottage['cottage_country'] ?></p>
+									<ul>
+										<li><span class="flaticon-shower"></span><?= $cottage['cottage_nb_bathroom'] ?></li>
+										<li><span class="flaticon-king-size"></span><?= $cottage['cottage_nb_bed'] ?></li>
+										<!-- <li><span class="flaticon-route"></span>Near Mountain</li> -->
+									</ul>
 								</div>
 							</div>
+						</div>
 						<?php
 						}
 					}
