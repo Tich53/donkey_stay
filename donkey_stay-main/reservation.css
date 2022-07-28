@@ -35,8 +35,10 @@ form {
     border-radius: 5px;
     max-width: 120px;
     justify-content: end;
-
-}
+    background: #f15d30;
+    color: #fff;
+    border: none;
+  }
 
 .button:hover {
     background-color: #f15d30;
@@ -49,3 +51,4 @@ form {
     opacity: 80%;
     text-align: center;
 }
+
