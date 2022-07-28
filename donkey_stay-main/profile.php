@@ -205,7 +205,7 @@ $user_email = $userInfo[0][6];
 		</div>
 		<div class="row">
 			<?php
-			$sql = "SELECT * FROM booking INNER JOIN cottage ON idcottage=cottage_idcottage WHERE user_iduser = '$idUser' ORDER BY start_date DESC";
+			$sql = "SELECT * FROM booking INNER JOIN cottage ON idcottage=cottage_idcottage WHERE user_iduser = '$idUser' ORDER BY start_date DESC LIMIT $size OFFSET $offset";
 			foreach ($pdo->query($sql) as $reservation) {
 				$start_date = date_create($reservation['start_date']);
 				$start_date = date_format($start_date, 'Y-m-d');
