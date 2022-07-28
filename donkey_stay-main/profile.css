@@ -36,7 +36,7 @@ button {
   justify-content: end;
   background: #f15d30;
   color: #fff;
-  border-color: #fff;
+  border: none;
 }
 
 .maj {
